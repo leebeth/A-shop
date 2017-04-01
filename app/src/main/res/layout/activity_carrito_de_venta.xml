@@ -1,0 +1,94 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:id="@+id/imageView2"
+            android:src="@drawable/carrito"
+            android:layout_gravity="center_horizontal" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/tittle_detalle_gasto"
+            android:id="@+id/label_carrito"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageView2"
+            android:layout_toEndOf="@+id/imageView2" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="335dp"
+        android:id="@+id/carrito_lista"
+        android:layout_weight="0.79" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="92dp"
+        android:layout_above="@+id/label_carrito"
+        android:layout_alignRight="@+id/imageView2"
+        android:layout_alignEnd="@+id/imageView2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/estimado"
+            android:id="@+id/txtEstimado"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/carrito_ok" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/real"
+            android:id="@+id/txtReal"
+            android:layout_above="@+id/carrito_ok"
+            android:layout_alignStart="@+id/carrito_ok" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/agregar_item_gasto"
+            android:id="@+id/carrito_ok"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/centro" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/centro"
+            android:layout_gravity="center_vertical"
+            android:text=""
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cerrar_detalle"
+            android:id="@+id/carrito_cancelar"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/centro"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disponible"
+            android:id="@+id/txtDisponible"
+            android:layout_gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:id="@+id/agregarProducto"
+            android:src="@drawable/agregar_producto"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/titulo_agregar_item_gasto"
+            android:id="@+id/label_agregar_producto"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/agregarProducto"
+            android:layout_toEndOf="@+id/agregarProducto" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/labNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre_item"
+        android:gravity="center_vertical"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:id="@+id/txtNombre"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/labValor"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/valor"/>
+
+    <EditText
+        android:id="@+id/txtValor"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:inputType="number" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="51dp"
+        android:gravity="bottom"
+        android:layout_above="@+id/label_carrito"
+        android:layout_alignRight="@+id/agregarProducto"
+        android:layout_alignEnd="@+id/agregarProducto">
+
+        <Button
+            android:id="@+id/butAceptar"
+            android:layout_width="wrap_content"
+            android:text="@string/aceptar"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/centro"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/centro"
+            android:layout_gravity="center_vertical"
+            android:text=""
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/butCancelar"
+            android:text="@string/cancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/centro"/>
+    </RelativeLayout>
+</LinearLayout>
