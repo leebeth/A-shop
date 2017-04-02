@@ -2,6 +2,7 @@ package com.tienda.a_shop.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -17,6 +18,9 @@ import android.widget.TextView;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.domain.Producto;
+import com.tienda.a_shop.manager.ReportGenerator;
+import com.tienda.a_shop.tasks.ReportGeneratorTask;
+import com.tienda.a_shop.utils.PermissionsUtil;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -24,8 +28,10 @@ import java.util.ArrayList;
 /**
  * Created by Lorena on 10/10/2014.
  */
-public class ListaProductosActivity extends Activity
-{
+public class ListaProductosActivity extends Activity {
+
+    private static final String TAG = "ListaProductosActivity";
+
     public static final int REQUEST_TEXT = 0;
     public static final int REQUEST_ADD = 1;
     public static final int REQUEST_DETAIL = 2;
@@ -36,6 +42,8 @@ public class ListaProductosActivity extends Activity
     private TextView gasto;
     private TextView ingreso;
     private TextView total;
+    private ReportGeneratorTask task;
+    private boolean writeExternalStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,28 +51,27 @@ public class ListaProductosActivity extends Activity
         setContentView(R.layout.activity_list);
 
         bdProductos = new BDProductos(getApplicationContext());
-        listaProductos = (ListView)findViewById(R.id.listaProductos);
-        gasto = (TextView)findViewById(R.id.txtTotalGastos);
-        ingreso = (TextView)findViewById(R.id.txtTotalIngreso);
-        total = (TextView)findViewById(R.id.txtTotal);
+        listaProductos = (ListView) findViewById(R.id.listaProductos);
+        gasto = (TextView) findViewById(R.id.txtTotalGastos);
+        ingreso = (TextView) findViewById(R.id.txtTotalIngreso);
+        total = (TextView) findViewById(R.id.txtTotal);
 
-        productos =  bdProductos.listaProductos();
+        productos = bdProductos.listaProductos();
         ArrayAdapter<Producto> adapter = new ArrayAdapter<Producto>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
 
-        if(productos.isEmpty())
-        {
-           bdProductos.guardarProducto("Ingresos",0);
+        if (productos.isEmpty()) {
+            bdProductos.guardarProducto("Ingresos", 0);
         }
 
         actualizarListaResumen();
 
         registerForContextMenu(listaProductos);
-        listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                Intent i = new Intent( ListaProductosActivity.this, ListaItemsProductosActivity.class );
+                Intent i = new Intent(ListaProductosActivity.this, ListaItemsProductosActivity.class);
                 i.putExtra("idProducto", productos.get(position).getId());
                 i.putExtra("nombreProducto", productos.get(position).getNombre());
                 i.putExtra("estimadoProducto", productos.get(position).getEstimado());
@@ -73,37 +80,33 @@ public class ListaProductosActivity extends Activity
         });
 
         //agregar producto
-        agregarProducto = (ImageView)findViewById(R.id.agregarProducto);
-        agregarProducto.setOnClickListener(new View.OnClickListener(){
+        agregarProducto = (ImageView) findViewById(R.id.agregarProducto);
+        agregarProducto.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick(View view)
-            {
-                Intent i = new Intent( ListaProductosActivity.this, AgregarProductoActivity.class );
+            public void onClick(View view) {
+                Intent i = new Intent(ListaProductosActivity.this, AgregarProductoActivity.class);
                 startActivityForResult(i, REQUEST_ADD);
             }
         });
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
-    {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.agregar_producto, menu);
+        inflater.inflate(R.menu.lista_producto_context, menu);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item)
-    {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        switch (item.getItemId())
-        {
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
             case R.id.action_editar_producto:
                 Intent i = new Intent(ListaProductosActivity.this, EditarProductoActivity.class);
                 Producto p = productos.get(info.position);
-                i.putExtra("nombre", p.getNombre() );
-                i.putExtra("estimado", p.getEstimado()+"");
+                i.putExtra("nombre", p.getNombre());
+                i.putExtra("estimado", p.getEstimado() + "");
                 startActivityForResult(i, REQUEST_TEXT);
                 return true;
             case R.id.action_eliminar_producto:
@@ -115,28 +118,9 @@ public class ListaProductosActivity extends Activity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.agregar_producto, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if ( requestCode == REQUEST_TEXT ){
-            if ( resultCode == Activity.RESULT_OK ){
+        if (requestCode == REQUEST_TEXT) {
+            if (resultCode == Activity.RESULT_OK) {
                 String nombre = data.getExtras().getString("nombre");
                 String nombreN = data.getExtras().getString("nombreN").toString();
                 int estimado = Integer.parseInt(data.getExtras().getString("estimado").toString());
@@ -144,15 +128,12 @@ public class ListaProductosActivity extends Activity
                 editarProducto(nombreN, nombre, estimado);
             }
         }
-        if(requestCode == REQUEST_ADD)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
+        if (requestCode == REQUEST_ADD) {
+            if (resultCode == Activity.RESULT_OK) {
                 actualizarLista();
             }
         }
-        if(requestCode == REQUEST_DETAIL)
-        {
+        if (requestCode == REQUEST_DETAIL) {
             actualizarLista();
         }
     }
@@ -162,30 +143,77 @@ public class ListaProductosActivity extends Activity
         actualizarLista();
     }
 
-    public void eliminarProducto(int posicion)
-    {
-        String nomP =productos.get(posicion).getNombre();
+    public void eliminarProducto(int posicion) {
+        String nomP = productos.get(posicion).getNombre();
         bdProductos.eliminarProducto(nomP);
         actualizarLista();
     }
 
-    public void actualizarLista()
-    {
-        productos =  bdProductos.listaProductos();
+    public void actualizarLista() {
+        productos = bdProductos.listaProductos();
         ArrayAdapter<Producto> adapter = new ArrayAdapter<Producto>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();
     }
 
-    private void actualizarListaResumen()
-    {
+    private void actualizarListaResumen() {
         int totalAux = 0;
-        for (int i =1; i< productos.size(); i++){
+        for (int i = 1; i < productos.size(); i++) {
             totalAux += productos.get(i).getTotalGasto();
         }
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         gasto.setText(getString(R.string.gastos) + formatter.format(totalAux));
-        ingreso.setText(getString(R.string.ingresos)+formatter.format(productos.get(0).getTotalGasto()));
-        total.setText(getString(R.string.total)+formatter.format(productos.get(0).getTotalGasto()-totalAux));
+        ingreso.setText(getString(R.string.ingresos) + formatter.format(productos.get(0).getTotalGasto()));
+        total.setText(getString(R.string.total) + formatter.format(productos.get(0).getTotalGasto() - totalAux));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.lista_producto_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String message = "";
+        String tittle = "";
+        switch (item.getItemId()){
+            case R.id.action_crear_reporte:
+                task = new ReportGeneratorTask();
+                task.setActivity(this);
+                Producto[] array = new Producto[productos.size()];
+                task.execute(productos.toArray(array));
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PermissionsUtil.WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    writeExternalStorage = true;
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    writeExternalStorage = false;
+                }
+                task.setWaiting(false);
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    public boolean isWriteExternalStorage() {
+        return writeExternalStorage;
     }
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OnMyHand</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="fondo">Application background</string>
+    <string name="estadisticas">Image for statistics</string>
+    <string name="productos">Product image</string>
+    <string name="promociones">Image for promotions</string>
+    <string name="ventas">Image for sales</string>
+    <string name="labelAgregarProducto">Name: </string>
+    <string name="title_activity_carrito_de_venta">Expense detail</string>
+    <string name="Editar">Edit</string>
+    <string name="Eliminar">Remove</string>
+    <string name="title_activity_list">Expenditure List</string>
+    <string name="title_activity_agregar_producto">Add Expense</string>
+    <string name="title_activity_historial_ventas">Sales History</string>
+    <string name="crear_reporte">Export Report</string>
+    <string name="error_tittle">Error</string>
+    <string name="success_tittle">Information</string>
+    <string name="success_report">Report generated successfully in path: %s</string>
+
+
+    <!--Agregar producto-->
+    <string name="nombre_item">Name: </string>
+    <string name="titulo_agregar_item">Add Expense</string>
+    <string name="posicion">Estimated: </string>
+    <string name="aceptar">OK</string>
+    <string name="cancelar">Cancel</string>
+    <string name="agregar_item_gasto">Add Expense Item</string>
+    <string name="cerrar_detalle">Close</string>
+    <string name="tittle_detalle_gasto">Detail</string>
+    <string name="title_activity_agregar_item_gasto">Add Expense</string>
+    <string name="titulo_agregar_item_gasto">Add Item</string>
+    <string name="valor">Price:</string>
+    <string name="ingresos">Income: </string>
+    <string name="gastos">Expense: </string>
+    <string name="total">Total: </string>
+    <string name="estimado">Estimated: </string>
+    <string name="real">Real: </string>
+    <string name="disponible">Available: </string>
+
+    <!--Excepciones-->
+    <string name="storage_is_not_writable">Has not been allowed writing in memory</string>
+    <string name="report_error_message">Error writing report in memory</string>
+</resources>

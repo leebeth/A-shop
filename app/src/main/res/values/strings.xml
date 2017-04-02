@@ -16,6 +16,10 @@
     <string name="title_activity_list">Lista de Gastos</string>
     <string name="title_activity_agregar_producto">Agregar Gasto</string>
     <string name="title_activity_historial_ventas">Historial de Ventas</string>
+    <string name="crear_reporte">Exportar Reporte</string>
+    <string name="error_tittle">Error</string>
+    <string name="success_tittle">Información</string>
+    <string name="success_report">Reporte generado satisfactoriamente en la ruta: %s</string>
 
 
     <!--Agregar producto-->
@@ -36,4 +40,8 @@
     <string name="estimado">Estimado: </string>
     <string name="real">Real: </string>
     <string name="disponible">Disponible: </string>
+
+    <!--Excepciones-->
+    <string name="storage_is_not_writable">No se ha permitido la escritura en memoria</string>
+    <string name="report_error_message">Error escribiendo el reporte en la memoria</string>
 </resources>

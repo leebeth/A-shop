@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.AgregarProductoActivity" >
     <item android:id="@+id/action_editar_producto"
-        android:title="Editar" />
+        android:title="@string/Editar" />
     <item android:id="@+id/action_eliminar_producto"
-        android:title="Eliminar"/>
+        android:title="@string/Eliminar"/>
 </menu>

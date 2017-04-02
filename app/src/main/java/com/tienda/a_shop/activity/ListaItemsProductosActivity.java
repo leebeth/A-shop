@@ -16,9 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+//import com.google.android.gms.appindexing.Action;
+//import com.google.android.gms.appindexing.AppIndex;
+//import com.google.android.gms.common.api.GoogleApiClient;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.domain.ItemGasto;
@@ -46,7 +46,7 @@ public class ListaItemsProductosActivity extends Activity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
+    //private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +68,7 @@ public class ListaItemsProductosActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                // TODO Auto-generated method stub
                 Toast.makeText(getApplicationContext(), "Ha pulsado el item " + position, Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -96,7 +94,7 @@ public class ListaItemsProductosActivity extends Activity {
         });
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private int calcularPrecioTotal() {
@@ -187,7 +185,7 @@ public class ListaItemsProductosActivity extends Activity {
         listaProductos.setAdapter(adapter);
         actualizarPrecioTotal();
     }
-
+/**
     @Override
     public void onStart() {
         super.onStart();
@@ -227,4 +225,5 @@ public class ListaItemsProductosActivity extends Activity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+ */
 }

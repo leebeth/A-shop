@@ -1,13 +1,23 @@
 package com.tienda.a_shop.manager;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
+import com.tienda.a_shop.R;
+import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.domain.ItemGasto;
 import com.tienda.a_shop.domain.Producto;
+import com.tienda.a_shop.exceptions.InternalException;
+import com.tienda.a_shop.exceptions.StorageIsNotWritableException;
+import com.tienda.a_shop.utils.PermissionsUtil;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -18,67 +28,53 @@ import java.util.List;
  */
 public class ReportGenerator {
 
+    private static final String TAG = "ReportGenerator";
+
     public static final SimpleDateFormat FULL_FORMAT = new SimpleDateFormat("dd-MM-yyyy-hhmmss");
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+    private BDProductos bdProductos;
 
-    public void createReportFile(Context context, List<Producto> productos){
+    public String createReportFile(Activity activity, List<Producto> productos) throws IOException, InternalException {
+
         Calendar calendar = Calendar.getInstance();
 
-
-        String filename = String.format("ReporteGenerado-%s", FULL_FORMAT.format(calendar.getTime()));
+        String fileContent;
+        String filename = String.format("ReporteGenerado-%s.txt", FULL_FORMAT.format(calendar.getTime()));
 
         File path = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOCUMENTS);
 
         File file = new File(path, filename);
 
-        FileOutputStream outputStream;
-
         try {
-            outputStream = new FileOutputStream(file);
 
             String mes = DATE_FORMAT.format(calendar.getTime());
 
-            String lineaInicio = String.format("%s, Productos: %s\n", mes, productos.size());
-            outputStream.write(lineaInicio.getBytes());
+            fileContent = String.format("%s, Productos: %s\n", mes, productos.size());
 
             for (int j = 0; j < productos.size(); j++) {
                 Producto producto = productos.get(j);
                 List<ItemGasto> gastos = producto.getItems();
 
-                String lineaProducto = String.format("%s, Items: %s\n", producto.getNombre(), gastos.size());
-                outputStream.write(lineaInicio.getBytes());
+                fileContent.concat(String.format("%s, Estimado: %s, Items: %s\n", producto.getNombre(),
+                        producto.getEstimado(), gastos.size()));
 
                 for (int k = 0; k <gastos.size(); k++) {
                     ItemGasto gasto = gastos.get(k);
-
-                    String lineaGasto = String.format("%s, %s\n", gasto.getNombre(), gasto.getValor());
-                    outputStream.write(lineaInicio.getBytes());
+                    fileContent.concat(String.format("%s, %s\n", gasto.getNombre(), gasto.getValor()));
                 }
             }
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            FileUtils.writeStringToFile(file, fileContent);
 
+            return file.getPath();
+        }catch (IOException e) {
+            Log.e(TAG, "Error exportando reporte", e);
+            throw e;
+        }
+        catch (Exception e) {
+            Log.e(TAG, "Error exportando reporte", e);
+            throw new InternalException(e.getMessage(), e);
+        }
     }
 
-    /* Checks if external storage is available for read and write */
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
-    }
 }
