@@ -1,4 +1,4 @@
-package com.greendao.gen;
+package com.tienda.a_shop.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

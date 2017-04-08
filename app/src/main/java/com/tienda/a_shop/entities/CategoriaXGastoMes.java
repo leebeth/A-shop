@@ -9,11 +9,11 @@ import org.greenrobot.greendao.annotation.ToOne;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import com.greendao.gen.DaoSession;
-import com.greendao.gen.ItemDao;
-import com.greendao.gen.GastoMesDao;
-import com.greendao.gen.CategoriaDao;
-import com.greendao.gen.CategoriaXGastoMesDao;
+import com.tienda.a_shop.dao.DaoSession;
+import com.tienda.a_shop.dao.ItemDao;
+import com.tienda.a_shop.dao.GastoMesDao;
+import com.tienda.a_shop.dao.CategoriaDao;
+import com.tienda.a_shop.dao.CategoriaXGastoMesDao;
 
 /**
  * Created by Lorena on 08/04/2017.

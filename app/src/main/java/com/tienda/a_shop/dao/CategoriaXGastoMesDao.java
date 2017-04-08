@@ -1,4 +1,4 @@
-package com.greendao.gen;
+package com.tienda.a_shop.dao;
 
 import java.util.List;
 import java.util.ArrayList;
