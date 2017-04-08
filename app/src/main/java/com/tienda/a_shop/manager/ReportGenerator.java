@@ -1,18 +1,13 @@
 package com.tienda.a_shop.manager;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
-import com.tienda.a_shop.domain.ItemGasto;
-import com.tienda.a_shop.domain.Producto;
+import com.tienda.a_shop.domain.CategoriaXGastoMes;
+import com.tienda.a_shop.domain.Item;
 import com.tienda.a_shop.exceptions.InternalException;
-import com.tienda.a_shop.exceptions.StorageIsNotWritableException;
-import com.tienda.a_shop.utils.PermissionsUtil;
 
 import org.apache.commons.io.FileUtils;
 
@@ -34,7 +29,7 @@ public class ReportGenerator {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     private BDProductos bdProductos;
 
-    public String createReportFile(Activity activity, List<Producto> productos) throws IOException, InternalException {
+    public String createReportFile(Activity activity, List<CategoriaXGastoMes> productos) throws IOException, InternalException {
 
         Calendar calendar = Calendar.getInstance();
 
@@ -53,14 +48,14 @@ public class ReportGenerator {
             fileContent = String.format("%s, Productos: %s\n", mes, productos.size());
 
             for (int j = 0; j < productos.size(); j++) {
-                Producto producto = productos.get(j);
-                List<ItemGasto> gastos = producto.getItems();
+                CategoriaXGastoMes producto = productos.get(j);
+                List<Item> gastos = producto.getItems();
 
-                fileContent.concat(String.format("%s, Estimado: %s, Items: %s\n", producto.getNombre(),
+                fileContent.concat(String.format("%s, Estimado: %s, Items: %s\n", producto.getCategoria().getNombre(),
                         producto.getEstimado(), gastos.size()));
 
                 for (int k = 0; k <gastos.size(); k++) {
-                    ItemGasto gasto = gastos.get(k);
+                    Item gasto = gastos.get(k);
                     fileContent.concat(String.format("%s, %s\n", gasto.getNombre(), gasto.getValor()));
                 }
             }

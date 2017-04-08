@@ -17,8 +17,7 @@ import android.widget.TextView;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
-import com.tienda.a_shop.domain.Producto;
-import com.tienda.a_shop.manager.ReportGenerator;
+import com.tienda.a_shop.domain.CategoriaXGastoMes;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
 
@@ -36,7 +35,7 @@ public class ListaProductosActivity extends Activity {
     public static final int REQUEST_ADD = 1;
     public static final int REQUEST_DETAIL = 2;
     private ListView listaProductos;
-    private ArrayList<Producto> productos;
+    private ArrayList<CategoriaXGastoMes> productos;
     private ImageView agregarProducto;
     private BDProductos bdProductos;
     private TextView gasto;
@@ -57,7 +56,7 @@ public class ListaProductosActivity extends Activity {
         total = (TextView) findViewById(R.id.txtTotal);
 
         productos = bdProductos.listaProductos();
-        ArrayAdapter<Producto> adapter = new ArrayAdapter<Producto>(this, android.R.layout.simple_spinner_dropdown_item, productos);
+        ArrayAdapter<CategoriaXGastoMes> adapter = new ArrayAdapter<CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
 
         if (productos.isEmpty()) {
@@ -72,8 +71,8 @@ public class ListaProductosActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 Intent i = new Intent(ListaProductosActivity.this, ListaItemsProductosActivity.class);
-                i.putExtra("idProducto", productos.get(position).getId());
-                i.putExtra("nombreProducto", productos.get(position).getNombre());
+                i.putExtra("idProducto", productos.get(position).getCategoria().getIdCategoria());
+                i.putExtra("nombreProducto", productos.get(position).getCategoria().getNombre());
                 i.putExtra("estimadoProducto", productos.get(position).getEstimado());
                 startActivityForResult(i, REQUEST_DETAIL);
             }
@@ -104,8 +103,8 @@ public class ListaProductosActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_editar_producto:
                 Intent i = new Intent(ListaProductosActivity.this, EditarProductoActivity.class);
-                Producto p = productos.get(info.position);
-                i.putExtra("nombre", p.getNombre());
+                CategoriaXGastoMes p = productos.get(info.position);
+                i.putExtra("nombre", p.getCategoria().getNombre());
                 i.putExtra("estimado", p.getEstimado() + "");
                 startActivityForResult(i, REQUEST_TEXT);
                 return true;
@@ -144,14 +143,14 @@ public class ListaProductosActivity extends Activity {
     }
 
     public void eliminarProducto(int posicion) {
-        String nomP = productos.get(posicion).getNombre();
+        String nomP = productos.get(posicion).getCategoria().getNombre();
         bdProductos.eliminarProducto(nomP);
         actualizarLista();
     }
 
     public void actualizarLista() {
         productos = bdProductos.listaProductos();
-        ArrayAdapter<Producto> adapter = new ArrayAdapter<Producto>(this, android.R.layout.simple_spinner_dropdown_item, productos);
+        ArrayAdapter<CategoriaXGastoMes> adapter = new ArrayAdapter<CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();
     }
@@ -159,12 +158,12 @@ public class ListaProductosActivity extends Activity {
     private void actualizarListaResumen() {
         int totalAux = 0;
         for (int i = 1; i < productos.size(); i++) {
-            totalAux += productos.get(i).getTotalGasto();
+            totalAux += productos.get(i).getTotal();
         }
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         gasto.setText(getString(R.string.gastos) + formatter.format(totalAux));
-        ingreso.setText(getString(R.string.ingresos) + formatter.format(productos.get(0).getTotalGasto()));
-        total.setText(getString(R.string.total) + formatter.format(productos.get(0).getTotalGasto() - totalAux));
+        ingreso.setText(getString(R.string.ingresos) + formatter.format(productos.get(0).getTotal()));
+        total.setText(getString(R.string.total) + formatter.format(productos.get(0).getTotal() - totalAux));
     }
 
     @Override
@@ -182,7 +181,7 @@ public class ListaProductosActivity extends Activity {
             case R.id.action_crear_reporte:
                 task = new ReportGeneratorTask();
                 task.setActivity(this);
-                Producto[] array = new Producto[productos.size()];
+                CategoriaXGastoMes[] array = new CategoriaXGastoMes[productos.size()];
                 task.execute(productos.toArray(array));
                 return true;
             default:

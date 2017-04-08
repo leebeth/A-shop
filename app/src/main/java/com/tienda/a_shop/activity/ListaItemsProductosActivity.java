@@ -2,7 +2,6 @@ package com.tienda.a_shop.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -21,7 +20,7 @@ import android.widget.Toast;
 //import com.google.android.gms.common.api.GoogleApiClient;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
-import com.tienda.a_shop.domain.ItemGasto;
+import com.tienda.a_shop.domain.Item;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class ListaItemsProductosActivity extends Activity {
     private static final int REQUEST_ADD = 1;
     private static final int REQUEST_DETAIL = 2;
 
-    private ArrayList<ItemGasto> items;
+    private ArrayList<Item> items;
     private ListView listaProductos;
     private Button agregarItem;
     private Button editar;
@@ -56,7 +55,7 @@ public class ListaItemsProductosActivity extends Activity {
         bdProductos = new BDProductos(getApplicationContext());
         formatter = NumberFormat.getCurrencyInstance();
 
-        items = new ArrayList<ItemGasto>();
+        items = new ArrayList<Item>();
         idProducto = getIntent().getIntExtra("idProducto", 0);
         String nombreProducto = getIntent().getStringExtra("nombreProducto");
         estimado = getIntent().getIntExtra("estimadoProducto", 0);
@@ -100,7 +99,7 @@ public class ListaItemsProductosActivity extends Activity {
     private int calcularPrecioTotal() {
         int tot = 0;
         if (items != null) {
-            for (ItemGasto i : items) {
+            for (Item i : items) {
                 tot += i.getValor();
             }
         }
@@ -110,7 +109,7 @@ public class ListaItemsProductosActivity extends Activity {
     private void actualizarPrecioTotal() {
         int tot = 0;
         if (items != null) {
-            for (ItemGasto i : items) {
+            for (Item i : items) {
                 tot += i.getValor();
             }
         }
@@ -121,7 +120,7 @@ public class ListaItemsProductosActivity extends Activity {
     public String eliminarItemCarrito(int pos) {
         String nombre = items.get(pos).getNombre();
         items.remove(pos);
-        ArrayAdapter<ItemGasto> adapter = new ArrayAdapter<ItemGasto>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_dropdown_item, items);
         listaProductos.setAdapter(adapter);
         return nombre;
     }
@@ -181,7 +180,7 @@ public class ListaItemsProductosActivity extends Activity {
 
     public void actualizarLista() {
         items = bdProductos.listaDetalleGasto(idProducto);
-        ArrayAdapter<ItemGasto> adapter = new ArrayAdapter<ItemGasto>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_dropdown_item, items);
         listaProductos.setAdapter(adapter);
         actualizarPrecioTotal();
     }

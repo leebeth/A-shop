@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.activity.ListaProductosActivity;
-import com.tienda.a_shop.domain.Producto;
+import com.tienda.a_shop.domain.CategoriaXGastoMes;
 import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.exceptions.StorageIsNotWritableException;
 import com.tienda.a_shop.manager.ReportGenerator;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by Lorena on 02/04/2017.
  */
-public class ReportGeneratorTask extends AsyncTask<Producto, String, String> {
+public class ReportGeneratorTask extends AsyncTask<CategoriaXGastoMes, String, String> {
 
     private static final String TAG = "ReportGeneratorTask";
 
@@ -41,7 +41,7 @@ public class ReportGeneratorTask extends AsyncTask<Producto, String, String> {
     }
 
     @Override
-    protected String doInBackground(Producto... productos) {
+    protected String doInBackground(CategoriaXGastoMes... productos) {
         String message = "";
         String tittle = "";
         try {
@@ -68,7 +68,7 @@ public class ReportGeneratorTask extends AsyncTask<Producto, String, String> {
         DialogUtil.showDialog(activity, split[1], split[0]);
     }
 
-    private String crearReporte(List<Producto> productos) throws StorageIsNotWritableException, IOException, InternalException {
+    private String crearReporte(List<CategoriaXGastoMes> productos) throws StorageIsNotWritableException, IOException, InternalException {
         if(!PermissionsUtil.isExternalStorageWritable(activity)){
             applyForPermits(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     PermissionsUtil.WRITE_EXTERNAL_STORAGE);
