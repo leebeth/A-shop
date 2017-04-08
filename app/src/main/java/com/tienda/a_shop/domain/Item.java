@@ -5,11 +5,21 @@ package com.tienda.a_shop.domain;
  */
 public class Item {
     private int idItem;
-    private CategoriaXGastoMes categoriaXGastoMes;
     private String nombre;
     private int valor;
+    private CategoriaXGastoMes categoriaXGastoMes;
 
-    public Item() {
+    public Item(int idItem, String nombre, int valor, CategoriaXGastoMes categoriaXGastoMes) {
+        this.idItem = idItem;
+        this.nombre = nombre;
+        this.valor = valor;
+        this.categoriaXGastoMes = categoriaXGastoMes;
+    }
+
+    public Item(int idItem, String nombre, int valor) {
+        this.idItem = idItem;
+        this.nombre = nombre;
+        this.valor = valor;
     }
 
     public int getIdItem() {

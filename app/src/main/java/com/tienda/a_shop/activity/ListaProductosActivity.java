@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.domain.CategoriaXGastoMes;
+import com.tienda.a_shop.domain.GastoMes;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
 
@@ -43,6 +44,7 @@ public class ListaProductosActivity extends Activity {
     private TextView total;
     private ReportGeneratorTask task;
     private boolean writeExternalStorage;
+    private GastoMes gastoActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +57,15 @@ public class ListaProductosActivity extends Activity {
         ingreso = (TextView) findViewById(R.id.txtTotalIngreso);
         total = (TextView) findViewById(R.id.txtTotal);
 
+        gastoActual = bdProductos.getGastoActual();
+
         productos = bdProductos.listaProductos();
+        if (productos.isEmpty()) {
+            bdProductos.guardarProducto("Ingresos", 0, gastoActual.getIdGastoMes());
+        }
+
         ArrayAdapter<CategoriaXGastoMes> adapter = new ArrayAdapter<CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
-
-        if (productos.isEmpty()) {
-            bdProductos.guardarProducto("Ingresos", 0);
-        }
 
         actualizarListaResumen();
 
@@ -74,6 +78,7 @@ public class ListaProductosActivity extends Activity {
                 i.putExtra("idProducto", productos.get(position).getCategoria().getIdCategoria());
                 i.putExtra("nombreProducto", productos.get(position).getCategoria().getNombre());
                 i.putExtra("estimadoProducto", productos.get(position).getEstimado());
+                i.putExtra("idGastoMes", gastoActual.getIdGastoMes());
                 startActivityForResult(i, REQUEST_DETAIL);
             }
         });
@@ -85,6 +90,7 @@ public class ListaProductosActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ListaProductosActivity.this, AgregarProductoActivity.class);
+                i.putExtra("idGastoMes", gastoActual.getIdGastoMes());
                 startActivityForResult(i, REQUEST_ADD);
             }
         });

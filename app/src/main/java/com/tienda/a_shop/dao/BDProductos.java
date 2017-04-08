@@ -6,7 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.tienda.a_shop.activity.VentaActivity;
+import com.tienda.a_shop.domain.Categoria;
 import com.tienda.a_shop.domain.CategoriaXGastoMes;
+import com.tienda.a_shop.domain.GastoMes;
 import com.tienda.a_shop.domain.Item;
 
 import java.util.ArrayList;
@@ -29,14 +31,14 @@ public class BDProductos extends SQLiteOpenHelper {
 
         //Creación tabla Categoria x Gasto Mes
         db.execSQL("CREATE TABLE categoria_gasto_mes (" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, estimado INTEGER, total INTEGER, id_categoria INTEGER, id_gasto_mes INTEGER" +
-                "FOREIGN KEY (id_categoria) REFERENCES categoria(_id) " +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, estimado INTEGER, total INTEGER, id_categoria INTEGER, id_gasto_mes INTEGER, " +
+                "FOREIGN KEY (id_categoria) REFERENCES categoria(_id), " +
                 "FOREIGN KEY (id_gasto_mes) REFERENCES gasto_mes(_id))");
 
         // Creacion tabla Item
-        db.execSQL("CREATE TABLE items (" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, valor INTEGER, id_categoria_gasto INTEGER" +
-                " FOREIGN KEY (id_categoria_gasto) REFERENCES Producto(_id))");
+        db.execSQL("CREATE TABLE item (" +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, valor INTEGER, id_categoria_gasto INTEGER, " +
+                "FOREIGN KEY (id_categoria_gasto) REFERENCES Producto(_id))");
 
     }
 
@@ -49,36 +51,74 @@ public class BDProductos extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT _id FROM categoria where nombre = '" + nombre + "'";
         Cursor cursor = db.rawQuery(query, null);
-        int n=0;
+        int n = 0;
         while (cursor.moveToNext()) {
             n = cursor.getInt(0);
         }
         cursor.close();
         db.close();
+
+        SQLiteDatabase db2 = getWritableDatabase();
         if (n == 0) {
-            SQLiteDatabase db2 = getWritableDatabase();
-            db2.execSQL("INSERT INTO Productos VALUES ( null, '" +
-                    nombre + "', " + estimado + ", 0)");
+            query = "INSERT INTO categoria VALUES (null, '" + nombre + "', " + estimado + ")";
+            db2.execSQL(query);
+            db2.close();
+
+            //_id INTEGER, estimado INTEGER, total INTEGER, id_categoria INTEGER, id_gasto_mes INTEGER
+            db2 = getWritableDatabase();
+            query = "INSERT INTO categoria_gasto_mes VALUES (null, " + estimado + ", 0, " +
+                    "SELECT _id FROM categoria where nombre = '" + nombre + "', " + idGastoMes + ")";
+            db2.execSQL(query);
+            db2.close();
+        } else {
+            db2 = getWritableDatabase();
+            query = "INSERT INTO categoria_gasto_mes VALUES (null, " + estimado + ", 0, " +
+                    "SELECT _id FROM categoria where nombre = '" + nombre + "', " + idGastoMes + ")";
+            db2.execSQL(query);
             db2.close();
         }
     }
 
-    public void guardarItemGasto(String nombre, int valor, int idProducto, int totalGasto) {
+    public GastoMes getGastoActual() {
+        GastoMes gastoMes = null;
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT p.nombre FROM Items p WHERE p.nombre = '" + nombre + "'", null);
-        String n = null;
-        while (cursor.moveToNext()) {
-            n = cursor.getString(0);
+        String query = "SELECT _id FROM gasto_mes WHERE archivado = 0";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            SQLiteDatabase db2 = getWritableDatabase();
+            query = "INSERT INTO gasto_mes VALUES (null, 0)";
+            db2.execSQL(query);
+            db2.close();
+        } else {
+            while (cursor.moveToNext()) {
+                gastoMes = new GastoMes(cursor.getInt(0), cursor.getInt(1) == 1);
+            }
         }
         cursor.close();
         db.close();
-        if (n == null) {
+
+        return gastoMes;
+    }
+
+    public void guardarItemGasto(String nombre, int valor, int idProducto, int totalGasto) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT _id FROM item WHERE nombre ='"+nombre+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        int n = 0;
+        while (cursor.moveToNext()) {
+            n = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+
+        if (n == 0) {
             int total = totalGasto + valor;
             SQLiteDatabase db2 = getWritableDatabase();
-            db2.execSQL("INSERT INTO Items VALUES ( null, '" + nombre + "', " + valor + ", " + idProducto + ")");
+            db2.execSQL("INSERT INTO item VALUES ( null, '" + nombre + "', " + valor + ", " + idProducto + ")");
+            db2.close();
 
             db2 = getWritableDatabase();
-            db2.execSQL("UPDATE Productos SET total=" + total + " WHERE _id=" + idProducto);
+            db2.execSQL("UPDATE categoria_gasto_mes SET total=" + total + " WHERE _id=" + idProducto);
             db2.close();
         }
     }
@@ -86,9 +126,15 @@ public class BDProductos extends SQLiteOpenHelper {
     public ArrayList<CategoriaXGastoMes> listaProductos() {
         ArrayList<CategoriaXGastoMes> result = new ArrayList<CategoriaXGastoMes>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Productos", null);
+        String query = "SELECT cat.*, gasto.*, cat_gasto.* FROM categoria_gasto_mes cat_gasto " +
+                "INNER JOIN categoria cat on cat._id = cat_gasto.id_categoria " +
+                "INNER JOIN gasto_mes gasto on gasto._id = cat_gasto.id_gasto_mes ";
+        Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
-            result.add(new CategoriaXGastoMes());
+            Categoria categoria = new Categoria(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
+            GastoMes gastoMes = new GastoMes(cursor.getInt(3),cursor.getInt(4)==1);
+            CategoriaXGastoMes categoriaXGastoMes = new CategoriaXGastoMes(cursor.getInt(5), cursor.getInt(6), categoria, gastoMes);
+            result.add(categoriaXGastoMes);
         }
         cursor.close();
         db.close();
@@ -98,9 +144,9 @@ public class BDProductos extends SQLiteOpenHelper {
     public ArrayList<Item> listaDetalleGasto(int idProducto) {
         ArrayList<Item> result = new ArrayList<Item>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Items WHERE id_producto = " + idProducto, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM item WHERE id_categoria_gasto = " + idProducto, null);
         while (cursor.moveToNext()) {
-            result.add(new Item());
+            result.add(new Item(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
         }
         cursor.close();
         db.close();
@@ -120,15 +166,21 @@ public class BDProductos extends SQLiteOpenHelper {
     }
 
     public CategoriaXGastoMes buscarProducto(String nombre) {
-        CategoriaXGastoMes p = null;
+        CategoriaXGastoMes categoriaGastoMes = null;
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Productos p WHERE p.nombre = '" + nombre + "'", null);
+        String query = "SELECT cat.*, gasto.*, cat_gasto.* FROM categoria_gasto_mes cat_gasto" +
+                "INNER JOIN categoria cat on cat._id = cat_gasto.id_categoria " +
+                "INNER JOIN gasto_mes gasto on gasto._id = cat_gasto.id_gasto_mes" +
+                "WHERE cat.nombre = '"+nombre+"'";
+        Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
-            p = new CategoriaXGastoMes();
+            Categoria categoria = new Categoria(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
+            GastoMes gastoMes = new GastoMes(cursor.getInt(3),cursor.getInt(4)==1);
+            categoriaGastoMes = new CategoriaXGastoMes(cursor.getInt(5), cursor.getInt(6), categoria, gastoMes);
         }
         cursor.close();
         db.close();
-        return p;
+        return categoriaGastoMes;
     }
 
     public void eliminarProducto(String nombre) {

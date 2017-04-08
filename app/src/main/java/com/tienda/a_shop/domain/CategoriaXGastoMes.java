@@ -9,10 +9,22 @@ public class CategoriaXGastoMes {
     private int estimado;
     private int total;
     private Categoria categoria;
-    private CategoriaXGastoMes gastoMes;
+    private GastoMes gastoMes;
     private List<Item> items;
 
-    public CategoriaXGastoMes() {
+    public CategoriaXGastoMes(int estimado, int total, Categoria categoria, GastoMes gastoMes, List<Item> items) {
+        this.estimado = estimado;
+        this.total = total;
+        this.categoria = categoria;
+        this.gastoMes = gastoMes;
+        this.items = items;
+    }
+
+    public CategoriaXGastoMes(int estimado, int total, Categoria categoria, GastoMes gastoMes) {
+        this.estimado = estimado;
+        this.total = total;
+        this.categoria = categoria;
+        this.gastoMes = gastoMes;
     }
 
     public int getEstimado() {
@@ -38,11 +50,11 @@ public class CategoriaXGastoMes {
         this.categoria = categoria;
     }
 
-    public CategoriaXGastoMes getGastoMes() {
+    public GastoMes getGastoMes() {
         return gastoMes;
     }
 
-    public void setGastoMes(CategoriaXGastoMes gastoMes) {
+    public void setGastoMes(GastoMes gastoMes) {
         this.gastoMes = gastoMes;
     }
 
