@@ -1,6 +1,6 @@
 package com.tienda.a_shop.manager;
 
-import com.tienda.a_shop.activity.IApp;
+import com.tienda.a_shop.interfaces.IApp;
 
 /**
  * Created by Lore on 09/04/2017.

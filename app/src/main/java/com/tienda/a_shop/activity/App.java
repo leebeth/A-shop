@@ -5,6 +5,7 @@ import android.app.Application;
 import com.tienda.a_shop.dao.DaoSession;
 import com.tienda.a_shop.dao.DaoMaster;
 import com.tienda.a_shop.dao.DaoMaster.DevOpenHelper;
+import com.tienda.a_shop.interfaces.IApp;
 
 import org.greenrobot.greendao.database.Database;
 
