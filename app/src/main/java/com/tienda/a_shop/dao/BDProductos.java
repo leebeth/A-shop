@@ -200,8 +200,17 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
     }
 
     public void editarProducto(String nombreN, String nombre, int estimado) {
-        SQLiteDatabase db = getWritableDatabase();
+        /*SQLiteDatabase db = getWritableDatabase();
         db.execSQL("UPDATE Productos SET estimado=" + estimado + ", nombre ='" + nombreN + "' WHERE nombre= '" + nombre + "'");
-        db.close();
+        db.close();*/
+        CategoriaDao categoriaDao = app.getDaoSession().getCategoriaDao();
+
+        com.tienda.a_shop.entities.Categoria categoria =
+                categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
+
+        categoria.setNombre(nombreN);
+        categoria.setEstimado(estimado);
+
+        categoriaDao.update(categoria);
     }
 }
