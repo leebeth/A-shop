@@ -240,4 +240,8 @@ public class CategoriaXGastoMes {
         myDao = daoSession != null ? daoSession.getCategoriaXGastoMesDao() : null;
     }
 
+    @Override
+    public String toString() {
+        return categoria.getNombre() +"     " + total;
+    }
 }

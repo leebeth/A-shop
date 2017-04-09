@@ -19,11 +19,13 @@ import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.domain.CategoriaXGastoMes;
 import com.tienda.a_shop.domain.GastoMes;
+import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Lorena on 10/10/2014.
@@ -36,7 +38,7 @@ public class ListaProductosActivity extends Activity {
     public static final int REQUEST_ADD = 1;
     public static final int REQUEST_DETAIL = 2;
     private ListView listaProductos;
-    private ArrayList<CategoriaXGastoMes> productos;
+    private List<com.tienda.a_shop.entities.CategoriaXGastoMes> productos;
     private ImageView agregarProducto;
     private BDProductos bdProductos;
     private TextView gasto;
@@ -44,7 +46,7 @@ public class ListaProductosActivity extends Activity {
     private TextView total;
     private ReportGeneratorTask task;
     private boolean writeExternalStorage;
-    private GastoMes gastoActual;
+    private com.tienda.a_shop.entities.GastoMes gastoActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +63,10 @@ public class ListaProductosActivity extends Activity {
 
         productos = bdProductos.listaProductos();
         if (productos.isEmpty()) {
-            bdProductos.guardarProducto("Ingresos", 0, gastoActual.getIdGastoMes());
+            bdProductos.guardarProducto("Ingresos", 0, Integer.parseInt(gastoActual.getId()+""));
         }
 
-        ArrayAdapter<CategoriaXGastoMes> adapter = new ArrayAdapter<CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
+        ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
 
         actualizarListaResumen();
@@ -75,10 +77,10 @@ public class ListaProductosActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 Intent i = new Intent(ListaProductosActivity.this, ListaItemsProductosActivity.class);
-                i.putExtra("idProducto", productos.get(position).getCategoria().getIdCategoria());
+                i.putExtra("idProducto", productos.get(position).getCategoria().getId());
                 i.putExtra("nombreProducto", productos.get(position).getCategoria().getNombre());
                 i.putExtra("estimadoProducto", productos.get(position).getEstimado());
-                i.putExtra("idGastoMes", gastoActual.getIdGastoMes());
+                i.putExtra("idGastoMes", gastoActual.getId());
                 startActivityForResult(i, REQUEST_DETAIL);
             }
         });
@@ -90,7 +92,7 @@ public class ListaProductosActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ListaProductosActivity.this, AgregarProductoActivity.class);
-                i.putExtra("idGastoMes", gastoActual.getIdGastoMes());
+                i.putExtra("idGastoMes", gastoActual.getId());
                 startActivityForResult(i, REQUEST_ADD);
             }
         });
@@ -109,7 +111,7 @@ public class ListaProductosActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_editar_producto:
                 Intent i = new Intent(ListaProductosActivity.this, EditarProductoActivity.class);
-                CategoriaXGastoMes p = productos.get(info.position);
+                com.tienda.a_shop.entities.CategoriaXGastoMes p = productos.get(info.position);
                 i.putExtra("nombre", p.getCategoria().getNombre());
                 i.putExtra("estimado", p.getEstimado() + "");
                 startActivityForResult(i, REQUEST_TEXT);
@@ -156,7 +158,7 @@ public class ListaProductosActivity extends Activity {
 
     public void actualizarLista() {
         productos = bdProductos.listaProductos();
-        ArrayAdapter<CategoriaXGastoMes> adapter = new ArrayAdapter<CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
+        ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();
     }
