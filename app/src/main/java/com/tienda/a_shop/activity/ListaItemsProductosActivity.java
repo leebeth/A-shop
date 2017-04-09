@@ -20,10 +20,11 @@ import android.widget.Toast;
 //import com.google.android.gms.common.api.GoogleApiClient;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
-import com.tienda.a_shop.domain.Item;
+import com.tienda.a_shop.entities.Item;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListaItemsProductosActivity extends Activity {
@@ -31,7 +32,7 @@ public class ListaItemsProductosActivity extends Activity {
     private static final int REQUEST_ADD = 1;
     private static final int REQUEST_DETAIL = 2;
 
-    private ArrayList<Item> items;
+    private List<Item> items;
     private ListView listaProductos;
     private Button agregarItem;
     private Button editar;

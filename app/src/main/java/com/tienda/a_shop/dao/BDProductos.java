@@ -17,6 +17,7 @@ import org.greenrobot.greendao.query.Join;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Lorena on 16/10/2014.
@@ -158,16 +159,20 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
         return result;
     }
 
-    public ArrayList<Item> listaDetalleGasto(int idProducto) {
-        ArrayList<Item> result = new ArrayList<Item>();
+    public List<com.tienda.a_shop.entities.Item> listaDetalleGasto(int idProducto) {
+        /*ArrayList<Item> result = new ArrayList<Item>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM item WHERE id_categoria_gasto = " + idProducto, null);
         while (cursor.moveToNext()) {
             result.add(new Item(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
         }
         cursor.close();
-        db.close();
-        return result;
+        db.close();*/
+
+        ItemDao itemDao = app.getDaoSession().getItemDao();
+        return itemDao.queryBuilder().where(ItemDao.Properties.CategoriaXGastoMesId.eq(idProducto)).list();
+
+        //return result;
     }
 
     public com.tienda.a_shop.entities.CategoriaXGastoMes buscarProducto(String nombre) {
