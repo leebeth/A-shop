@@ -10,17 +10,22 @@ import com.tienda.a_shop.domain.Categoria;
 import com.tienda.a_shop.domain.CategoriaXGastoMes;
 import com.tienda.a_shop.domain.GastoMes;
 import com.tienda.a_shop.domain.Item;
+import com.tienda.a_shop.interfaces.IApp;
 
 import java.util.ArrayList;
 
 /**
  * Created by Lorena on 16/10/2014.
  */
-public class BDProductos extends SQLiteOpenHelper {
-    public BDProductos(Context context) {
-        super(context, "Productos", null, 1);
-    }
+public class BDProductos /*extends SQLiteOpenHelper*/ {
 
+    private IApp app;
+
+    public BDProductos(Context context, IApp app) {
+        //super(context, "Productos", null, 1);
+        this.app = app;
+    }
+/*
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Creacion tabla Categoria
@@ -45,6 +50,14 @@ public class BDProductos extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
+    }*/
+
+    public SQLiteDatabase getReadableDatabase(){
+        return null;
+    }
+
+    public SQLiteDatabase getWritableDatabase(){
+        return null;
     }
 
     public void guardarProducto(String nombre, int estimado, int idGastoMes) {
