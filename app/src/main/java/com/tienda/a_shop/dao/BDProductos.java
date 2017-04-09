@@ -95,7 +95,7 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
     public GastoMes getGastoActual() {
         GastoMes gastoMes = null;
         SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT _id FROM gasto_mes WHERE archivado = 0";
+        String query = "SELECT * FROM gasto_mes WHERE archivado = 0";
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.getCount() == 0) {
             SQLiteDatabase db2 = getWritableDatabase();
