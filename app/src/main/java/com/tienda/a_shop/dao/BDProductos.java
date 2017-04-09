@@ -153,18 +153,6 @@ public class BDProductos extends SQLiteOpenHelper {
         return result;
     }
 
-    public ArrayList<VentaActivity> historialDeVentas() {
-        ArrayList<VentaActivity> result = new ArrayList<VentaActivity>();
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM Ventas", null);
-        while (cursor.moveToNext()) {
-            result.add(new VentaActivity(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getInt(4)));
-        }
-        cursor.close();
-        db.close();
-        return result;
-    }
-
     public CategoriaXGastoMes buscarProducto(String nombre) {
         CategoriaXGastoMes categoriaGastoMes = null;
         SQLiteDatabase db = getReadableDatabase();
