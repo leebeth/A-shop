@@ -12,6 +12,10 @@ import com.tienda.a_shop.domain.GastoMes;
 import com.tienda.a_shop.domain.Item;
 import com.tienda.a_shop.interfaces.IApp;
 
+import org.greenrobot.greendao.Property;
+import org.greenrobot.greendao.query.Join;
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.ArrayList;
 
 /**
@@ -166,8 +170,8 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
         return result;
     }
 
-    public CategoriaXGastoMes buscarProducto(String nombre) {
-        CategoriaXGastoMes categoriaGastoMes = null;
+    public com.tienda.a_shop.entities.CategoriaXGastoMes buscarProducto(String nombre) {
+        /*CategoriaXGastoMes categoriaGastoMes = null;
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT cat.*, gasto.*, cat_gasto.* FROM categoria_gasto_mes cat_gasto" +
                 "INNER JOIN categoria cat on cat._id = cat_gasto.id_categoria " +
@@ -180,12 +184,23 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
             categoriaGastoMes = new CategoriaXGastoMes(cursor.getInt(5), cursor.getInt(6), categoria, gastoMes);
         }
         cursor.close();
-        db.close();
-        return categoriaGastoMes;
+        db.close();*/
+
+        CategoriaXGastoMesDao categoriaDao = app.getDaoSession().getCategoriaXGastoMesDao();
+
+        QueryBuilder<com.tienda.a_shop.entities.CategoriaXGastoMes> qb =
+                categoriaDao.queryBuilder();
+
+        Join categoria = qb.join(com.tienda.a_shop.entities.Categoria.class, CategoriaDao.Properties.Id);
+        Join gasto_mes = qb.join(com.tienda.a_shop.entities.GastoMes.class, GastoMesDao.Properties.Id);
+
+        return qb.unique();
+
+        //return categoriaGastoMes;
     }
 
     public void eliminarProducto(String nombre) {
-        SQLiteDatabase db = getReadableDatabase();
+        /*SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT _id FROM Productos p WHERE p.nombre = '" + nombre + "'", null);
         int id = 0;
         while (cursor.moveToNext()) {
@@ -195,7 +210,14 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
         db = getWritableDatabase();
         db.delete("Productos", "_id = ?", new String[]{id + ""});
 
-        db.close();
+        db.close();*/
+
+        CategoriaDao categoriaDao = app.getDaoSession().getCategoriaDao();
+
+        com.tienda.a_shop.entities.Categoria categoria =
+                categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
+
+        categoriaDao.delete(categoria);
 
     }
 
