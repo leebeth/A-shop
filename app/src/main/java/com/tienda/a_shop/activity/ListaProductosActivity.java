@@ -51,7 +51,7 @@ public class ListaProductosActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        bdProductos = new BDProductos(getApplicationContext());
+        bdProductos = new BDProductos(getApplicationContext(), (App)getApplication());
         listaProductos = (ListView) findViewById(R.id.listaProductos);
         gasto = (TextView) findViewById(R.id.txtTotalGastos);
         ingreso = (TextView) findViewById(R.id.txtTotalIngreso);

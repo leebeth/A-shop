@@ -52,7 +52,7 @@ public class ListaItemsProductosActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrito_de_venta);
 
-        bdProductos = new BDProductos(getApplicationContext());
+        bdProductos = new BDProductos(getApplicationContext(), (App)getApplication());
         formatter = NumberFormat.getCurrencyInstance();
 
         items = new ArrayList<Item>();

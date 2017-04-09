@@ -31,7 +31,7 @@ public class AgregarItemGastoActivity extends Activity {
         final int idProducto = getIntent().getIntExtra("idProducto", 0);
         final int totalGasto = getIntent().getIntExtra("totalGasto",0);
 
-        dbProductos = new BDProductos(getApplicationContext());
+        dbProductos = new BDProductos(getApplicationContext(), (App)getApplication());
         butAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

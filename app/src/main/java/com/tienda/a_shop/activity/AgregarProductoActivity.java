@@ -32,7 +32,7 @@ public class AgregarProductoActivity extends Activity
         butAceptar = (Button)findViewById(R.id.butAceptar);
         butCancelar=(Button)findViewById(R.id.butCancelar);
 
-        dbProductos = new BDProductos(getApplicationContext());
+        dbProductos = new BDProductos(getApplicationContext(), (App)getApplication());
         butAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

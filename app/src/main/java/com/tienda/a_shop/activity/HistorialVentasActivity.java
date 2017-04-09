@@ -26,23 +26,7 @@ public class HistorialVentasActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_historial_ventas);
 
-        BDProductos bd = new BDProductos(getApplicationContext());
-        ArrayList<VentaActivity> ventas = bd.historialDeVentas();
-
-        listaHistorial = (ListView)findViewById(R.id.ventas_lista);
-        ArrayAdapter<VentaActivity> adapter = new ArrayAdapter<VentaActivity>(this, android.R.layout.simple_spinner_dropdown_item, ventas);
-        listaHistorial.setAdapter(adapter);
-
-        listaHistorial.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-
-                Toast.makeText(getApplicationContext(), "Ha pulsado el item " + position, Toast.LENGTH_SHORT).show();
-
-            }
-
-        });
+        BDProductos bd = new BDProductos(getApplicationContext(), (App)getApplication());
     }
 
 
