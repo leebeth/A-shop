@@ -29,6 +29,8 @@ public class CategoriaDao extends AbstractDao<Categoria, Long> {
         public final static Property Estimado = new Property(2, int.class, "estimado", false, "ESTIMADO");
     }
 
+    private DaoSession daoSession;
+
 
     public CategoriaDao(DaoConfig config) {
         super(config);
@@ -36,6 +38,7 @@ public class CategoriaDao extends AbstractDao<Categoria, Long> {
     
     public CategoriaDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -83,6 +86,12 @@ public class CategoriaDao extends AbstractDao<Categoria, Long> {
             stmt.bindString(2, nombre);
         }
         stmt.bindLong(3, entity.getEstimado());
+    }
+
+    @Override
+    protected final void attachEntity(Categoria entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
     }
 
     @Override

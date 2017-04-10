@@ -242,6 +242,6 @@ public class CategoriaXGastoMes {
 
     @Override
     public String toString() {
-        return categoria.getNombre() +"     " + total;
+        return getCategoria().getNombre() +"     " + total;
     }
 }

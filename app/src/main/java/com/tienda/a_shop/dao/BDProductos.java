@@ -183,7 +183,7 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
     }
 
     public List<com.tienda.a_shop.entities.CategoriaXGastoMes> listaProductos() {
-
+/*
         CategoriaXGastoMesDao categoriaDao = app.getDaoSession().getCategoriaXGastoMesDao();
         QueryBuilder<com.tienda.a_shop.entities.CategoriaXGastoMes> qb =
                 categoriaDao.queryBuilder();
@@ -191,6 +191,35 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
         Join categoria = qb.join(com.tienda.a_shop.entities.Categoria.class, CategoriaDao.Properties.Id);
         Join gasto_mes = qb.join(com.tienda.a_shop.entities.GastoMes.class, GastoMesDao.Properties.Id);
         return  categoriaDao.loadDeepAllAndCloseCursor(qb.buildCursor().query());
+        */
+/*
+        List<com.tienda.a_shop.entities.Categoria> categorias = app.getDaoSession().getCategoriaDao().loadAll();
+        List<com.tienda.a_shop.entities.GastoMes> gastosMes = app.getDaoSession().getGastoMesDao().loadAll();
+        QueryBuilder<com.tienda.a_shop.entities.CategoriaXGastoMes> categoriaXGastoMes = app.getDaoSession().getCategoriaXGastoMesDao()
+                .queryBuilder();
+         Join join =  categoriaXGastoMes.join(com.tienda.a_shop.entities.Item.class, ItemDao.Properties.CategoriaXGastoMesId);
+
+        List<com.tienda.a_shop.entities.CategoriaXGastoMes> lista = categoriaXGastoMes.list();
+
+        QueryBuilder<com.tienda.a_shop.entities.Item> itemQueryBuilder = app.getDaoSession().getItemDao().queryBuilder();
+        Join join1 = itemQueryBuilder.join(com.tienda.a_shop.entities.CategoriaXGastoMes.class, CategoriaXGastoMesDao.Properties.Id);
+
+        List<com.tienda.a_shop.entities.Item> items = itemQueryBuilder.list();
+
+*/
+        CategoriaXGastoMesDao categoriaDao = app.getDaoSession().getCategoriaXGastoMesDao();
+       /* QueryBuilder<com.tienda.a_shop.entities.CategoriaXGastoMes> qb =
+                categoriaDao.queryBuilder();
+
+
+        qb.LOG_SQL = true;
+        qb.LOG_VALUES = true;
+
+        Join categoria = qb.join(com.tienda.a_shop.entities.Categoria.class, CategoriaDao.Properties.Id);
+        Join gasto_mes = qb.join(com.tienda.a_shop.entities.GastoMes.class, GastoMesDao.Properties.Id);*/
+        //return  categoriaDao.loadDeepAllAndCloseCursor(qb.buildCursor().query());
+        return categoriaDao.loadAll();
+
         /**ArrayList<CategoriaXGastoMes> result = new ArrayList<CategoriaXGastoMes>();
         SQLiteDatabase db = getReadableDatabase();
         String query = "SELECT cat.*, gasto.*, cat_gasto.* FROM categoria_gasto_mes cat_gasto " +
@@ -248,7 +277,7 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
         Join categoria = qb.join(com.tienda.a_shop.entities.Categoria.class, CategoriaDao.Properties.Id);
         Join gasto_mes = qb.join(com.tienda.a_shop.entities.GastoMes.class, GastoMesDao.Properties.Id);
 
-        return qb.unique();
+        return categoriaDao.load(qb.unique().getCategoriaId());
 
         //return categoriaGastoMes;
     }

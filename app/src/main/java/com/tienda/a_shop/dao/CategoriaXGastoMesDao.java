@@ -11,6 +11,8 @@ import org.greenrobot.greendao.internal.SqlUtils;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.entities.GastoMes;
@@ -39,6 +41,8 @@ public class CategoriaXGastoMesDao extends AbstractDao<CategoriaXGastoMes, Long>
 
     private DaoSession daoSession;
 
+    private Query<CategoriaXGastoMes> categoria_CategoriaXGastoMesQuery;
+    private Query<CategoriaXGastoMes> gastoMes_CategoriaXGastoMesQuery;
 
     public CategoriaXGastoMesDao(DaoConfig config) {
         super(config);
@@ -167,6 +171,34 @@ public class CategoriaXGastoMesDao extends AbstractDao<CategoriaXGastoMes, Long>
         return true;
     }
     
+    /** Internal query to resolve the "categoriaXGastoMes" to-many relationship of Categoria. */
+    public List<CategoriaXGastoMes> _queryCategoria_CategoriaXGastoMes(Long categoriaId) {
+        synchronized (this) {
+            if (categoria_CategoriaXGastoMesQuery == null) {
+                QueryBuilder<CategoriaXGastoMes> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.CategoriaId.eq(null));
+                categoria_CategoriaXGastoMesQuery = queryBuilder.build();
+            }
+        }
+        Query<CategoriaXGastoMes> query = categoria_CategoriaXGastoMesQuery.forCurrentThread();
+        query.setParameter(0, categoriaId);
+        return query.list();
+    }
+
+    /** Internal query to resolve the "categoriaXGastoMes" to-many relationship of GastoMes. */
+    public List<CategoriaXGastoMes> _queryGastoMes_CategoriaXGastoMes(Long gastoMesId) {
+        synchronized (this) {
+            if (gastoMes_CategoriaXGastoMesQuery == null) {
+                QueryBuilder<CategoriaXGastoMes> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.GastoMesId.eq(null));
+                gastoMes_CategoriaXGastoMesQuery = queryBuilder.build();
+            }
+        }
+        Query<CategoriaXGastoMes> query = gastoMes_CategoriaXGastoMesQuery.forCurrentThread();
+        query.setParameter(0, gastoMesId);
+        return query.list();
+    }
+
     private String selectDeep;
 
     protected String getSelectDeep() {

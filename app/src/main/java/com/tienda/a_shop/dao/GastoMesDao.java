@@ -28,6 +28,8 @@ public class GastoMesDao extends AbstractDao<GastoMes, Long> {
         public final static Property Archivado = new Property(1, boolean.class, "archivado", false, "ARCHIVADO");
     }
 
+    private DaoSession daoSession;
+
 
     public GastoMesDao(DaoConfig config) {
         super(config);
@@ -35,6 +37,7 @@ public class GastoMesDao extends AbstractDao<GastoMes, Long> {
     
     public GastoMesDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -71,6 +74,12 @@ public class GastoMesDao extends AbstractDao<GastoMes, Long> {
             stmt.bindLong(1, id);
         }
         stmt.bindLong(2, entity.getArchivado() ? 1L: 0L);
+    }
+
+    @Override
+    protected final void attachEntity(GastoMes entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
     }
 
     @Override
