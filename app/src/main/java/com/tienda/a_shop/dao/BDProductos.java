@@ -92,21 +92,29 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
         return gasto;
     }
 
-    public void guardarItemGasto(String nombre, int valor, long idProducto, int totalGasto) {
+    public void guardarItemGasto(String nombre, int valor, long categoriaXGastoMesId, int totalGasto) {
 
         com.tienda.a_shop.entities.Item item = getItemPorNombre(nombre);
 
         if (item == null) {
             int total = totalGasto + valor;
-            item = new com.tienda.a_shop.entities.Item(null, idProducto, nombre, totalGasto);
+            item = new com.tienda.a_shop.entities.Item(null, categoriaXGastoMesId, nombre, valor);
             app.getDaoSession().getItemDao().insert(item);
 
+            List<com.tienda.a_shop.entities.Item> listaItems = listaItems();
+
             com.tienda.a_shop.entities.CategoriaXGastoMes categoriaXGastoMes = app.getDaoSession().getCategoriaXGastoMesDao()
-                    .queryBuilder().where(CategoriaXGastoMesDao.Properties.Id.eq(idProducto)).unique();
+                    .queryBuilder().where(CategoriaXGastoMesDao.Properties.Id.eq(categoriaXGastoMesId)).unique();
 
             categoriaXGastoMes.setTotal(total);
             app.getDaoSession().getCategoriaXGastoMesDao().update(categoriaXGastoMes);
         }
+    }
+
+    public List<com.tienda.a_shop.entities.Item> listaItems() {
+        ItemDao itemDao = app.getDaoSession().getItemDao();
+        return itemDao.loadAll();
+
     }
 
     public List<com.tienda.a_shop.entities.CategoriaXGastoMes> listaProductos() {
