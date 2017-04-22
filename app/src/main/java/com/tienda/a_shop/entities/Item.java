@@ -131,4 +131,9 @@ public class Item {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getItemDao() : null;
     }
+
+    @Override
+    public String toString() {
+        return getNombre() + "     " + getValor();
+    }
 }
