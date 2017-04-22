@@ -37,7 +37,7 @@ public class ListaItemsProductosActivity extends Activity {
     private Button agregarItem;
     private Button editar;
     private Button cancelar;
-    private int idProducto;
+    private long idProducto;
     private BDProductos bdProductos;
     private int estimado;
     private NumberFormat formatter;
@@ -57,7 +57,7 @@ public class ListaItemsProductosActivity extends Activity {
         formatter = NumberFormat.getCurrencyInstance();
 
         items = new ArrayList<Item>();
-        idProducto = getIntent().getIntExtra("idProducto", 0);
+        idProducto = getIntent().getLongExtra("idProducto", 0L);
         String nombreProducto = getIntent().getStringExtra("nombreProducto");
         estimado = getIntent().getIntExtra("estimadoProducto", 0);
 

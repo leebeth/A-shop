@@ -65,121 +65,117 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
         return null;
     }
 
-    public void guardarProducto(String nombre, int estimado, int idGastoMes) {
+    public void guardarProducto(String nombre, int estimado, long idGastoMes) {
         com.tienda.a_shop.entities.Categoria categoria = getCategoriaPorNombre(nombre);
         if (categoria == null) {
             categoria = new com.tienda.a_shop.entities.Categoria(null, nombre, estimado);
             app.getDaoSession().getCategoriaDao().insert(categoria);
             categoria = getCategoriaPorNombre(nombre);
+            com.tienda.a_shop.entities.CategoriaXGastoMes categoriaGastoMes = new com.tienda.a_shop.entities.CategoriaXGastoMes(null, estimado, 0, categoria.getId(), idGastoMes);
+            categoriaGastoMes.setCategoria(categoria);
+            categoriaGastoMes.setGastoMes(app.getDaoSession().getGastoMesDao().load(idGastoMes));
+
+            app.getDaoSession().getCategoriaXGastoMesDao().insert(categoriaGastoMes);
         }
-        long idG = Long.parseLong(idGastoMes + "");
-        com.tienda.a_shop.entities.CategoriaXGastoMes categoriaGastoMes = new com.tienda.a_shop.entities.CategoriaXGastoMes(null, estimado, 0, categoria.getId(), idG);
-        categoriaGastoMes.setCategoria(categoria);
-        categoriaGastoMes.setGastoMes(app.getDaoSession().getGastoMesDao().load(idG));
 
-        app.getDaoSession().getCategoriaXGastoMesDao().insert(categoriaGastoMes);
+        /** //CategoriaDao.Properties.Nombre.eq(nombre)
+         SQLiteDatabase db = getReadableDatabase();
+         String query = "SELECT _id FROM categoria where nombre = '" + nombre + "'";
+         Cursor cursor = db.rawQuery(query, null);
+         int n = 0;
+         while (cursor.moveToNext()) {
+         n = cursor.getInt(0);
+         }
+         cursor.close();
+         db.close();
 
-       /** //CategoriaDao.Properties.Nombre.eq(nombre)
-        SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT _id FROM categoria where nombre = '" + nombre + "'";
-        Cursor cursor = db.rawQuery(query, null);
-        int n = 0;
-        while (cursor.moveToNext()) {
-            n = cursor.getInt(0);
-        }
-        cursor.close();
-        db.close();
+         SQLiteDatabase db2 = getWritableDatabase();
+         if (n == 0) {
+         query = "INSERT INTO categoria VALUES (null, '" + nombre + "', " + estimado + ")";
+         db2.execSQL(query);
+         db2.close();
 
-        SQLiteDatabase db2 = getWritableDatabase();
-        if (n == 0) {
-            query = "INSERT INTO categoria VALUES (null, '" + nombre + "', " + estimado + ")";
-            db2.execSQL(query);
-            db2.close();
-
-            //_id INTEGER, estimado INTEGER, total INTEGER, id_categoria INTEGER, id_gasto_mes INTEGER
-            db2 = getWritableDatabase();
-            query = "INSERT INTO categoria_gasto_mes VALUES (null, " + estimado + ", 0, " +
-                    "SELECT _id FROM categoria where nombre = '" + nombre + "', " + idGastoMes + ")";
-            db2.execSQL(query);
-            db2.close();
-        } else {
-            db2 = getWritableDatabase();
-            query = "INSERT INTO categoria_gasto_mes VALUES (null, " + estimado + ", 0, " +
-                    "SELECT _id FROM categoria where nombre = '" + nombre + "', " + idGastoMes + ")";
-            db2.execSQL(query);
-            db2.close();
-        }**/
+         //_id INTEGER, estimado INTEGER, total INTEGER, id_categoria INTEGER, id_gasto_mes INTEGER
+         db2 = getWritableDatabase();
+         query = "INSERT INTO categoria_gasto_mes VALUES (null, " + estimado + ", 0, " +
+         "SELECT _id FROM categoria where nombre = '" + nombre + "', " + idGastoMes + ")";
+         db2.execSQL(query);
+         db2.close();
+         } else {
+         db2 = getWritableDatabase();
+         query = "INSERT INTO categoria_gasto_mes VALUES (null, " + estimado + ", 0, " +
+         "SELECT _id FROM categoria where nombre = '" + nombre + "', " + idGastoMes + ")";
+         db2.execSQL(query);
+         db2.close();
+         }**/
     }
 
     public com.tienda.a_shop.entities.GastoMes getGastoActual() {
 
         com.tienda.a_shop.entities.GastoMes gasto = getGastoNoArchivado();
 
-        if(gasto == null)
-        {
-            gasto = new com.tienda.a_shop.entities.GastoMes(null,false);
+        if (gasto == null) {
+            gasto = new com.tienda.a_shop.entities.GastoMes(null, false);
             app.getDaoSession().insert(gasto);
 
             gasto = getGastoNoArchivado();
         }
 /**     GastoMes gastoMes = null;
-        SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT * FROM gasto_mes WHERE archivado = 0";
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.getCount() == 0) {
-            SQLiteDatabase db2 = getWritableDatabase();
-            query = "INSERT INTO gasto_mes VALUES (null, 0)";
-            db2.execSQL(query);
-            db2.close();
-        } else {
-            while (cursor.moveToNext()) {
-                gastoMes = new GastoMes(cursor.getInt(0), cursor.getInt(1) == 1);
-            }
-        }
-        cursor.close();
-        db.close();**/
+ SQLiteDatabase db = getReadableDatabase();
+ String query = "SELECT * FROM gasto_mes WHERE archivado = 0";
+ Cursor cursor = db.rawQuery(query, null);
+ if (cursor.getCount() == 0) {
+ SQLiteDatabase db2 = getWritableDatabase();
+ query = "INSERT INTO gasto_mes VALUES (null, 0)";
+ db2.execSQL(query);
+ db2.close();
+ } else {
+ while (cursor.moveToNext()) {
+ gastoMes = new GastoMes(cursor.getInt(0), cursor.getInt(1) == 1);
+ }
+ }
+ cursor.close();
+ db.close();**/
 
         return gasto;
     }
 
-    public void guardarItemGasto(String nombre, int valor, int idProducto, int totalGasto) {
+    public void guardarItemGasto(String nombre, int valor, long idProducto, int totalGasto) {
 
         com.tienda.a_shop.entities.Item item = getItemPorNombre(nombre);
 
-        if(item ==null)
-        {
+        if (item == null) {
             int total = totalGasto + valor;
-            long idC = Long.parseLong(idProducto +"");
-            item = new com.tienda.a_shop.entities.Item(null,idC,nombre,totalGasto);
+            item = new com.tienda.a_shop.entities.Item(null, idProducto, nombre, totalGasto);
             app.getDaoSession().getItemDao().insert(item);
 
             com.tienda.a_shop.entities.CategoriaXGastoMes categoriaXGastoMes = app.getDaoSession().getCategoriaXGastoMesDao()
-                    .queryBuilder().where(CategoriaXGastoMesDao.Properties.Id.eq(idC)).unique();
+                    .queryBuilder().where(CategoriaXGastoMesDao.Properties.Id.eq(idProducto)).unique();
 
             categoriaXGastoMes.setTotal(total);
 
             app.getDaoSession().getCategoriaXGastoMesDao().update(categoriaXGastoMes);
         }
 /**     SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT _id FROM item WHERE nombre ='" + nombre + "'";
-        Cursor cursor = db.rawQuery(query, null);
-        int n = 0;
-        while (cursor.moveToNext()) {
-            n = cursor.getInt(0);
-        }
-        cursor.close();
-        db.close();
+ String query = "SELECT _id FROM item WHERE nombre ='" + nombre + "'";
+ Cursor cursor = db.rawQuery(query, null);
+ int n = 0;
+ while (cursor.moveToNext()) {
+ n = cursor.getInt(0);
+ }
+ cursor.close();
+ db.close();
 
-        if (n == 0) {
-            int total = totalGasto + valor;
-            SQLiteDatabase db2 = getWritableDatabase();
-            db2.execSQL("INSERT INTO item VALUES ( null, '" + nombre + "', " + valor + ", " + idProducto + ")");
-            db2.close();
+ if (n == 0) {
+ int total = totalGasto + valor;
+ SQLiteDatabase db2 = getWritableDatabase();
+ db2.execSQL("INSERT INTO item VALUES ( null, '" + nombre + "', " + valor + ", " + idProducto + ")");
+ db2.close();
 
-            db2 = getWritableDatabase();
-            db2.execSQL("UPDATE categoria_gasto_mes SET total=" + total + " WHERE _id=" + idProducto);
-            db2.close();
-        } **/
+ db2 = getWritableDatabase();
+ db2.execSQL("UPDATE categoria_gasto_mes SET total=" + total + " WHERE _id=" + idProducto);
+ db2.close();
+ } **/
     }
 
     public List<com.tienda.a_shop.entities.CategoriaXGastoMes> listaProductos() {
@@ -221,23 +217,23 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
         return categoriaDao.loadAll();
 
         /**ArrayList<CategoriaXGastoMes> result = new ArrayList<CategoriaXGastoMes>();
-        SQLiteDatabase db = getReadableDatabase();
-        String query = "SELECT cat.*, gasto.*, cat_gasto.* FROM categoria_gasto_mes cat_gasto " +
-                "INNER JOIN categoria cat on cat._id = cat_gasto.id_categoria " +
-                "INNER JOIN gasto_mes gasto on gasto._id = cat_gasto.id_gasto_mes ";
-        Cursor cursor = db.rawQuery(query, null);
-        while (cursor.moveToNext()) {
-            Categoria categoria = new Categoria(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
-            GastoMes gastoMes = new GastoMes(cursor.getInt(3), cursor.getInt(4) == 1);
-            CategoriaXGastoMes categoriaXGastoMes = new CategoriaXGastoMes(cursor.getInt(5), cursor.getInt(6), categoria, gastoMes);
-            result.add(categoriaXGastoMes);
-        }
-        cursor.close();
-        db.close();**/
+         SQLiteDatabase db = getReadableDatabase();
+         String query = "SELECT cat.*, gasto.*, cat_gasto.* FROM categoria_gasto_mes cat_gasto " +
+         "INNER JOIN categoria cat on cat._id = cat_gasto.id_categoria " +
+         "INNER JOIN gasto_mes gasto on gasto._id = cat_gasto.id_gasto_mes ";
+         Cursor cursor = db.rawQuery(query, null);
+         while (cursor.moveToNext()) {
+         Categoria categoria = new Categoria(cursor.getInt(0), cursor.getString(1), cursor.getInt(2));
+         GastoMes gastoMes = new GastoMes(cursor.getInt(3), cursor.getInt(4) == 1);
+         CategoriaXGastoMes categoriaXGastoMes = new CategoriaXGastoMes(cursor.getInt(5), cursor.getInt(6), categoria, gastoMes);
+         result.add(categoriaXGastoMes);
+         }
+         cursor.close();
+         db.close();**/
 
     }
 
-    public List<com.tienda.a_shop.entities.Item> listaDetalleGasto(int idProducto) {
+    public List<com.tienda.a_shop.entities.Item> listaDetalleGasto(long idProducto) {
         /*ArrayList<Item> result = new ArrayList<Item>();
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM item WHERE id_categoria_gasto = " + idProducto, null);
@@ -324,13 +320,11 @@ public class BDProductos /*extends SQLiteOpenHelper*/ {
                 .where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
     }
 
-    public com.tienda.a_shop.entities.GastoMes getGastoNoArchivado()
-    {
+    public com.tienda.a_shop.entities.GastoMes getGastoNoArchivado() {
         return app.getDaoSession().getGastoMesDao().queryBuilder().where(GastoMesDao.Properties.Archivado.eq(false)).unique();
     }
 
-    public com.tienda.a_shop.entities.Item getItemPorNombre(String nombre)
-    {
+    public com.tienda.a_shop.entities.Item getItemPorNombre(String nombre) {
         return app.getDaoSession().getItemDao().queryBuilder().where(ItemDao.Properties.Nombre.eq(nombre)).unique();
     }
 }

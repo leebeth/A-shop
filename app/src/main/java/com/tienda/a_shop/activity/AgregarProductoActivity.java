@@ -38,7 +38,7 @@ public class AgregarProductoActivity extends Activity
             public void onClick(View view) {
                 Intent i = new Intent(AgregarProductoActivity.this, AgregarProductoActivity.class);
                 int estimado = txtEstimado.getText().toString().equals("")? 0 : Integer.parseInt(txtEstimado.getText().toString());
-                dbProductos.guardarProducto(txtNombre.getText().toString(),estimado, getIntent().getIntExtra("idGastoMes",0)  );
+                dbProductos.guardarProducto(txtNombre.getText().toString(),estimado, getIntent().getLongExtra("idGastoMes",0L)  );
                 setResult(Activity.RESULT_OK, i);
             }
         });
