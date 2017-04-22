@@ -22,40 +22,13 @@ import java.util.List;
 /**
  * Created by Lorena on 16/10/2014.
  */
-public class BDProductos /*extends SQLiteOpenHelper*/ {
+public class BDProductos {
 
     private IApp app;
 
     public BDProductos(Context context, IApp app) {
-        //super(context, "Productos", null, 1);
         this.app = app;
     }
-/*
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        // Creacion tabla Categoria
-        db.execSQL("CREATE TABLE categoria (_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, estimado INTEGER)");
-
-        //Creación tabla Gasto Mes
-        db.execSQL("CREATE TABLE gasto_mes (_id INTEGER PRIMARY KEY AUTOINCREMENT, archivado INTEGER)");
-
-        //Creación tabla Categoria x Gasto Mes
-        db.execSQL("CREATE TABLE categoria_gasto_mes (" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, estimado INTEGER, total INTEGER, id_categoria INTEGER, id_gasto_mes INTEGER, " +
-                "FOREIGN KEY (id_categoria) REFERENCES categoria(_id), " +
-                "FOREIGN KEY (id_gasto_mes) REFERENCES gasto_mes(_id))");
-
-        // Creacion tabla Item
-        db.execSQL("CREATE TABLE item (" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, valor INTEGER, id_categoria_gasto INTEGER, " +
-                "FOREIGN KEY (id_categoria_gasto) REFERENCES Producto(_id))");
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-
-    }*/
 
     public SQLiteDatabase getReadableDatabase() {
         return null;
