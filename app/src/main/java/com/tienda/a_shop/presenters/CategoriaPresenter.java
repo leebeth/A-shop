@@ -43,11 +43,9 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
 
     @Override
     public void agregarCategoria(String nombre, int estimado) {
-        long idGastoMes = 0L; //TODO: obtener id del gasto mes actual
         Categoria categoria = new Categoria();
         categoria.setNombre(nombre);
         categoria.setEstimado(estimado);
-        categoria.setId(idGastoMes);
         categoriaManager.agregarCategoria(categoria);
     }
 

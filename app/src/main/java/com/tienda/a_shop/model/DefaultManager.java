@@ -10,7 +10,7 @@ import com.tienda.a_shop.presenters.interfaces.IApp;
 
 public abstract class DefaultManager {
 
-    protected IApp app;
+    private IApp app;
 
     public DefaultManager(IApp app){
         this.app = app;

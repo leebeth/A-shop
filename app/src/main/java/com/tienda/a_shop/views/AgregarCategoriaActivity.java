@@ -22,13 +22,15 @@ public class AgregarCategoriaActivity extends DefaultViewOptions
     private EditText txtNombre;
     private EditText txtEstimado;
 
-    private CategoriaPresenter categoriaPresenter = new CategoriaPresenter((IApp) getApplication());
+    private CategoriaPresenter categoriaPresenter;
 
     @Override
     public void onCreate(Bundle b)
     {
         super.onCreate(b);
         setContentView(R.layout.activity_agregar_producto);
+
+        categoriaPresenter = new CategoriaPresenter((IApp) getApplication(), this);
 
         txtNombre = (EditText)findViewById(R.id.txtNombre);
         txtEstimado = (EditText)findViewById(R.id.txtEstimado);

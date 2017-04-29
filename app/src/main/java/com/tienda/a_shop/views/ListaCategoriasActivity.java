@@ -23,6 +23,7 @@ import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
+import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
  * Created by Lorena on 10/10/2014.
  * Lista de Categorias
  */
-public class ListaCategoriasActivity extends Activity {
+public class ListaCategoriasActivity extends DefaultViewOptions {
 
     private static final String TAG = "ListaCategoriasActivity";
 
@@ -48,12 +49,14 @@ public class ListaCategoriasActivity extends Activity {
     private ReportGeneratorTask task;
     private boolean writeExternalStorage;
     private com.tienda.a_shop.entities.GastoMes gastoActual;
-    private ICategoriaPresenter categoriaPresenter = new CategoriaPresenter((IApp)getApplication());
+    private ICategoriaPresenter categoriaPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        categoriaPresenter = new CategoriaPresenter((IApp)getApplication(), this);
 
         bdProductos = new BDProductos(getApplicationContext(), (App)getApplication());
         listaProductos = (ListView) findViewById(R.id.listaProductos);
