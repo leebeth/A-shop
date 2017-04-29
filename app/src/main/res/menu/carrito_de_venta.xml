@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity.ListaItemsProductosActivity" >
+    tools:context=".views.ListaItemsProductosActivity" >
     <item android:id="@+id/action_editar"
         android:title="@string/Editar" />
     <item android:id="@+id/action_eliminar"

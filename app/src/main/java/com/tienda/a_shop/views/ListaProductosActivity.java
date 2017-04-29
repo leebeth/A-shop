@@ -1,4 +1,4 @@
-package com.tienda.a_shop.activity;
+package com.tienda.a_shop.views;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
-import com.tienda.a_shop.domain.CategoriaXGastoMes;
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
 

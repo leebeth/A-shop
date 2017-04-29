@@ -8,11 +8,11 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.tienda.a_shop.R;
-import com.tienda.a_shop.activity.ListaProductosActivity;
-import com.tienda.a_shop.domain.CategoriaXGastoMes;
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
+import com.tienda.a_shop.views.ListaProductosActivity;
 import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.exceptions.StorageIsNotWritableException;
-import com.tienda.a_shop.manager.ReportGenerator;
+import com.tienda.a_shop.presenters.ReportGenerator;
 import com.tienda.a_shop.utils.DialogUtil;
 import com.tienda.a_shop.utils.PermissionsUtil;
 

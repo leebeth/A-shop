@@ -1,22 +1,13 @@
 package com.tienda.a_shop.dao;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-import com.tienda.a_shop.activity.VentaActivity;
-import com.tienda.a_shop.domain.Categoria;
-import com.tienda.a_shop.domain.CategoriaXGastoMes;
-import com.tienda.a_shop.domain.GastoMes;
-import com.tienda.a_shop.domain.Item;
-import com.tienda.a_shop.interfaces.IApp;
+import com.tienda.a_shop.presenters.interfaces.IApp;
 
-import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.query.Join;
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

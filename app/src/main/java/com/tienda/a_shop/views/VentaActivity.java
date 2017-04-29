@@ -1,4 +1,4 @@
-package com.tienda.a_shop.activity;
+package com.tienda.a_shop.views;
 
 /**
  * Created by Miguel on 19/10/2014.

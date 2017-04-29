@@ -1,12 +1,12 @@
-package com.tienda.a_shop.manager;
+package com.tienda.a_shop.presenters;
 
 import android.app.Activity;
 import android.os.Environment;
 import android.util.Log;
 
 import com.tienda.a_shop.dao.BDProductos;
-import com.tienda.a_shop.domain.CategoriaXGastoMes;
-import com.tienda.a_shop.domain.Item;
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
+import com.tienda.a_shop.entities.Item;
 import com.tienda.a_shop.exceptions.InternalException;
 
 import org.apache.commons.io.FileUtils;

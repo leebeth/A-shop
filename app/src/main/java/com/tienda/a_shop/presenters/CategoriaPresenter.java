@@ -1,11 +1,10 @@
-package com.tienda.a_shop.manager;
+package com.tienda.a_shop.presenters;
 
-import com.tienda.a_shop.interfaces.IApp;
+import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.dao.CategoriaDao;
 import com.tienda.a_shop.entities.Categoria;
-import com.tienda.a_shop.interfaces.callbacks.ICategoríaCallback;
-import com.tienda.a_shop.interfaces.callbacks.IDefaultCallback;
-import com.tienda.a_shop.interfaces.presenters.ICategoríaManager;
+import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
+import com.tienda.a_shop.presenters.interfaces.presenters.ICategoríaPresenter;
 
 import java.util.List;
 
@@ -13,11 +12,11 @@ import java.util.List;
  * Created by Lore on 09/04/2017.
  */
 
-public class CategoriaManager extends DefaultManager implements ICategoríaManager, IDefaultCallback<Categoria> {
+public class CategoriaPresenter extends DefaultPresenter implements ICategoríaPresenter, IDefaultCallback<Categoria> {
 
     private CategoriaDao categoriaDao;
 
-    public CategoriaManager(IApp app) {
+    public CategoriaPresenter(IApp app) {
         super(app);
     }
 

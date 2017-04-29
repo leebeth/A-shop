@@ -1,4 +1,4 @@
-package com.tienda.a_shop.interfaces;
+package com.tienda.a_shop.presenters.interfaces;
 
 import com.tienda.a_shop.dao.DaoSession;
 

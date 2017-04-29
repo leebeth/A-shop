@@ -1,4 +1,4 @@
-package com.tienda.a_shop.activity;
+package com.tienda.a_shop.views;
 
 import android.content.Intent;
 import android.os.Bundle;

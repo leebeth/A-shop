@@ -1,4 +1,4 @@
-package com.tienda.a_shop.interfaces.callbacks;
+package com.tienda.a_shop.presenters.interfaces.callbacks;
 
 /**
  * Created by Lore on 09/04/2017.
