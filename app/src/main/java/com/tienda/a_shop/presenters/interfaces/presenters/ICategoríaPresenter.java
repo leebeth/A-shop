@@ -6,5 +6,5 @@ package com.tienda.a_shop.presenters.interfaces.presenters;
 
 public interface ICategoríaPresenter {
 
-    void actualizarCategoría(String nombre, int estimado);
+    void actualizarCategoría(String nombreN, String nombre, int estimado);
 }

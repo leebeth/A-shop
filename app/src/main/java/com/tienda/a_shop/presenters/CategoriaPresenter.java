@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by Lore on 09/04/2017.
+ * Presenter de Categoria
  */
 
 public class CategoriaPresenter extends DefaultPresenter implements ICategoríaPresenter, IDefaultCallback<Categoria> {
@@ -25,11 +26,13 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoríaP
         categoriaDao = app.getDaoSession().getCategoriaDao();
     }
 
-    public void actualizarCategoría(String nombre, int estimado){
+    public void actualizarCategoría(String nombreN, String nombre, int estimado){
+
+
         Categoria categoria = new Categoria();
         categoria.setNombre(nombre);
         categoria.setEstimado(estimado);
-
+        //bdProductos.editarProducto(nombreN, nombre, estimado);
         categoriaDao.update(categoria);
     }
 

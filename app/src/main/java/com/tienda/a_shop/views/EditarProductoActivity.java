@@ -9,6 +9,9 @@ import android.widget.EditText;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
+import com.tienda.a_shop.presenters.CategoriaPresenter;
+import com.tienda.a_shop.presenters.interfaces.IApp;
+import com.tienda.a_shop.presenters.interfaces.presenters.ICategoríaPresenter;
 
 /**
  * Created by Lorena on 18/10/2014.
@@ -20,14 +23,13 @@ public class EditarProductoActivity extends Activity
     private Button butAceptar;
     private Button butCancelar;
 
-    private BDProductos dbProductos;
-
     private String nombre;
     @Override
     public void onCreate(Bundle b)
     {
         super.onCreate(b);
         setContentView(R.layout.activity_agregar_producto);
+
         txtNombre = (EditText)findViewById(R.id.txtNombre);
         txtEstimado = (EditText)findViewById(R.id.txtEstimado);
 

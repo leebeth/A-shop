@@ -18,6 +18,9 @@ import android.widget.TextView;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
+import com.tienda.a_shop.presenters.CategoriaPresenter;
+import com.tienda.a_shop.presenters.interfaces.IApp;
+import com.tienda.a_shop.presenters.interfaces.presenters.ICategoríaPresenter;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
 
@@ -45,6 +48,7 @@ public class ListaCategoriasActivity extends Activity {
     private ReportGeneratorTask task;
     private boolean writeExternalStorage;
     private com.tienda.a_shop.entities.GastoMes gastoActual;
+    private ICategoríaPresenter categoriaPresenter = new CategoriaPresenter((IApp)getApplication());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +148,7 @@ public class ListaCategoriasActivity extends Activity {
     }
 
     private void editarProducto(String nombreN, String nombre, int estimado) {
-        bdProductos.editarProducto(nombreN, nombre, estimado);
+        categoriaPresenter.actualizarCategoría(nombreN, nombre, estimado);
         actualizarLista();
     }
 
