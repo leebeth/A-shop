@@ -8,10 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.tienda.a_shop.R;
-import com.tienda.a_shop.dao.BDProductos;
-import com.tienda.a_shop.presenters.CategoriaPresenter;
-import com.tienda.a_shop.presenters.interfaces.IApp;
-import com.tienda.a_shop.presenters.interfaces.presenters.ICategoríaPresenter;
 
 /**
  * Created by Lorena on 18/10/2014.

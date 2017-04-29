@@ -4,11 +4,12 @@ import com.tienda.a_shop.presenters.interfaces.IApp;
 
 /**
  * Created by Lore on 09/04/2017.
+ * DefaultPresenter
  */
 
-public abstract class DefaultPresenter {
+abstract class DefaultPresenter {
 
-    public DefaultPresenter(IApp app){
+    DefaultPresenter(IApp app){
         initManager(app);
     }
 

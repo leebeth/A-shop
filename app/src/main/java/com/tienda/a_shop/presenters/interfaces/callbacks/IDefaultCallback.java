@@ -9,6 +9,7 @@ import java.util.List;
 public interface IDefaultCallback<T> {
 
     void onSuccess(List<T> elements);
+    void onSuccess(String message);
     void onError(String error);
 
 }

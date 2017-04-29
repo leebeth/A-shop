@@ -20,7 +20,7 @@ import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.presenters.CategoriaPresenter;
 import com.tienda.a_shop.presenters.interfaces.IApp;
-import com.tienda.a_shop.presenters.interfaces.presenters.ICategoríaPresenter;
+import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
 
@@ -48,7 +48,7 @@ public class ListaCategoriasActivity extends Activity {
     private ReportGeneratorTask task;
     private boolean writeExternalStorage;
     private com.tienda.a_shop.entities.GastoMes gastoActual;
-    private ICategoríaPresenter categoriaPresenter = new CategoriaPresenter((IApp)getApplication());
+    private ICategoriaPresenter categoriaPresenter = new CategoriaPresenter((IApp)getApplication());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

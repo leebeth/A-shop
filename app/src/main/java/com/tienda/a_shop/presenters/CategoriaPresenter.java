@@ -1,11 +1,12 @@
 package com.tienda.a_shop.presenters;
 
 import com.tienda.a_shop.model.CategoriaManager;
+import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
-import com.tienda.a_shop.dao.CategoriaDao;
 import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
-import com.tienda.a_shop.presenters.interfaces.presenters.ICategoríaPresenter;
+import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
+import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
 
 import java.util.List;
 
@@ -14,17 +15,19 @@ import java.util.List;
  * Presenter de Categoria
  */
 
-public class CategoriaPresenter extends DefaultPresenter implements ICategoríaPresenter, IDefaultCallback<Categoria> {
+public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPresenter, IDefaultCallback<Categoria> {
 
-    private CategoriaManager categoriaManager;
+    private ICategoriaManager categoriaManager;
+    private DefaultViewOptions viewOptions;
 
-    public CategoriaPresenter(IApp app) {
+    public CategoriaPresenter(IApp app, DefaultViewOptions viewOptions) {
         super(app);
+        this.viewOptions = viewOptions;
     }
 
     @Override
     void initManager(IApp app) {
-        categoriaManager = new CategoriaManager(app);
+        categoriaManager = new CategoriaManager(app, this);
     }
 
     public void actualizarCategoría(String nombreN, String nombre, int estimado){
@@ -44,8 +47,8 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoríaP
         Categoria categoria = new Categoria();
         categoria.setNombre(nombre);
         categoria.setEstimado(estimado);
-
-        //categoriaDao.insert(categoria);
+        categoria.setId(idGastoMes);
+        categoriaManager.agregarCategoria(categoria);
     }
 
     @Override
@@ -54,7 +57,12 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoríaP
     }
 
     @Override
-    public void onError(String error) {
+    public void onSuccess(String message) {
+        viewOptions.showToastShort(message);
+    }
 
+    @Override
+    public void onError(String error) {
+        viewOptions.showToastShort(error);
     }
 }
