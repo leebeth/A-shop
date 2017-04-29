@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AgregarProductoActivity"
+            android:name=".activity.AgregarCategoriaActivity"
             android:label="@string/title_activity_agregar_producto"></activity>
         <activity
             android:name=".activity.ListaItemsProductosActivity"

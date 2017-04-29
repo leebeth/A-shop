@@ -38,7 +38,7 @@ public class AgregarItemGastoActivity extends Activity {
         butAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AgregarItemGastoActivity.this, AgregarProductoActivity.class);
+                Intent i = new Intent(AgregarItemGastoActivity.this, AgregarCategoriaActivity.class);
                 int valor = txtValor.getText().toString().equals("")?0: Integer.parseInt(txtValor.getText().toString());
                 if(valor !=0)
                 {

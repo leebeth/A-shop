@@ -13,7 +13,7 @@ import com.tienda.a_shop.dao.BDProductos;
 /**
  * Created by Lorena on 10/10/2014.
  */
-public class AgregarProductoActivity extends Activity
+public class AgregarCategoriaActivity extends Activity
 {
     private EditText txtNombre;
     private EditText txtEstimado;
@@ -36,7 +36,7 @@ public class AgregarProductoActivity extends Activity
         butAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AgregarProductoActivity.this, AgregarProductoActivity.class);
+                Intent i = new Intent(AgregarCategoriaActivity.this, AgregarCategoriaActivity.class);
                 int estimado = txtEstimado.getText().toString().equals("")? 0 : Integer.parseInt(txtEstimado.getText().toString());
                 dbProductos.guardarProducto(txtNombre.getText().toString(),estimado, getIntent().getLongExtra("idGastoMes",0L)  );
                 setResult(Activity.RESULT_OK, i);

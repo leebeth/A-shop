@@ -18,13 +18,10 @@ import android.widget.TextView;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.domain.CategoriaXGastoMes;
-import com.tienda.a_shop.domain.GastoMes;
-import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,7 +88,7 @@ public class ListaProductosActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ListaProductosActivity.this, AgregarProductoActivity.class);
+                Intent i = new Intent(ListaProductosActivity.this, AgregarCategoriaActivity.class);
                 i.putExtra("idGastoMes", gastoActual.getId());
                 startActivityForResult(i, REQUEST_ADD);
             }
