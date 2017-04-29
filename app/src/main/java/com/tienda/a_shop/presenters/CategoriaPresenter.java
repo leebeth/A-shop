@@ -1,5 +1,6 @@
 package com.tienda.a_shop.presenters;
 
+import com.tienda.a_shop.model.CategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.dao.CategoriaDao;
 import com.tienda.a_shop.entities.Categoria;
@@ -15,15 +16,15 @@ import java.util.List;
 
 public class CategoriaPresenter extends DefaultPresenter implements ICategoríaPresenter, IDefaultCallback<Categoria> {
 
-    private CategoriaDao categoriaDao;
+    private CategoriaManager categoriaManager;
 
     public CategoriaPresenter(IApp app) {
         super(app);
     }
 
     @Override
-    void initDao() {
-        categoriaDao = app.getDaoSession().getCategoriaDao();
+    void initManager(IApp app) {
+        categoriaManager = new CategoriaManager(app);
     }
 
     public void actualizarCategoría(String nombreN, String nombre, int estimado){
@@ -33,7 +34,18 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoríaP
         categoria.setNombre(nombre);
         categoria.setEstimado(estimado);
         //bdProductos.editarProducto(nombreN, nombre, estimado);
-        categoriaDao.update(categoria);
+        //categoriaDao.update(categoria);
+
+    }
+
+    @Override
+    public void agregarCategoria(String nombre, int estimado) {
+        long idGastoMes = 0L; //TODO: obtener id del gasto mes actual
+        Categoria categoria = new Categoria();
+        categoria.setNombre(nombre);
+        categoria.setEstimado(estimado);
+
+        //categoriaDao.insert(categoria);
     }
 
     @Override

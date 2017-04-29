@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
+import com.tienda.a_shop.presenters.CategoriaPresenter;
+import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
 
 /**
@@ -19,31 +21,30 @@ public class AgregarCategoriaActivity extends DefaultViewOptions
 {
     private EditText txtNombre;
     private EditText txtEstimado;
-    private Button butAceptar;
-    private Button butCancelar;
 
-    private BDProductos dbProductos;
+    private CategoriaPresenter categoriaPresenter = new CategoriaPresenter((IApp) getApplication());
 
     @Override
     public void onCreate(Bundle b)
     {
         super.onCreate(b);
         setContentView(R.layout.activity_agregar_producto);
+
         txtNombre = (EditText)findViewById(R.id.txtNombre);
         txtEstimado = (EditText)findViewById(R.id.txtEstimado);
-        butAceptar = (Button)findViewById(R.id.butAceptar);
-        butCancelar=(Button)findViewById(R.id.butCancelar);
+        Button butAceptar = (Button)findViewById(R.id.butAceptar);
+        Button butCancelar=(Button)findViewById(R.id.butCancelar);
 
-        dbProductos = new BDProductos(getApplicationContext(), (App)getApplication());
         butAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(AgregarCategoriaActivity.this, AgregarCategoriaActivity.class);
                 int estimado = txtEstimado.getText().toString().equals("")? 0 : Integer.parseInt(txtEstimado.getText().toString());
-                dbProductos.guardarProducto(txtNombre.getText().toString(),estimado, getIntent().getLongExtra("idGastoMes",0L)  );
+                categoriaPresenter.agregarCategoria(txtNombre.getText().toString(), estimado);
                 setResult(Activity.RESULT_OK, i);
             }
         });
+
         butCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

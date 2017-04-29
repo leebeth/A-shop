@@ -8,12 +8,9 @@ import com.tienda.a_shop.presenters.interfaces.IApp;
 
 public abstract class DefaultPresenter {
 
-    protected IApp app;
-
     public DefaultPresenter(IApp app){
-        this.app = app;
-        initDao();
+        initManager(app);
     }
 
-    abstract void initDao();
+    abstract void initManager(IApp app);
 }
