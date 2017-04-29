@@ -27,7 +27,7 @@ android {
 
 greendao {
     schemaVersion 1
-    daoPackage 'com.tienda.a_shop.dao'
+    daoPackage 'com.tienda.a_shop.dao.interfaces'
     targetGenDir 'src/main/java'
 }
 

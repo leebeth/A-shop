@@ -9,11 +9,12 @@ import org.greenrobot.greendao.annotation.ToOne;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import com.tienda.a_shop.dao.DaoSession;
-import com.tienda.a_shop.dao.ItemDao;
-import com.tienda.a_shop.dao.GastoMesDao;
-import com.tienda.a_shop.dao.CategoriaDao;
-import com.tienda.a_shop.dao.CategoriaXGastoMesDao;
+
+import com.tienda.a_shop.dao.interfaces.DaoSession;
+import com.tienda.a_shop.dao.interfaces.ItemDao;
+import com.tienda.a_shop.dao.interfaces.GastoMesDao;
+import com.tienda.a_shop.dao.interfaces.CategoriaDao;
+import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
 
 /**
  * Created by Lorena on 08/04/2017.
@@ -233,15 +234,15 @@ public class CategoriaXGastoMes {
         myDao.update(this);
     }
 
+    @Override
+    public String toString() {
+        return getCategoria().getNombre() +"     " + total;
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 226230319)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCategoriaXGastoMesDao() : null;
-    }
-
-    @Override
-    public String toString() {
-        return getCategoria().getNombre() +"     " + total;
     }
 }

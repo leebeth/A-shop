@@ -8,4 +8,5 @@ import com.tienda.a_shop.entities.Categoria;
 
 public interface ICategoriaManager {
     void agregarCategoria(Categoria categoria);
+    void editarCategoria(Categoria categoria, String nombre);
 }

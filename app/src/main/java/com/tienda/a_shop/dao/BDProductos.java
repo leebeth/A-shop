@@ -3,6 +3,14 @@ package com.tienda.a_shop.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.tienda.a_shop.dao.interfaces.CategoriaDao;
+import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
+import com.tienda.a_shop.dao.interfaces.GastoMesDao;
+import com.tienda.a_shop.dao.interfaces.ItemDao;
+import com.tienda.a_shop.entities.Categoria;
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
+import com.tienda.a_shop.entities.GastoMes;
+import com.tienda.a_shop.entities.Item;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 
 import org.greenrobot.greendao.query.Join;
@@ -30,12 +38,12 @@ public class BDProductos {
     }
 
     public void guardarProducto(String nombre, int estimado, long idGastoMes) {
-        com.tienda.a_shop.entities.Categoria categoria = getCategoriaPorNombre(nombre);
+        Categoria categoria = getCategoriaPorNombre(nombre);
         if (categoria == null) {
-            categoria = new com.tienda.a_shop.entities.Categoria(null, nombre, estimado);
+            categoria = new Categoria(null, nombre, estimado);
             app.getDaoSession().getCategoriaDao().insert(categoria);
             categoria = getCategoriaPorNombre(nombre);
-            com.tienda.a_shop.entities.CategoriaXGastoMes categoriaGastoMes = new com.tienda.a_shop.entities.CategoriaXGastoMes(null, estimado, 0, categoria.getId(), idGastoMes);
+            CategoriaXGastoMes categoriaGastoMes = new CategoriaXGastoMes(null, estimado, 0, categoria.getId(), idGastoMes);
             categoriaGastoMes.setCategoria(categoria);
             categoriaGastoMes.setGastoMes(app.getDaoSession().getGastoMesDao().load(idGastoMes));
 
@@ -43,12 +51,12 @@ public class BDProductos {
         }
     }
 
-    public com.tienda.a_shop.entities.GastoMes getGastoActual() {
+    public GastoMes getGastoActual() {
 
-        com.tienda.a_shop.entities.GastoMes gasto = getGastoNoArchivado();
+        GastoMes gasto = getGastoNoArchivado();
 
         if (gasto == null) {
-            gasto = new com.tienda.a_shop.entities.GastoMes(null, false);
+            gasto = new GastoMes(null, false);
             app.getDaoSession().insert(gasto);
 
             gasto = getGastoNoArchivado();
@@ -58,16 +66,16 @@ public class BDProductos {
 
     public void guardarItemGasto(String nombre, int valor, long categoriaXGastoMesId, int totalGasto) {
 
-        com.tienda.a_shop.entities.Item item = getItemPorNombre(nombre);
+        Item item = getItemPorNombre(nombre);
 
         if (item == null) {
             int total = totalGasto + valor;
-            item = new com.tienda.a_shop.entities.Item(null, categoriaXGastoMesId, nombre, valor);
+            item = new Item(null, categoriaXGastoMesId, nombre, valor);
             app.getDaoSession().getItemDao().insert(item);
 
-            List<com.tienda.a_shop.entities.Item> listaItems = listaItems();
+            List<Item> listaItems = listaItems();
 
-            com.tienda.a_shop.entities.CategoriaXGastoMes categoriaXGastoMes = app.getDaoSession().getCategoriaXGastoMesDao()
+            CategoriaXGastoMes categoriaXGastoMes = app.getDaoSession().getCategoriaXGastoMesDao()
                     .queryBuilder().where(CategoriaXGastoMesDao.Properties.Id.eq(categoriaXGastoMesId)).unique();
 
             categoriaXGastoMes.setTotal(total);
@@ -75,31 +83,31 @@ public class BDProductos {
         }
     }
 
-    public List<com.tienda.a_shop.entities.Item> listaItems() {
+    public List<Item> listaItems() {
         ItemDao itemDao = app.getDaoSession().getItemDao();
         return itemDao.loadAll();
 
     }
 
-    public List<com.tienda.a_shop.entities.CategoriaXGastoMes> listaProductos() {
+    public List<CategoriaXGastoMes> listaProductos() {
         CategoriaXGastoMesDao categoriaDao = app.getDaoSession().getCategoriaXGastoMesDao();
         return categoriaDao.loadAll();
             }
 
-    public List<com.tienda.a_shop.entities.Item> listaDetalleGasto(long idProducto) {
+    public List<Item> listaDetalleGasto(long idProducto) {
                 ItemDao itemDao = app.getDaoSession().getItemDao();
         return itemDao.queryBuilder().where(ItemDao.Properties.CategoriaXGastoMesId.eq(idProducto)).list();
 
     }
 
-    public com.tienda.a_shop.entities.CategoriaXGastoMes buscarProducto(String nombre) {
+    public CategoriaXGastoMes buscarProducto(String nombre) {
           CategoriaXGastoMesDao categoriaDao = app.getDaoSession().getCategoriaXGastoMesDao();
 
-        QueryBuilder<com.tienda.a_shop.entities.CategoriaXGastoMes> qb =
+        QueryBuilder<CategoriaXGastoMes> qb =
                 categoriaDao.queryBuilder();
 
-        Join categoria = qb.join(com.tienda.a_shop.entities.Categoria.class, CategoriaDao.Properties.Id);
-        Join gasto_mes = qb.join(com.tienda.a_shop.entities.GastoMes.class, GastoMesDao.Properties.Id);
+        Join categoria = qb.join(Categoria.class, CategoriaDao.Properties.Id);
+        Join gasto_mes = qb.join(GastoMes.class, GastoMesDao.Properties.Id);
 
         return categoriaDao.load(qb.unique().getCategoriaId());
     }
@@ -107,7 +115,7 @@ public class BDProductos {
     public void eliminarProducto(String nombre) {
         CategoriaDao categoriaDao = app.getDaoSession().getCategoriaDao();
 
-        com.tienda.a_shop.entities.Categoria categoria =
+        Categoria categoria =
                 categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
 
         categoriaDao.delete(categoria);
@@ -117,7 +125,7 @@ public class BDProductos {
     public void editarProducto(String nombreN, String nombre, int estimado) {
           CategoriaDao categoriaDao = app.getDaoSession().getCategoriaDao();
 
-        com.tienda.a_shop.entities.Categoria categoria =
+        Categoria categoria =
                 categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
 
         categoria.setNombre(nombreN);
@@ -126,16 +134,16 @@ public class BDProductos {
         categoriaDao.update(categoria);
     }
 
-    public com.tienda.a_shop.entities.Categoria getCategoriaPorNombre(String nombre) {
+    public Categoria getCategoriaPorNombre(String nombre) {
         return app.getDaoSession().getCategoriaDao().queryBuilder()
                 .where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
     }
 
-    public com.tienda.a_shop.entities.GastoMes getGastoNoArchivado() {
+    public GastoMes getGastoNoArchivado() {
         return app.getDaoSession().getGastoMesDao().queryBuilder().where(GastoMesDao.Properties.Archivado.eq(false)).unique();
     }
 
-    public com.tienda.a_shop.entities.Item getItemPorNombre(String nombre) {
+    public Item getItemPorNombre(String nombre) {
         return app.getDaoSession().getItemDao().queryBuilder().where(ItemDao.Properties.Nombre.eq(nombre)).unique();
     }
 }

@@ -7,9 +7,10 @@ import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.List;
 import org.greenrobot.greendao.DaoException;
-import com.tienda.a_shop.dao.DaoSession;
-import com.tienda.a_shop.dao.CategoriaXGastoMesDao;
-import com.tienda.a_shop.dao.GastoMesDao;
+
+import com.tienda.a_shop.dao.interfaces.DaoSession;
+import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
+import com.tienda.a_shop.dao.interfaces.GastoMesDao;
 
 /**
  * Created by Lorena on 08/04/2017.

@@ -5,9 +5,10 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.DaoException;
-import com.tienda.a_shop.dao.DaoSession;
-import com.tienda.a_shop.dao.CategoriaXGastoMesDao;
-import com.tienda.a_shop.dao.ItemDao;
+
+import com.tienda.a_shop.dao.interfaces.DaoSession;
+import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
+import com.tienda.a_shop.dao.interfaces.ItemDao;
 
 /**
  * Created by Lorena on 08/04/2017.
@@ -125,15 +126,14 @@ public class Item {
         }
         myDao.update(this);
     }
+    @Override
+    public String toString() {
+        return getNombre() + "     " + getValor();
+    }
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 881068859)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getItemDao() : null;
-    }
-
-    @Override
-    public String toString() {
-        return getNombre() + "     " + getValor();
     }
 }

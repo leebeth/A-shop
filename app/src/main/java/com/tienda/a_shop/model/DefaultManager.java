@@ -1,6 +1,6 @@
 package com.tienda.a_shop.model;
 
-import com.tienda.a_shop.dao.DaoSession;
+import com.tienda.a_shop.dao.interfaces.DaoSession;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 
 /**
@@ -10,7 +10,7 @@ import com.tienda.a_shop.presenters.interfaces.IApp;
 
 public abstract class DefaultManager {
 
-    private IApp app;
+    protected IApp app;
 
     public DefaultManager(IApp app){
         this.app = app;
@@ -19,7 +19,4 @@ public abstract class DefaultManager {
 
     abstract void initDao();
 
-    protected DaoSession getDaoSession(){
-        return app.getDaoSession();
-    }
 }

@@ -1,6 +1,6 @@
 package com.tienda.a_shop.presenters.interfaces;
 
-import com.tienda.a_shop.dao.DaoSession;
+import com.tienda.a_shop.dao.interfaces.DaoSession;
 
 /**
  * Created by Lore on 09/04/2017.
