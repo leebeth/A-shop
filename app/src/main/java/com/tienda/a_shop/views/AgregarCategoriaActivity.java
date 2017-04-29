@@ -9,11 +9,13 @@ import android.widget.EditText;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
+import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
 
 /**
  * Created by Lorena on 10/10/2014.
+ * AgregarCategoriaActivity
  */
-public class AgregarCategoriaActivity extends Activity
+public class AgregarCategoriaActivity extends DefaultViewOptions
 {
     private EditText txtNombre;
     private EditText txtEstimado;
