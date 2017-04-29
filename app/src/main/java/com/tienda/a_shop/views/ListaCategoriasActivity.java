@@ -26,10 +26,11 @@ import java.util.List;
 
 /**
  * Created by Lorena on 10/10/2014.
+ * Lista de Categorias
  */
-public class ListaProductosActivity extends Activity {
+public class ListaCategoriasActivity extends Activity {
 
-    private static final String TAG = "ListaProductosActivity";
+    private static final String TAG = "ListaCategoriasActivity";
 
     public static final int REQUEST_TEXT = 0;
     public static final int REQUEST_ADD = 1;
@@ -73,7 +74,7 @@ public class ListaProductosActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                Intent i = new Intent(ListaProductosActivity.this, ListaItemsProductosActivity.class);
+                Intent i = new Intent(ListaCategoriasActivity.this, ListaItemsProductosActivity.class);
                 i.putExtra("idProducto", productos.get(position).getCategoria().getId());
                 i.putExtra("nombreProducto", productos.get(position).getCategoria().getNombre());
                 i.putExtra("estimadoProducto", productos.get(position).getEstimado());
@@ -88,7 +89,7 @@ public class ListaProductosActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ListaProductosActivity.this, AgregarCategoriaActivity.class);
+                Intent i = new Intent(ListaCategoriasActivity.this, AgregarCategoriaActivity.class);
                 i.putExtra("idGastoMes", gastoActual.getId());
                 startActivityForResult(i, REQUEST_ADD);
             }
@@ -107,7 +108,7 @@ public class ListaProductosActivity extends Activity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.action_editar_producto:
-                Intent i = new Intent(ListaProductosActivity.this, EditarProductoActivity.class);
+                Intent i = new Intent(ListaCategoriasActivity.this, EditarProductoActivity.class);
                 com.tienda.a_shop.entities.CategoriaXGastoMes p = productos.get(info.position);
                 i.putExtra("nombre", p.getCategoria().getNombre());
                 i.putExtra("estimado", p.getEstimado() + "");

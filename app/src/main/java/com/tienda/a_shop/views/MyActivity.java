@@ -40,7 +40,7 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View view)
             {
-                Intent i = new Intent( MyActivity.this, ListaProductosActivity.class );
+                Intent i = new Intent( MyActivity.this, ListaCategoriasActivity.class );
                 startActivity(i);
             }
         });

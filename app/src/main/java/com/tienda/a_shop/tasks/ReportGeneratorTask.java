@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
-import com.tienda.a_shop.views.ListaProductosActivity;
+import com.tienda.a_shop.views.ListaCategoriasActivity;
 import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.exceptions.StorageIsNotWritableException;
 import com.tienda.a_shop.presenters.ReportGenerator;
@@ -28,7 +28,7 @@ public class ReportGeneratorTask extends AsyncTask<CategoriaXGastoMes, String, S
     private static final String TAG = "ReportGeneratorTask";
 
     private ReportGenerator reportGenerator;
-    private ListaProductosActivity activity;
+    private ListaCategoriasActivity activity;
     private boolean waiting;
 
     public ReportGeneratorTask(){
@@ -36,7 +36,7 @@ public class ReportGeneratorTask extends AsyncTask<CategoriaXGastoMes, String, S
         reportGenerator = new ReportGenerator();
     }
 
-    public void setActivity(ListaProductosActivity activity) {
+    public void setActivity(ListaCategoriasActivity activity) {
         this.activity = activity;
     }
 
