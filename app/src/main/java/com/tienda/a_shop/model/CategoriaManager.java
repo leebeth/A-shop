@@ -49,10 +49,18 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
 
     @Override
     public void editarCategoria(Categoria categoria, String nombre) {
-        boolean editada;
+        boolean editada = false;
         String mensaje;
         try {
-            editada = categoriaDao.editarProducto(categoria, nombre);
+            Categoria categoriaEncontrada = categoriaDao.getCategoriaPorNombre(nombre);
+            if (categoriaEncontrada == null) {
+                if (!categoria.getNombre().equals(nombre)) {
+                    editada = categoriaDao.editarNombreProducto(categoria, nombre);
+                }
+                if (categoriaEncontrada.getEstimado() != categoria.getEstimado()) {
+                    editada = categoriaDao.editarEstimadoCategoria(categoria);
+                }
+            }
             if (editada) {
                 mensaje = String.format("La Categoria %s ha sido editada satisfactoriamente", nombre);
                 presenter.onSuccess(mensaje);

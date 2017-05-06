@@ -30,11 +30,11 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
         categoriaManager = new CategoriaManager(app, this);
     }
 
-    public void actualizarCategoría(String nombreN, String nombre, int estimado){
+    public void actualizarCategoría(String nombre, String nombreN, int estimado){
         Categoria categoria = new Categoria();
-        categoria.setNombre(nombre);
+        categoria.setNombre(nombreN);
         categoria.setEstimado(estimado);
-        categoriaManager.editarCategoria(categoria, nombreN);
+        categoriaManager.editarCategoria(categoria, nombre);
         //bdProductos.editarProducto(nombreN, nombre, estimado);
         //categoriaDao.update(categoria);
 
