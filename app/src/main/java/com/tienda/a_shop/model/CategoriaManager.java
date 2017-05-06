@@ -1,9 +1,7 @@
 package com.tienda.a_shop.model;
 
 import com.tienda.a_shop.dao.CategoriaDaoImpl;
-import com.tienda.a_shop.dao.interfaces.CategoriaDao;
 import com.tienda.a_shop.entities.Categoria;
-import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
@@ -30,7 +28,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
 
     @Override
     public void agregarCategoria(Categoria categoria) {
-        boolean agregada = false;
+        boolean agregada;
         String message;
 
         try {
@@ -51,7 +49,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
 
     @Override
     public void editarCategoria(Categoria categoria, String nombre) {
-        boolean editada = false;
+        boolean editada;
         String mensaje;
         try {
             editada = categoriaDao.editarProducto(categoria, nombre);
