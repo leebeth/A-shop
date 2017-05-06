@@ -31,4 +31,8 @@ public class CategoriaGastoMesDaoImpl {
         }
         return false;
     }
+
+    public void agregarCategoriaGastoMes(CategoriaXGastoMes categoriaXGastoMes){
+        categriaGastoMesDao.insert(categoriaXGastoMes);
+    }
 }

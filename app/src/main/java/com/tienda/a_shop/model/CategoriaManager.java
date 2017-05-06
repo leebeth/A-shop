@@ -1,13 +1,20 @@
 package com.tienda.a_shop.model;
 
+import android.util.Log;
+
 import com.tienda.a_shop.dao.CategoriaDaoImpl;
 import com.tienda.a_shop.dao.CategoriaGastoMesDaoImpl;
 import com.tienda.a_shop.dao.GastoMesDaoImpl;
 import com.tienda.a_shop.entities.Categoria;
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.GastoMes;
+import com.tienda.a_shop.exceptions.CategoriaExistenteException;
+import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
+
+import java.util.concurrent.Callable;
 
 /**
  * Created by Lore on 29/04/2017.
@@ -15,6 +22,8 @@ import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
  */
 
 public class CategoriaManager extends DefaultManager implements ICategoriaManager {
+
+    private static final String TAG = "CategoriaManager";
 
     private CategoriaDaoImpl categoriaDao;
     private CategoriaGastoMesDaoImpl categoriaGastoMesDao;
@@ -35,21 +44,18 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
 
     @Override
     public void agregarCategoria(Categoria categoria) {
-        boolean agregada;
         String message;
 
         try {
-            GastoMes gastoMesActual = gastoMesDao.obtenerGastoMesActual();
-            agregada = categoriaDao.guardarCategoria(categoria, gastoMesActual);
-            if (agregada) {
-                message = String.format("Categoría %s agregada satisfactoriamente", categoria.getNombre());
-                presenter.onSuccess(message);
-            } else {
-                message = String.format("La Categoría %s no fue agregada porque ya existía en BD", categoria.getNombre());
-                presenter.onError(message);
-            }
-        } catch (Exception e) {
+            message = app.getDaoSession().callInTx(new AgregarCategoriaCallable(categoria));
+            presenter.onSuccess(message);
+        } catch (CategoriaExistenteException e) {
             message = e.getMessage();
+            presenter.onError(message);
+        }
+        catch (Exception e) {
+            message = "Ha ocurrido un error agregando la cateroría";
+            Log.e(TAG, message, e);
             presenter.onError(message);
         }
     }
@@ -88,6 +94,36 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         } catch (Exception excepcion) {
             mensaje = excepcion.getMessage();
             presenter.onError(mensaje);
+        }
+    }
+
+    @Override
+    public void asociarCategoriaConGastoMes(Categoria categoria, GastoMes gastoMes) throws InternalException {
+        try {
+            CategoriaXGastoMes categoriaGastoMes = new CategoriaXGastoMes(null, categoria.getEstimado(), 0, categoria.getId(), gastoMes.getId());
+            categoriaGastoMes.setCategoria(categoria);
+            categoriaGastoMes.setGastoMes(gastoMes);
+            categoriaGastoMesDao.agregarCategoriaGastoMes(categoriaGastoMes);
+        }
+        catch (Exception e){
+            throw new InternalException(e.getMessage(), e);
+        }
+    }
+
+    private class AgregarCategoriaCallable implements Callable<String> {
+
+        private Categoria categoria;
+
+        public AgregarCategoriaCallable(Categoria categoria){
+            this.categoria = categoria;
+        }
+
+        @Override
+        public String call() throws CategoriaExistenteException, InternalException {
+            GastoMes gastoMesActual = gastoMesDao.obtenerGastoMesActual();
+            categoria = categoriaDao.guardarCategoria(categoria, gastoMesActual);
+            asociarCategoriaConGastoMes(categoria, gastoMesActual);
+            return String.format("Categoría %s agregada satisfactoriamente", categoria.getNombre());
         }
     }
 }
