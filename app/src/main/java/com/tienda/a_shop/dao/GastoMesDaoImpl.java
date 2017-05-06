@@ -1,6 +1,7 @@
 package com.tienda.a_shop.dao;
 
 import com.tienda.a_shop.dao.interfaces.GastoMesDao;
+import com.tienda.a_shop.entities.GastoMes;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 
 /**
@@ -16,5 +17,9 @@ public class GastoMesDaoImpl {
     public GastoMesDaoImpl (IApp app) {
         this.app = app;
         gastoMesDao = app.getDaoSession().getGastoMesDao();
+    }
+
+    public GastoMes obtenerGastoMesActual() {
+        return null;
     }
 }

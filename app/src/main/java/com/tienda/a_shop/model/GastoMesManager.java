@@ -27,8 +27,8 @@ public class GastoMesManager extends DefaultManager implements IGastoMesManager 
     }
 
     @Override
-    public void obtenerGastoMesActual() {
-
+    public GastoMes obtenerGastoMesActual() {
+        return gastoMesDao.obtenerGastoMesActual();
     }
 
     @Override

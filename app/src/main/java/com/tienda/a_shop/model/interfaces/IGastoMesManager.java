@@ -10,5 +10,5 @@ import com.tienda.a_shop.entities.GastoMes;
 public interface IGastoMesManager {
 
     void agregarGastoMes(GastoMes gastoMes);
-    void obtenerGastoMesActual();
+    GastoMes obtenerGastoMesActual();
 }
