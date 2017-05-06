@@ -4,6 +4,7 @@ import com.tienda.a_shop.entities.Categoria;
 
 /**
  * Created by Lore on 29/04/2017.
+ * ICategoriaManager
  */
 
 public interface ICategoriaManager {

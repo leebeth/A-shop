@@ -14,6 +14,7 @@ import com.tienda.a_shop.dao.interfaces.CategoriaDao;
 
 /**
  * Created by Lorena on 08/04/2017.
+ * Categoria
  */
 @Entity
 public class Categoria {

@@ -8,9 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.tienda.a_shop.R;
-import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.presenters.CategoriaPresenter;
 import com.tienda.a_shop.presenters.interfaces.IApp;
+import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
 
 /**
@@ -22,7 +22,7 @@ public class AgregarCategoriaActivity extends DefaultViewOptions
     private EditText txtNombre;
     private EditText txtEstimado;
 
-    private CategoriaPresenter categoriaPresenter;
+    private ICategoriaPresenter categoriaPresenter;
 
     @Override
     public void onCreate(Bundle b)
