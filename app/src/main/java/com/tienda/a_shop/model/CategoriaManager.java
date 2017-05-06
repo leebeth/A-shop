@@ -36,32 +36,35 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         try {
             long idGastoMes = 0L; //TODO: obtener id del gasto mes actual
             agregada = categoriaDao.guardarProducto(categoria, idGastoMes);
-
-            if (agregada)
-                message = String.format("Categoría %s Agregada Satisfactoriamente", categoria.getNombre());
-            else
-                message = String.format("La Categoría %s No Fue Agregada Porque Ya Existía En BD", categoria.getNombre());
-
-        } catch (Exception e)
-        {
+            if (agregada) {
+                message = String.format("Categoría %s agregada satisfactoriamente", categoria.getNombre());
+                presenter.onSuccess(message);
+            } else {
+                message = String.format("La Categoría %s no fue agregada porque ya existía en BD", categoria.getNombre());
+                presenter.onError(message);
+            }
+        } catch (Exception e) {
             message = e.getMessage();
-        }
-
-        if (agregada)
-
-        {
-            presenter.onSuccess(message);
-        } else
-
-        {
             presenter.onError(message);
         }
-
     }
 
     @Override
     public void editarCategoria(Categoria categoria, String nombre) {
-
+        boolean editada = false;
+        String mensaje;
+        try {
+            editada = categoriaDao.editarProducto(categoria, nombre);
+            if (editada) {
+                mensaje = String.format("La Categoria %s ha sido editada satisfactoriamente", nombre);
+                presenter.onSuccess(mensaje);
+            } else {
+                mensaje = String.format("La Categoria %s no pudo ser editada", nombre);
+                presenter.onError(mensaje);
+            }
+        } catch (Exception excepcion) {
+            mensaje = excepcion.getMessage();
+            presenter.onError(mensaje);
+        }
     }
-
 }
