@@ -74,8 +74,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
                     }
                     else
                     {
-                        editada = false;
-                        mensaje = String.format("El nombre de la Categoria %s no pudo ser editado, ya existe una Categoria %s", nombre, categoria.getNombre());
+                        throw new CategoriaExistenteException(String.format("El nombre de la Categoria %s no pudo ser editado, ya existe una Categoria %s", nombre, categoria.getNombre()));
                     }
                 }
                 if (categoriaEncontrada.getEstimado() != categoria.getEstimado()) {
@@ -91,7 +90,13 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
                 mensaje = String.format("La Categoria %s no pudo ser editada", nombre);
                 presenter.onError(mensaje);
             }
-        } catch (Exception excepcion) {
+        }
+        catch (CategoriaExistenteException ex)
+        {
+            mensaje = ex.getMessage();
+            presenter.onError(mensaje);
+        }
+        catch (Exception excepcion) {
             mensaje = excepcion.getMessage();
             presenter.onError(mensaje);
         }
