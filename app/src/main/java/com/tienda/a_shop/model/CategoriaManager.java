@@ -1,7 +1,9 @@
 package com.tienda.a_shop.model;
 
 import com.tienda.a_shop.dao.CategoriaDaoImpl;
+import com.tienda.a_shop.dao.GastoMesDaoImpl;
 import com.tienda.a_shop.entities.Categoria;
+import com.tienda.a_shop.entities.GastoMes;
 import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
@@ -14,6 +16,7 @@ import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
 public class CategoriaManager extends DefaultManager implements ICategoriaManager {
 
     private CategoriaDaoImpl categoriaDao;
+    private GastoMesDaoImpl gastoMesDao;
     private IDefaultCallback<Categoria> presenter;
 
     public CategoriaManager(IApp app, IDefaultCallback<Categoria> presenter) {
@@ -24,6 +27,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
     @Override
     void initDao() {
         categoriaDao = new CategoriaDaoImpl(app);
+        gastoMesDao = new GastoMesDaoImpl(app);
     }
 
     @Override
@@ -32,8 +36,8 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         String message;
 
         try {
-            long idGastoMes = 0L; //TODO: obtener id del gasto mes actual
-            agregada = categoriaDao.guardarProducto(categoria, idGastoMes);
+            GastoMes gastoMesActual = gastoMesDao.obtenerGastoMesActual();
+            agregada = categoriaDao.guardarCategoria(categoria, gastoMesActual);
             if (agregada) {
                 message = String.format("Categoría %s agregada satisfactoriamente", categoria.getNombre());
                 presenter.onSuccess(message);
