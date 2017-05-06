@@ -1,6 +1,7 @@
 package com.tienda.a_shop.model;
 
 import com.tienda.a_shop.dao.CategoriaDaoImpl;
+import com.tienda.a_shop.dao.CategoriaGastoMesDaoImpl;
 import com.tienda.a_shop.dao.GastoMesDaoImpl;
 import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.entities.GastoMes;
@@ -16,6 +17,7 @@ import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
 public class CategoriaManager extends DefaultManager implements ICategoriaManager {
 
     private CategoriaDaoImpl categoriaDao;
+    private CategoriaGastoMesDaoImpl categoriaGastoMesDao;
     private GastoMesDaoImpl gastoMesDao;
     private IDefaultCallback<Categoria> presenter;
 
@@ -27,6 +29,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
     @Override
     void initDao() {
         categoriaDao = new CategoriaDaoImpl(app);
+        categoriaGastoMesDao = new CategoriaGastoMesDaoImpl(app);
         gastoMesDao = new GastoMesDaoImpl(app);
     }
 
@@ -57,12 +60,22 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         String mensaje;
         try {
             Categoria categoriaEncontrada = categoriaDao.getCategoriaPorNombre(nombre);
-            if (categoriaEncontrada == null) {
+            if (categoriaEncontrada != null) {
                 if (!categoria.getNombre().equals(nombre)) {
-                    editada = categoriaDao.editarNombreProducto(categoria, nombre);
+                    if(categoriaDao.getCategoriaPorNombre(categoria.getNombre()) == null) {
+                        categoriaEncontrada.setNombre(categoria.getNombre());
+                        editada = categoriaDao.editarCategoria(categoriaEncontrada);
+                    }
+                    else
+                    {
+                        editada = false;
+                        mensaje = String.format("El nombre de la Categoria %s no pudo ser editado, ya existe una Categoria %s", nombre, categoria.getNombre());
+                    }
                 }
                 if (categoriaEncontrada.getEstimado() != categoria.getEstimado()) {
-                    editada = categoriaDao.editarEstimadoCategoria(categoria);
+                    categoriaEncontrada.setEstimado(categoria.getEstimado());
+                    GastoMes gastoActual = gastoMesDao.obtenerGastoMesActual();
+                    editada = categoriaGastoMesDao.editarEstimadoCategoria(categoriaEncontrada, gastoActual);
                 }
             }
             if (editada) {

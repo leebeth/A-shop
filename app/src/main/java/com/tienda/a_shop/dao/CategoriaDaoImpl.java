@@ -40,17 +40,8 @@ public class CategoriaDaoImpl {
         return categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
     }
 
-    public boolean editarNombreProducto(Categoria categoria, String nombre) {
-        Categoria categoriaEncontrada = categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
-        if (categoriaEncontrada != null) {
-            categoriaEncontrada.setNombre(categoria.getNombre());
-            categoriaDao.update(categoriaEncontrada);
-           return true;
-        }
-        return false;
-    }
-
-    public boolean editarEstimadoCategoria(Categoria categoria) {
-        return false;
+    public boolean editarCategoria(Categoria categoria) {
+        categoriaDao.update(categoria);
+        return true;
     }
 }
