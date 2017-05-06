@@ -122,17 +122,7 @@ public class BDProductos {
 
     }
 
-    public void editarProducto(String nombreN, String nombre, int estimado) {
-          CategoriaDao categoriaDao = app.getDaoSession().getCategoriaDao();
 
-        Categoria categoria =
-                categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
-
-        categoria.setNombre(nombreN);
-        categoria.setEstimado(estimado);
-
-        categoriaDao.update(categoria);
-    }
 
     public Categoria getCategoriaPorNombre(String nombre) {
         return app.getDaoSession().getCategoriaDao().queryBuilder()

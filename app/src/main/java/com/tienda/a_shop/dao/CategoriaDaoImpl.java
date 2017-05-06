@@ -25,7 +25,7 @@ public class CategoriaDaoImpl {
         if (categoriaEncontrada == null) {
             categoriaEncontrada = new Categoria(null, categoria.getNombre(), categoria.getEstimado());
             categoriaDao.insert(categoriaEncontrada);
-            categoriaEncontrada = getCategoriaPorNombre( categoria.getNombre());
+            categoriaEncontrada = getCategoriaPorNombre(categoria.getNombre());
             CategoriaXGastoMes categoriaGastoMes = new CategoriaXGastoMes(null, categoria.getEstimado(), 0, categoriaEncontrada.getId(), idGastoMes);
             categoriaGastoMes.setCategoria(categoriaEncontrada);
             categoriaGastoMes.setGastoMes(app.getDaoSession().getGastoMesDao().load(idGastoMes));
@@ -38,5 +38,16 @@ public class CategoriaDaoImpl {
 
     public Categoria getCategoriaPorNombre(String nombre) {
         return categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(nombre)).unique();
+    }
+
+    public boolean editarProducto(Categoria categoria, String nombreN) {
+        Categoria categoriaEncontrada = categoriaDao.queryBuilder().where(CategoriaDao.Properties.Nombre.eq(categoria.getNombre())).unique();
+        if (categoriaEncontrada != null) {
+            categoriaEncontrada.setNombre(nombreN);
+            categoriaEncontrada.setEstimado(categoria.getEstimado());
+            categoriaDao.update(categoriaEncontrada);
+            return true;
+        }
+        return false;
     }
 }
