@@ -2,6 +2,7 @@ package com.tienda.a_shop.model;
 
 import com.tienda.a_shop.dao.GastoMesDaoImpl;
 import com.tienda.a_shop.entities.GastoMes;
+import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.model.interfaces.IGastoMesManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
@@ -27,7 +28,7 @@ public class GastoMesManager extends DefaultManager implements IGastoMesManager 
     }
 
     @Override
-    public GastoMes obtenerGastoMesActual() {
+    public GastoMes obtenerGastoMesActual() throws InternalException {
         GastoMes gastoMesActual = gastoMesDao.obtenerGastoMesActual();
 
         if (gastoMesActual == null) {
