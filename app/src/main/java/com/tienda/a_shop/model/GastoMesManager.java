@@ -28,7 +28,14 @@ public class GastoMesManager extends DefaultManager implements IGastoMesManager 
 
     @Override
     public GastoMes obtenerGastoMesActual() {
-        return gastoMesDao.obtenerGastoMesActual();
+        GastoMes gastoMesActual = gastoMesDao.obtenerGastoMesActual();
+
+        if (gastoMesActual == null) {
+            gastoMesActual = new GastoMes(null, false);
+            app.getDaoSession().insert(gastoMesActual);
+        }
+
+        return gastoMesActual;
     }
 
     @Override

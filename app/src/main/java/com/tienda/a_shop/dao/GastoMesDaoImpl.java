@@ -20,6 +20,6 @@ public class GastoMesDaoImpl {
     }
 
     public GastoMes obtenerGastoMesActual() {
-        return null;
+        return gastoMesDao.queryBuilder().where(GastoMesDao.Properties.Archivado.eq(false)).unique();
     }
 }
