@@ -12,7 +12,6 @@ import com.tienda.a_shop.presenters.CategoriaPresenter;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.views.interfaces.CategoriaViewOptions;
-import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
 
 /**
  * Created by Lorena on 10/10/2014.

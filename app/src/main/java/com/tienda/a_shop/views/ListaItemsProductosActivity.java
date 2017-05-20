@@ -15,19 +15,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.google.android.gms.appindexing.Action;
-//import com.google.android.gms.appindexing.AppIndex;
-//import com.google.android.gms.common.api.GoogleApiClient;
 import com.tienda.a_shop.R;
-import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.entities.Item;
+import com.tienda.a_shop.presenters.ItemPresenter;
+import com.tienda.a_shop.presenters.interfaces.IApp;
+import com.tienda.a_shop.presenters.interfaces.presenters.IItemPresenter;
+import com.tienda.a_shop.views.interfaces.ItemViewOptions;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListaItemsProductosActivity extends Activity {
+public class ListaItemsProductosActivity extends ItemViewOptions {
 
     private static final int REQUEST_ADD = 1;
     private static final int REQUEST_DETAIL = 2;
@@ -38,25 +38,20 @@ public class ListaItemsProductosActivity extends Activity {
     private Button editar;
     private Button cancelar;
     private long idProducto;
-    private BDProductos bdProductos;
     private int estimado;
     private NumberFormat formatter;
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    //private GoogleApiClient client;
+    private IItemPresenter itemPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrito_de_venta);
 
-        bdProductos = new BDProductos(getApplicationContext(), (App)getApplication());
+        itemPresenter = new ItemPresenter((IApp) getApplication(), this);
+
         formatter = NumberFormat.getCurrencyInstance();
 
-        items = new ArrayList<Item>();
         idProducto = getIntent().getLongExtra("idProducto", 0L);
         String nombreProducto = getIntent().getStringExtra("nombreProducto");
         estimado = getIntent().getIntExtra("estimadoProducto", 0);
@@ -80,7 +75,7 @@ public class ListaItemsProductosActivity extends Activity {
             }
         });
 
-        actualizarLista();
+        itemPresenter.obtenerItems(idProducto);
 
         agregarItem = (Button) findViewById(R.id.carrito_ok);
         agregarItem.setOnClickListener(new View.OnClickListener() {
@@ -92,9 +87,6 @@ public class ListaItemsProductosActivity extends Activity {
                 startActivityForResult(i, REQUEST_ADD);
             }
         });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        //client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private int calcularPrecioTotal() {
@@ -138,7 +130,7 @@ public class ListaItemsProductosActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ADD) {
             if (resultCode == Activity.RESULT_OK) {
-                actualizarLista();
+                itemPresenter.obtenerItems(idProducto);
             }
         }
     }
@@ -179,51 +171,11 @@ public class ListaItemsProductosActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void actualizarLista() {
-        items = bdProductos.listaDetalleGasto(idProducto);
+    @Override
+    public void actualizarLista(List<Item> list) {
+        items = list;
         ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_dropdown_item, items);
         listaProductos.setAdapter(adapter);
         actualizarPrecioTotal();
     }
-/**
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Items Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.tienda.a_shop/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Items Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
-                Uri.parse("android-app://com.tienda.a_shop/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
- */
 }
