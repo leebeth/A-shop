@@ -10,5 +10,11 @@ import java.util.List;
  */
 
 public abstract class CategoriaViewOptions extends DefaultViewOptions{
-    public abstract void actualizarLista(List<CategoriaXGastoMes> categorias);
+    public void actualizarLista(List<CategoriaXGastoMes> categorias) throws Exception {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            showToastLong("Not Implemented Yet :(");
+        }
+    }
 }

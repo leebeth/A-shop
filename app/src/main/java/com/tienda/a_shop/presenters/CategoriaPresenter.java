@@ -1,5 +1,6 @@
 package com.tienda.a_shop.presenters;
 
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.model.CategoriaManager;
 import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
@@ -61,7 +62,7 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
 
     @Override
     public void actualizarLista() {
-
+        categoriaManager.obtenerCategoriasMesActual();
     }
 
     @Override
@@ -77,5 +78,10 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
     @Override
     public void onError(String error) {
         viewOptions.showToastShort(error);
+    }
+
+    @Override
+    public void obtenerCategoriasMesActual(List<CategoriaXGastoMes> elements) {
+        viewOptions.actualizarLista(elements);
     }
 }

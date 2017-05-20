@@ -153,6 +153,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         categoriaPresenter.actualizarLista();
     }
 
+    @Override
     public void actualizarLista(List<CategoriaXGastoMes> categorias) {
         productos = categorias;
         if (productos.isEmpty()) {

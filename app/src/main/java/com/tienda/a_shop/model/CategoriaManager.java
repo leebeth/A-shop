@@ -14,6 +14,7 @@ import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
 
+import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
@@ -143,10 +144,12 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
     public void obtenerCategoriasMesActual() {
         try
         {
-
+            GastoMes gastoMes = gastoMesDao.obtenerGastoMesActual();
+            List<CategoriaXGastoMes> categorias = categoriaGastoMesDao.obtenerCategoriasMes(gastoMes);
+            presenter.obtenerCategoriasMesActual(categorias);
         }catch(Exception e)
         {
-            
+            presenter.onError(e.getMessage());
         }
     }
 

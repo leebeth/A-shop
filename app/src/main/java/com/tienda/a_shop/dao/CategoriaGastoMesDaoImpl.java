@@ -7,6 +7,8 @@ import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.GastoMes;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 
+import java.util.List;
+
 /**
  * Created by Lorena on 06/05/2017.
  */
@@ -49,5 +51,10 @@ public class CategoriaGastoMesDaoImpl {
         return categriaGastoMesDao.queryBuilder().
                 where(CategoriaXGastoMesDao.Properties.CategoriaId.eq(categoria.getId()),
                         CategoriaXGastoMesDao.Properties.GastoMesId.eq(gastoActual.getId())).unique();
+    }
+
+    public List<CategoriaXGastoMes> obtenerCategoriasMes(GastoMes gastoMes) {
+        return categriaGastoMesDao.queryBuilder().
+                where(CategoriaXGastoMesDao.Properties.GastoMesId.eq(gastoMes.getId())).list();
     }
 }

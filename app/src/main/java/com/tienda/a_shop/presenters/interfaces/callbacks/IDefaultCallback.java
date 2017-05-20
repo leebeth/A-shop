@@ -1,5 +1,8 @@
 package com.tienda.a_shop.presenters.interfaces.callbacks;
 
+import com.tienda.a_shop.entities.Categoria;
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
+
 import java.util.List;
 
 /**
@@ -12,5 +15,7 @@ public interface IDefaultCallback<T> {
     void onSuccess(List<T> elements);
     void onSuccess(String message);
     void onError(String error);
+    void obtenerCategoriasMesActual(List<CategoriaXGastoMes> elements);
+
 
 }

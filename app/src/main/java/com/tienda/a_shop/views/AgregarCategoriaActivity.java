@@ -11,13 +11,14 @@ import com.tienda.a_shop.R;
 import com.tienda.a_shop.presenters.CategoriaPresenter;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
+import com.tienda.a_shop.views.interfaces.CategoriaViewOptions;
 import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
 
 /**
  * Created by Lorena on 10/10/2014.
  * AgregarCategoriaActivity
  */
-public class AgregarCategoriaActivity extends DefaultViewOptions
+public class AgregarCategoriaActivity extends CategoriaViewOptions
 {
     private EditText txtNombre;
     private EditText txtEstimado;
