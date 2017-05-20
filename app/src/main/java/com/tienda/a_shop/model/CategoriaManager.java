@@ -128,7 +128,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
                 mensaje = String.format("La Categoria %s ha sido eliminada satisfactoriamente", categoria.getNombre());
                 presenter.onSuccess(mensaje);
             } else {
-                mensaje = String.format("La Categoria %s no pudo ser eliminada", categoria.getNombre());
+                mensaje = String.format("La Categoria %s no pudo ser editada", categoria.getNombre());
                 presenter.onError(mensaje);
             }
 
@@ -136,6 +136,17 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         {
             mensaje = e.getMessage();
             presenter.onError(mensaje);
+        }
+    }
+
+    @Override
+    public void obtenerCategoriasMesActual() {
+        try
+        {
+
+        }catch(Exception e)
+        {
+            
         }
     }
 

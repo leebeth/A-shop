@@ -15,4 +15,6 @@ public interface ICategoriaManager {
     void asociarCategoriaConGastoMes(Categoria categoria, GastoMes gastoMes) throws InternalException;
 
     void eliminarCategoria(String nomCategoria);
+
+    void obtenerCategoriasMesActual();
 }

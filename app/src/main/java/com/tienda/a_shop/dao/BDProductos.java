@@ -64,7 +64,8 @@ public class BDProductos {
         return gasto;
     }
 
-    public void guardarItemGasto(String nombre, int valor, long categoriaXGastoMesId, int totalGasto) {
+
+     public void guardarItemGasto(String nombre, int valor, long categoriaXGastoMesId, int totalGasto) {
 
         Item item = getItemPorNombre(nombre);
 
@@ -89,10 +90,11 @@ public class BDProductos {
 
     }
 
+    /**
     public List<CategoriaXGastoMes> listaProductos() {
         CategoriaXGastoMesDao categoriaDao = app.getDaoSession().getCategoriaXGastoMesDao();
         return categoriaDao.loadAll();
-            }
+     }**/
 
     public List<Item> listaDetalleGasto(long idProducto) {
                 ItemDao itemDao = app.getDaoSession().getItemDao();

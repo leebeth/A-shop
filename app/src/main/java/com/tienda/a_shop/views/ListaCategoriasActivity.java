@@ -23,7 +23,7 @@ import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
 import com.tienda.a_shop.utils.PermissionsUtil;
-import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
+import com.tienda.a_shop.views.interfaces.CategoriaViewOptions;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.List;
  * Created by Lorena on 10/10/2014.
  * Lista de Categorias
  */
-public class ListaCategoriasActivity extends DefaultViewOptions {
+public class ListaCategoriasActivity extends CategoriaViewOptions {
 
     private static final String TAG = "ListaCategoriasActivity";
 
@@ -66,16 +66,7 @@ public class ListaCategoriasActivity extends DefaultViewOptions {
 
         gastoActual = bdProductos.getGastoActual();
 
-        productos = bdProductos.listaProductos();
-        if (productos.isEmpty()) {
-            categoriaPresenter.agregarCategoria("Ingresos", 0);
-            //bdProductos.guardarProducto("Ingresos", 0, Integer.parseInt(gastoActual.getId()+""));
-        }
-
-        ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
-        listaProductos.setAdapter(adapter);
-
-        actualizarListaResumen();
+        categoriaPresenter.listarCategoriasMesActual();
 
         registerForContextMenu(listaProductos);
         listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -143,27 +134,30 @@ public class ListaCategoriasActivity extends DefaultViewOptions {
         }
         if (requestCode == REQUEST_ADD) {
             if (resultCode == Activity.RESULT_OK) {
-                actualizarLista();
+                categoriaPresenter.actualizarLista();
             }
         }
         if (requestCode == REQUEST_DETAIL) {
-            actualizarLista();
+            categoriaPresenter.actualizarLista();
         }
     }
 
     private void editarProducto(String nombreN, String nombre, int estimado) {
         categoriaPresenter.actualizarCategoría(nombreN, nombre, estimado);
-        actualizarLista();
+        categoriaPresenter.actualizarLista();
     }
 
     public void eliminarProducto(int posicion) {
         String nomCategoria = productos.get(posicion).getCategoria().getNombre();
         categoriaPresenter.eliminarCategoria(nomCategoria);
-        actualizarLista();
+        categoriaPresenter.actualizarLista();
     }
 
-    public void actualizarLista() {
-        productos = bdProductos.listaProductos();
+    public void actualizarLista(List<CategoriaXGastoMes> categorias) {
+        productos = categorias;
+        if (productos.isEmpty()) {
+            categoriaPresenter.agregarCategoria("Ingresos", 0);
+        }
         ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();
@@ -229,4 +223,6 @@ public class ListaCategoriasActivity extends DefaultViewOptions {
     public boolean isWriteExternalStorage() {
         return writeExternalStorage;
     }
+
+
 }

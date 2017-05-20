@@ -6,7 +6,7 @@ import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
-import com.tienda.a_shop.views.interfaces.DefaultViewOptions;
+import com.tienda.a_shop.views.interfaces.CategoriaViewOptions;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
 public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPresenter, IDefaultCallback<Categoria> {
 
     private ICategoriaManager categoriaManager;
-    private DefaultViewOptions viewOptions;
+    private CategoriaViewOptions viewOptions;
 
-    public CategoriaPresenter(IApp app, DefaultViewOptions viewOptions) {
+    public CategoriaPresenter(IApp app, CategoriaViewOptions viewOptions) {
         super(app);
         this.viewOptions = viewOptions;
     }
@@ -51,6 +51,17 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
     @Override
     public void eliminarCategoria(String nomCategoria) {
         categoriaManager.eliminarCategoria(nomCategoria);
+    }
+
+    @Override
+    public void listarCategoriasMesActual() {
+        categoriaManager.obtenerCategoriasMesActual();
+
+    }
+
+    @Override
+    public void actualizarLista() {
+
     }
 
     @Override
