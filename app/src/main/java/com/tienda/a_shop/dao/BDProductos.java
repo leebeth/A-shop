@@ -37,7 +37,7 @@ public class BDProductos {
         return null;
     }
 
-    public void guardarProducto(String nombre, int estimado, long idGastoMes) {
+    /**public void guardarProducto(String nombre, int estimado, long idGastoMes) {
         Categoria categoria = getCategoriaPorNombre(nombre);
         if (categoria == null) {
             categoria = new Categoria(null, nombre, estimado);
@@ -49,7 +49,7 @@ public class BDProductos {
 
             app.getDaoSession().getCategoriaXGastoMesDao().insert(categoriaGastoMes);
         }
-    }
+    }**/
 
     public GastoMes getGastoActual() {
 

@@ -8,4 +8,5 @@ public interface ICategoriaPresenter {
 
     void actualizarCategoría(String nombreN, String nombre, int estimado);
     void agregarCategoria(String nombre, int estimado);
+    void eliminarCategoria(String nomCategoria);
 }

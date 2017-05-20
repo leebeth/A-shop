@@ -13,4 +13,6 @@ public interface ICategoriaManager {
     void agregarCategoria(Categoria categoria);
     void editarCategoria(Categoria categoria, String nombre);
     void asociarCategoriaConGastoMes(Categoria categoria, GastoMes gastoMes) throws InternalException;
+
+    void eliminarCategoria(String nomCategoria);
 }

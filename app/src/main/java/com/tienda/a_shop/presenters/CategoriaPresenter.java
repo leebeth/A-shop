@@ -49,6 +49,11 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
     }
 
     @Override
+    public void eliminarCategoria(String nomCategoria) {
+        categoriaManager.eliminarCategoria(nomCategoria);
+    }
+
+    @Override
     public void onSuccess(List<Categoria> elements) {
 
     }

@@ -68,7 +68,8 @@ public class ListaCategoriasActivity extends DefaultViewOptions {
 
         productos = bdProductos.listaProductos();
         if (productos.isEmpty()) {
-            bdProductos.guardarProducto("Ingresos", 0, Integer.parseInt(gastoActual.getId()+""));
+            categoriaPresenter.agregarCategoria("Ingresos", 0);
+            //bdProductos.guardarProducto("Ingresos", 0, Integer.parseInt(gastoActual.getId()+""));
         }
 
         ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
@@ -156,8 +157,8 @@ public class ListaCategoriasActivity extends DefaultViewOptions {
     }
 
     public void eliminarProducto(int posicion) {
-        String nomP = productos.get(posicion).getCategoria().getNombre();
-        bdProductos.eliminarProducto(nomP);
+        String nomCategoria = productos.get(posicion).getCategoria().getNombre();
+        categoriaPresenter.eliminarCategoria(nomCategoria);
         actualizarLista();
     }
 

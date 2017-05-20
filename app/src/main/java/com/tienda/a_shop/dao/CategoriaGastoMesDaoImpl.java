@@ -21,9 +21,7 @@ public class CategoriaGastoMesDaoImpl {
     }
 
     public boolean editarEstimadoCategoria(Categoria categoria, GastoMes gastoActual) {
-        CategoriaXGastoMes gasto = categriaGastoMesDao.queryBuilder().
-                where(CategoriaXGastoMesDao.Properties.CategoriaId.eq(categoria.getId()),
-                CategoriaXGastoMesDao.Properties.GastoMesId.eq(gastoActual.getId())).unique();
+        CategoriaXGastoMes gasto = getCategoriaGastoMes(categoria,gastoActual);
         if(gasto != null) {
             gasto.setEstimado(categoria.getEstimado());
             categriaGastoMesDao.update(gasto);
@@ -34,5 +32,22 @@ public class CategoriaGastoMesDaoImpl {
 
     public void agregarCategoriaGastoMes(CategoriaXGastoMes categoriaXGastoMes){
         categriaGastoMesDao.insert(categoriaXGastoMes);
+    }
+
+    public boolean eliminarCategoriaGastoMes(Categoria categoria, GastoMes gastoActual) {
+        CategoriaXGastoMes gastoMes = getCategoriaGastoMes(categoria,gastoActual);
+        if(gastoMes != null)
+        {
+            categriaGastoMesDao.delete(gastoMes);
+            return true;
+        }
+        return false;
+    }
+
+    public CategoriaXGastoMes getCategoriaGastoMes(Categoria categoria, GastoMes gastoActual)
+    {
+        return categriaGastoMesDao.queryBuilder().
+                where(CategoriaXGastoMesDao.Properties.CategoriaId.eq(categoria.getId()),
+                        CategoriaXGastoMesDao.Properties.GastoMesId.eq(gastoActual.getId())).unique();
     }
 }

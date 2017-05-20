@@ -115,6 +115,30 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         }
     }
 
+    @Override
+    public void eliminarCategoria(String nomCategoria) {
+        boolean eliminada = false;
+        String mensaje;
+        try{
+            Categoria categoria = categoriaDao.getCategoriaPorNombre(nomCategoria);
+            GastoMes gastoActual = gastoMesDao.obtenerGastoMesActual();
+            eliminada = categoriaGastoMesDao.eliminarCategoriaGastoMes(categoria,gastoActual);
+
+            if(eliminada){
+                mensaje = String.format("La Categoria %s ha sido eliminada satisfactoriamente", categoria.getNombre());
+                presenter.onSuccess(mensaje);
+            } else {
+                mensaje = String.format("La Categoria %s no pudo ser eliminada", categoria.getNombre());
+                presenter.onError(mensaje);
+            }
+
+        }catch (Exception e)
+        {
+            mensaje = e.getMessage();
+            presenter.onError(mensaje);
+        }
+    }
+
     private class AgregarCategoriaCallable implements Callable<String> {
 
         private Categoria categoria;
