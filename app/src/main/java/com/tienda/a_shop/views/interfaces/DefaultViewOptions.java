@@ -3,8 +3,6 @@ package com.tienda.a_shop.views.interfaces;
 import android.app.Activity;
 import android.widget.Toast;
 
-import java.util.List;
-
 /**
  * Created by Lore on 29/04/2017.
  * DefaultViewOptions

@@ -2,6 +2,7 @@ package com.tienda.a_shop.views;
 
 /**
  * Created by Miguel on 19/10/2014.
+ * VentaActivity
  */
 public class VentaActivity
 {

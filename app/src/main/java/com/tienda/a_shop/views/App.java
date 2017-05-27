@@ -11,6 +11,7 @@ import org.greenrobot.greendao.database.Database;
 
 /**
  * Created by Lore on 09/04/2017.
+ * App
  */
 
 public class App extends Application implements IApp {

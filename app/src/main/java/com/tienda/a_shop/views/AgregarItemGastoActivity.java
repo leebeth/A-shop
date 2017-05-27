@@ -15,8 +15,6 @@ public class AgregarItemGastoActivity extends Activity {
 
     private EditText txtNombre;
     private EditText txtValor;
-    private Button butAceptar;
-    private Button butCancelar;
 
     private BDProductos dbProductos;
     private long idProducto;
@@ -29,8 +27,8 @@ public class AgregarItemGastoActivity extends Activity {
 
         txtNombre = (EditText)findViewById(R.id.txtNombre);
         txtValor = (EditText)findViewById(R.id.txtValor);
-        butAceptar = (Button)findViewById(R.id.butAceptar);
-        butCancelar=(Button)findViewById(R.id.butCancelar);
+        Button butAceptar = (Button)findViewById(R.id.butAceptar);
+        Button butCancelar=(Button)findViewById(R.id.butCancelar);
         idProducto = getIntent().getLongExtra("idProducto", 0L);
         totalGasto = getIntent().getIntExtra("totalGasto",0);
 

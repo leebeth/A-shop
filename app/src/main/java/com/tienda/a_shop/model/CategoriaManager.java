@@ -12,7 +12,7 @@ import com.tienda.a_shop.exceptions.CategoriaExistenteException;
 import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
-import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
+import com.tienda.a_shop.presenters.interfaces.callbacks.ICategoriaCallback;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -29,9 +29,9 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
     private CategoriaDaoImpl categoriaDao;
     private CategoriaGastoMesDaoImpl categoriaGastoMesDao;
     private GastoMesDaoImpl gastoMesDao;
-    private IDefaultCallback<Categoria> presenter;
+    private ICategoriaCallback<Categoria> presenter;
 
-    public CategoriaManager(IApp app, IDefaultCallback<Categoria> presenter) {
+    public CategoriaManager(IApp app, ICategoriaCallback<Categoria> presenter) {
         super(app);
         this.presenter = presenter;
     }
@@ -92,11 +92,6 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
                 presenter.onError(mensaje);
             }
         }
-        catch (CategoriaExistenteException ex)
-        {
-            mensaje = ex.getMessage();
-            presenter.onError(mensaje);
-        }
         catch (Exception excepcion) {
             mensaje = excepcion.getMessage();
             presenter.onError(mensaje);
@@ -118,7 +113,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
 
     @Override
     public void eliminarCategoria(String nomCategoria) {
-        boolean eliminada = false;
+        boolean eliminada;
         String mensaje;
         try{
             Categoria categoria = categoriaDao.getCategoriaPorNombre(nomCategoria);
@@ -170,7 +165,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
 
         private Categoria categoria;
 
-        public AgregarCategoriaCallable(Categoria categoria){
+        private AgregarCategoriaCallable(Categoria categoria){
             this.categoria = categoria;
         }
 

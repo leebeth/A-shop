@@ -22,22 +22,22 @@
         </activity>
         <activity
             android:name=".views.AgregarCategoriaActivity"
-            android:label="@string/title_activity_agregar_producto"></activity>
+            android:label="@string/title_activity_agregar_producto"/>
         <activity
             android:name=".views.ListaItemsProductosActivity"
-            android:label="@string/title_activity_carrito_de_venta"></activity>
+            android:label="@string/title_activity_carrito_de_venta"/>
         <activity
             android:name=".views.ListaCategoriasActivity"
-            android:label="@string/title_activity_list"></activity>
+            android:label="@string/title_activity_list"/>
         <activity
             android:name=".views.EditarProductoActivity"
-            android:label="Editar Producto"></activity>
+            android:label="Editar Producto"/>
         <activity
             android:name=".views.HistorialVentasActivity"
-            android:label="@string/title_activity_historial_ventas"></activity>
+            android:label="@string/title_activity_historial_ventas"/>
         <activity
             android:name=".views.AgregarItemGastoActivity"
-            android:label="@string/title_activity_agregar_item_gasto"></activity>
+            android:label="@string/title_activity_agregar_item_gasto"/>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         <meta-data

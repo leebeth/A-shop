@@ -11,13 +11,12 @@ import com.tienda.a_shop.R;
 
 /**
  * Created by Lorena on 18/10/2014.
+ * EditarProductoActivity
  */
 public class EditarProductoActivity extends Activity
 {
     private EditText txtNombre;
     private EditText txtEstimado;
-    private Button butAceptar;
-    private Button butCancelar;
 
     private String nombre;
     @Override
@@ -29,8 +28,8 @@ public class EditarProductoActivity extends Activity
         txtNombre = (EditText)findViewById(R.id.txtNombre);
         txtEstimado = (EditText)findViewById(R.id.txtEstimado);
 
-        butAceptar = (Button)findViewById(R.id.butAceptar);
-        butCancelar=(Button)findViewById(R.id.butCancelar);
+        Button butAceptar = (Button)findViewById(R.id.butAceptar);
+        Button butCancelar=(Button)findViewById(R.id.butCancelar);
 
         nombre = getIntent().getExtras().getString("nombre");
         txtNombre.setText(getIntent().getExtras().getString("nombre"));

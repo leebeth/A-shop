@@ -12,6 +12,7 @@ import com.tienda.a_shop.dao.interfaces.ItemDao;
 
 /**
  * Created by Lorena on 08/04/2017.
+ * Item
  */
 @Entity
 public class Item {

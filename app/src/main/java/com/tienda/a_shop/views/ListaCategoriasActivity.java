@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,9 +42,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
     public static final int REQUEST_ADD = 1;
     public static final int REQUEST_DETAIL = 2;
     private ListView listaProductos;
-    private List<com.tienda.a_shop.entities.CategoriaXGastoMes> productos;
-    private ImageView agregarProducto;
-    private BDProductos bdProductos;
+    private List<CategoriaXGastoMes> productos;
     private TextView gasto;
     private TextView ingreso;
     private TextView total;
@@ -60,7 +59,6 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
 
         categoriaPresenter = new CategoriaPresenter((IApp)getApplication(), this);
 
-        bdProductos = new BDProductos(getApplicationContext(), (App)getApplication());
         listaProductos = (ListView) findViewById(R.id.listaProductos);
         gasto = (TextView) findViewById(R.id.txtTotalGastos);
         ingreso = (TextView) findViewById(R.id.txtTotalIngreso);
@@ -85,7 +83,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         });
 
         //agregar producto
-        agregarProducto = (ImageView) findViewById(R.id.agregarProducto);
+        ImageView agregarProducto = (ImageView) findViewById(R.id.agregarProducto);
         agregarProducto.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -128,8 +126,8 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         if (requestCode == REQUEST_TEXT) {
             if (resultCode == Activity.RESULT_OK) {
                 String nombre = data.getExtras().getString("nombre");
-                String nombreN = data.getExtras().getString("nombreN").toString();
-                int estimado = Integer.parseInt(data.getExtras().getString("estimado").toString());
+                String nombreN = data.getExtras().getString("nombreN");
+                int estimado = Integer.parseInt(data.getExtras().getString("estimado"));
 
                 editarProducto(nombreN, nombre, estimado);
             }
@@ -161,7 +159,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         if (productos.isEmpty()) {
             categoriaPresenter.agregarCategoria("Ingresos", 0);
         }
-        ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
+        ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();
     }
@@ -192,8 +190,6 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String message = "";
-        String tittle = "";
         switch (item.getItemId()){
             case R.id.action_crear_reporte:
                 task = new ReportGeneratorTask();
@@ -207,22 +203,22 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case PermissionsUtil.WRITE_EXTERNAL_STORAGE: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                    writeExternalStorage = true;
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    writeExternalStorage = false;
-                }
+
+                //writeExternalStorage true
+                // permission was granted, yay! Do the
+                // contacts-related task you need to do.
+
+                //writeExternalStorage false
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+                writeExternalStorage = grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
                 task.setWaiting(false);
-                return;
             }
             // other 'case' lines to check for other
             // permissions this app might request

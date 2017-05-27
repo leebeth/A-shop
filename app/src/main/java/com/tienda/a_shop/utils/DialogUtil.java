@@ -2,10 +2,10 @@ package com.tienda.a_shop.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 
 /**
  * Created by Lorena on 02/04/2017.
+ * DialogUtil
  */
 public class DialogUtil {
 

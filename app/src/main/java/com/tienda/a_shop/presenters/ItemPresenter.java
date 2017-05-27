@@ -1,6 +1,5 @@
 package com.tienda.a_shop.presenters;
 
-import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.Item;
 import com.tienda.a_shop.model.ItemManager;
 import com.tienda.a_shop.model.interfaces.IItemManager;
@@ -48,11 +47,6 @@ public class ItemPresenter extends DefaultPresenter implements IItemPresenter, I
 
     @Override
     public void onError(String error) {
-
-    }
-
-    @Override
-    public void obtenerCategoriasMesActual(List<CategoriaXGastoMes> elements) {
 
     }
 

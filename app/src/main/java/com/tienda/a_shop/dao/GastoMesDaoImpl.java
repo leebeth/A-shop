@@ -13,10 +13,8 @@ import com.tienda.a_shop.presenters.interfaces.IApp;
 public class GastoMesDaoImpl {
 
     private GastoMesDao gastoMesDao;
-    private IApp app;
 
     public GastoMesDaoImpl (IApp app) {
-        this.app = app;
         gastoMesDao = app.getDaoSession().getGastoMesDao();
     }
 

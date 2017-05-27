@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * Created by Lorena on 02/04/2017.
+ * ReportGeneratorTask
  */
 public class ReportGeneratorTask extends AsyncTask<CategoriaXGastoMes, String, String> {
 
@@ -42,8 +43,8 @@ public class ReportGeneratorTask extends AsyncTask<CategoriaXGastoMes, String, S
 
     @Override
     protected String doInBackground(CategoriaXGastoMes... productos) {
-        String message = "";
-        String tittle = "";
+        String message;
+        String tittle;
         try {
             String pathReport = crearReporte(Arrays.asList(productos));
             message = String.format(activity.getString(R.string.success_report), pathReport);

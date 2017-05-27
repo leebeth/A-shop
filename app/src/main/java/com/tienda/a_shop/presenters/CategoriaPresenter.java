@@ -2,14 +2,13 @@ package com.tienda.a_shop.presenters;
 
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.GastoMes;
-import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.model.CategoriaManager;
 import com.tienda.a_shop.model.GastoMesManager;
 import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.model.interfaces.IGastoMesManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.entities.Categoria;
-import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
+import com.tienda.a_shop.presenters.interfaces.callbacks.ICategoriaCallback;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.views.interfaces.CategoriaViewOptions;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * Presenter de Categoria
  */
 
-public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPresenter, IDefaultCallback<Categoria> {
+public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPresenter, ICategoriaCallback<Categoria> {
 
     private ICategoriaManager categoriaManager;
     private IGastoMesManager gastoMesManager;
@@ -42,9 +41,6 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
         categoria.setNombre(nombreN);
         categoria.setEstimado(estimado);
         categoriaManager.editarCategoria(categoria, nombre);
-        //bdProductos.editarProducto(nombreN, nombre, estimado);
-        //categoriaDao.update(categoria);
-
     }
 
     @Override
@@ -75,6 +71,7 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
     public void obtenerGastoActual()  {
         categoriaManager.obtenerGastoMesActual();
     }
+
 
     @Override
     public void onSuccess(List<Categoria> elements) {

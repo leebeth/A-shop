@@ -12,20 +12,14 @@ import com.tienda.a_shop.R;
 public class MyActivity extends Activity {
 
     public static final int REQUEST_TEXT = 0;
-    private ImageView ventas;
-    private ImageView productos;
-    private ImageView promociones;
-    private ImageView estadisticas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
-        ventas = (ImageView)findViewById(R.id.ventas);
-        productos = (ImageView)findViewById(R.id.productos);
-        promociones=(ImageView)findViewById(R.id.promociones);
-        estadisticas = (ImageView)findViewById(R.id.estadisticas);
+        ImageView ventas = (ImageView)findViewById(R.id.ventas);
+        ImageView productos = (ImageView)findViewById(R.id.productos);
 
         ventas.setOnClickListener(new View.OnClickListener() {
             @Override

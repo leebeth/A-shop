@@ -1,6 +1,5 @@
 package com.tienda.a_shop.dao;
 
-import com.tienda.a_shop.dao.interfaces.CategoriaDao;
 import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
 import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
@@ -11,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by Lorena on 06/05/2017.
+ * CategoriaGastoMesDaoImpl
  */
 
 public class CategoriaGastoMesDaoImpl {

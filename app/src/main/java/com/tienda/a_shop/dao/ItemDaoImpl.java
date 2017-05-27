@@ -12,12 +12,9 @@ import java.util.List;
  */
 
 public class ItemDaoImpl {
-
-    private final IApp app;
     private ItemDao itemDao;
 
     public ItemDaoImpl(IApp app){
-        this.app = app;
         itemDao = app.getDaoSession().getItemDao();
     }
 

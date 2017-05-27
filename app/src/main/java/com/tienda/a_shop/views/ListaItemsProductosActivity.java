@@ -23,7 +23,6 @@ import com.tienda.a_shop.presenters.interfaces.presenters.IItemPresenter;
 import com.tienda.a_shop.views.interfaces.ItemViewOptions;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,9 +33,6 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
 
     private List<Item> items;
     private ListView listaProductos;
-    private Button agregarItem;
-    private Button editar;
-    private Button cancelar;
     private long idProducto;
     private int estimado;
     private NumberFormat formatter;
@@ -67,7 +63,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
             }
         });
 
-        cancelar = (Button) findViewById(R.id.carrito_cancelar);
+        Button cancelar = (Button) findViewById(R.id.carrito_cancelar);
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +73,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
 
         itemPresenter.obtenerItems(idProducto);
 
-        agregarItem = (Button) findViewById(R.id.carrito_ok);
+        Button agregarItem = (Button) findViewById(R.id.carrito_ok);
         agregarItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,7 +109,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
     public String eliminarItemCarrito(int pos) {
         String nombre = items.get(pos).getNombre();
         items.remove(pos);
-        ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<Item> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         listaProductos.setAdapter(adapter);
         return nombre;
     }
@@ -165,16 +161,13 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
     @Override
     public void actualizarLista(List<Item> list) {
         items = list;
-        ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<Item> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         listaProductos.setAdapter(adapter);
         actualizarPrecioTotal();
     }

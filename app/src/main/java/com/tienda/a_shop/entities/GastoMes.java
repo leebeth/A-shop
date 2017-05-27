@@ -14,6 +14,7 @@ import com.tienda.a_shop.dao.interfaces.GastoMesDao;
 
 /**
  * Created by Lorena on 08/04/2017.
+ * GastoMes
  */
 @Entity
 public class GastoMes {

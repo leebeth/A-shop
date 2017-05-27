@@ -18,6 +18,7 @@ import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
 
 /**
  * Created by Lorena on 08/04/2017.
+ * CategoriaXGastoMes
  */
 @Entity
 public class CategoriaXGastoMes {
