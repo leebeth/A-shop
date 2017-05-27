@@ -52,7 +52,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
         String nombreProducto = getIntent().getStringExtra("nombreProducto");
         estimado = getIntent().getIntExtra("estimadoProducto", 0);
 
-        ((TextView) findViewById(R.id.txtEstimado)).setText(getString(R.string.estimado) + formatter.format(estimado));
+        ((TextView) findViewById(R.id.txtEstimado)).setText(String.format(getString(R.string.estimado), formatter.format(estimado)));
         ((TextView) findViewById(R.id.label_carrito)).setText(nombreProducto);
         listaProductos = (ListView) findViewById(R.id.carrito_lista);
         listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,8 +102,10 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
                 tot += i.getValor();
             }
         }
-        ((TextView) findViewById(R.id.txtReal)).setText(getString(R.string.real) + formatter.format(tot));
-        ((TextView) findViewById(R.id.txtDisponible)).setText(getString(R.string.disponible) + formatter.format(estimado - tot));
+        ((TextView) findViewById(R.id.txtReal)).setText(
+                String.format(getString(R.string.real), formatter.format(tot)));
+        ((TextView) findViewById(R.id.txtDisponible)).setText(
+                String.format(getString(R.string.disponible), formatter.format(estimado - tot)));
     }
 
     public String eliminarItemCarrito(int pos) {

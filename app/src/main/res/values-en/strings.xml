@@ -37,9 +37,9 @@
     <string name="ingresos">Income: </string>
     <string name="gastos">Expense: </string>
     <string name="total">Total: </string>
-    <string name="estimado">Estimated: </string>
-    <string name="real">Real: </string>
-    <string name="disponible">Available: </string>
+    <string name="estimado">Estimated: %s</string>
+    <string name="real">Real: %s</string>
+    <string name="disponible">Available: %s</string>
 
     <!--Excepciones-->
     <string name="storage_is_not_writable">Has not been allowed writing in memory</string>
