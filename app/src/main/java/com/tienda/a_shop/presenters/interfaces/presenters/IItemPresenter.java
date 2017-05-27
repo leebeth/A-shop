@@ -6,6 +6,6 @@ package com.tienda.a_shop.presenters.interfaces.presenters;
  */
 
 public interface IItemPresenter {
-    void agregarItem(long idCategoriaGastoMes, String nombre);
+    void agregarItem(long idCategoriaGastoMes, String nombre, int valorItem, int totalCategoriaGastoMes);
     void obtenerItems(long idCategoriaGastoMes);
 }

@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tienda.a_shop.R;
-import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.GastoMes;
 import com.tienda.a_shop.presenters.CategoriaPresenter;
@@ -42,13 +41,13 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
     public static final int REQUEST_ADD = 1;
     public static final int REQUEST_DETAIL = 2;
     private ListView listaProductos;
-    private List<CategoriaXGastoMes> productos;
+    private List<CategoriaXGastoMes> categoriasMesActual;
     private TextView gasto;
     private TextView ingreso;
     private TextView total;
     private ReportGeneratorTask task;
     private boolean writeExternalStorage;
-    private com.tienda.a_shop.entities.GastoMes gastoActual;
+    private GastoMes gastoActual;
     private ICategoriaPresenter categoriaPresenter;
 
 
@@ -74,17 +73,16 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 Intent i = new Intent(ListaCategoriasActivity.this, ListaItemsProductosActivity.class);
-                i.putExtra("idProducto", productos.get(position).getCategoria().getId());
-                i.putExtra("nombreProducto", productos.get(position).getCategoria().getNombre());
-                i.putExtra("estimadoProducto", productos.get(position).getEstimado());
-                i.putExtra("idGastoMes", gastoActual.getId());
+                i.putExtra("idProducto", categoriasMesActual.get(position).getId());
+                i.putExtra("nombreProducto", categoriasMesActual.get(position).getCategoria().getNombre());
+                i.putExtra("estimadoProducto", categoriasMesActual.get(position).getEstimado());
                 startActivityForResult(i, REQUEST_DETAIL);
             }
         });
 
         //agregar producto
-        ImageView agregarProducto = (ImageView) findViewById(R.id.agregarProducto);
-        agregarProducto.setOnClickListener(new View.OnClickListener() {
+        ImageView agregarCategoria = (ImageView) findViewById(R.id.agregarProducto);
+        agregarCategoria.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -108,7 +106,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         switch (item.getItemId()) {
             case R.id.action_editar_producto:
                 Intent i = new Intent(ListaCategoriasActivity.this, EditarProductoActivity.class);
-                com.tienda.a_shop.entities.CategoriaXGastoMes p = productos.get(info.position);
+                com.tienda.a_shop.entities.CategoriaXGastoMes p = categoriasMesActual.get(info.position);
                 i.putExtra("nombre", p.getCategoria().getNombre());
                 i.putExtra("estimado", p.getEstimado() + "");
                 startActivityForResult(i, REQUEST_TEXT);
@@ -148,18 +146,18 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
     }
 
     public void eliminarProducto(int posicion) {
-        String nomCategoria = productos.get(posicion).getCategoria().getNombre();
+        String nomCategoria = categoriasMesActual.get(posicion).getCategoria().getNombre();
         categoriaPresenter.eliminarCategoria(nomCategoria);
         categoriaPresenter.actualizarLista();
     }
 
     @Override
     public void actualizarLista(List<CategoriaXGastoMes> categorias) {
-        productos = categorias;
-        if (productos.isEmpty()) {
+        categoriasMesActual = categorias;
+        if (categoriasMesActual.isEmpty()) {
             categoriaPresenter.agregarCategoria("Ingresos", 0);
         }
-        ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, productos);
+        ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoriasMesActual);
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();
     }
@@ -172,13 +170,13 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
 
     private void actualizarListaResumen() {
         int totalAux = 0;
-        for (int i = 1; i < productos.size(); i++) {
-            totalAux += productos.get(i).getTotal();
+        for (int i = 1; i < categoriasMesActual.size(); i++) {
+            totalAux += categoriasMesActual.get(i).getTotal();
         }
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         gasto.setText(getString(R.string.gastos) + formatter.format(totalAux));
-        ingreso.setText(getString(R.string.ingresos) + formatter.format(productos.get(0).getTotal()));
-        total.setText(getString(R.string.total) + formatter.format(productos.get(0).getTotal() - totalAux));
+        ingreso.setText(getString(R.string.ingresos) + formatter.format(categoriasMesActual.get(0).getTotal()));
+        total.setText(getString(R.string.total) + formatter.format(categoriasMesActual.get(0).getTotal() - totalAux));
     }
 
     @Override
@@ -194,8 +192,8 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
             case R.id.action_crear_reporte:
                 task = new ReportGeneratorTask();
                 task.setActivity(this);
-                CategoriaXGastoMes[] array = new CategoriaXGastoMes[productos.size()];
-                task.execute(productos.toArray(array));
+                CategoriaXGastoMes[] array = new CategoriaXGastoMes[categoriasMesActual.size()];
+                task.execute(categoriasMesActual.toArray(array));
                 return true;
             default:
                 return super.onContextItemSelected(item);

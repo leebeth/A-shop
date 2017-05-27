@@ -10,5 +10,7 @@ import java.util.List;
  */
 
 public abstract class ItemViewOptions extends DefaultViewOptions {
-    public abstract void actualizarLista(List<Item> list);
+    public void actualizarLista(List<Item> list){
+        showToastLong("Not Implemented Yet :(");
+    }
 }

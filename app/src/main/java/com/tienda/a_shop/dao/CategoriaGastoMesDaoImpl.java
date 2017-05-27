@@ -57,4 +57,12 @@ public class CategoriaGastoMesDaoImpl {
         return categriaGastoMesDao.queryBuilder().
                 where(CategoriaXGastoMesDao.Properties.GastoMesId.eq(gastoMes.getId())).list();
     }
+
+    public CategoriaXGastoMes obtenerCategoriaGastoMes(long id){
+        return categriaGastoMesDao.load(id);
+    }
+
+    public void actualizarCategoriaXGastoMes(CategoriaXGastoMes categoriaXGastoMes) {
+        categriaGastoMesDao.update(categoriaXGastoMes);
+    }
 }

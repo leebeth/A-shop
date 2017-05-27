@@ -1,5 +1,6 @@
 package com.tienda.a_shop.model.interfaces;
 
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.Item;
 
 /**
@@ -8,6 +9,6 @@ import com.tienda.a_shop.entities.Item;
  */
 
 public interface IItemManager {
-    void agregarItem(Item item);
+    void agregarItem(Item item, int totalCategoriaGastoMes);
     void obtenerItems(long idCategoriaGastoMes);
 }

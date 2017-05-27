@@ -1,7 +1,11 @@
 package com.tienda.a_shop.presenters;
 
+import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.Item;
+import com.tienda.a_shop.model.CategoriaManager;
 import com.tienda.a_shop.model.ItemManager;
+import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.model.interfaces.IItemManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
@@ -26,8 +30,9 @@ public class ItemPresenter extends DefaultPresenter implements IItemPresenter, I
     }
 
     @Override
-    public void agregarItem(long idCategoriaGastoMes, String nombre) {
-
+    public void agregarItem(long idCategoriaGastoMes, String nombre, int valorItem, int totalCategoriaGastoMes) {
+        Item item = new Item(null, idCategoriaGastoMes, nombre, valorItem);
+        itemManager.agregarItem(item, totalCategoriaGastoMes);
     }
 
     @Override
@@ -42,12 +47,12 @@ public class ItemPresenter extends DefaultPresenter implements IItemPresenter, I
 
     @Override
     public void onSuccess(String message) {
-
+        viewOptions.showToastShort(message);
     }
 
     @Override
     public void onError(String error) {
-
+        viewOptions.showToastShort(error);
     }
 
     @Override

@@ -21,4 +21,13 @@ public class ItemDaoImpl {
     public List<Item> obtenerItems(long idCategoriaGastoMes) {
         return itemDao.queryBuilder().where(ItemDao.Properties.CategoriaXGastoMesId.eq(idCategoriaGastoMes)).list();
     }
+
+    public Item obtenerItemPorNombre(String nombre) {
+        return itemDao.queryBuilder().where(ItemDao.Properties.Nombre.eq(nombre)).unique();
+    }
+
+
+    public void agregarItem(Item item) {
+        itemDao.insert(item);
+    }
 }

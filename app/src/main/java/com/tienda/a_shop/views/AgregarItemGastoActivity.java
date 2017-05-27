@@ -9,16 +9,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tienda.a_shop.R;
-import com.tienda.a_shop.dao.BDProductos;
+import com.tienda.a_shop.presenters.ItemPresenter;
+import com.tienda.a_shop.presenters.interfaces.IApp;
+import com.tienda.a_shop.presenters.interfaces.presenters.IItemPresenter;
+import com.tienda.a_shop.views.interfaces.ItemViewOptions;
 
-public class AgregarItemGastoActivity extends Activity {
+public class AgregarItemGastoActivity extends ItemViewOptions {
 
     private EditText txtNombre;
     private EditText txtValor;
-
-    private BDProductos dbProductos;
     private long idProducto;
     private int totalGasto;
+    private IItemPresenter itemPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class AgregarItemGastoActivity extends Activity {
         idProducto = getIntent().getLongExtra("idProducto", 0L);
         totalGasto = getIntent().getIntExtra("totalGasto",0);
 
-        dbProductos = new BDProductos(getApplicationContext(), (App)getApplication());
+        itemPresenter = new ItemPresenter((IApp)getApplication(),this);
         butAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,7 +43,7 @@ public class AgregarItemGastoActivity extends Activity {
                 if(valor !=0)
                 {
                     int valorGastoActual = Integer.parseInt(txtValor.getText().toString());
-                    dbProductos.guardarItemGasto(txtNombre.getText().toString(), valorGastoActual, idProducto, totalGasto);
+                    itemPresenter.agregarItem(idProducto, txtNombre.getText().toString(),valorGastoActual, totalGasto);
                     totalGasto += valorGastoActual;
                     setResult(Activity.RESULT_OK, i);
                 }

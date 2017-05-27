@@ -33,7 +33,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
 
     private List<Item> items;
     private ListView listaProductos;
-    private long idProducto;
+    private long idCategoriaGastoMes;
     private int estimado;
     private NumberFormat formatter;
 
@@ -48,7 +48,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
 
         formatter = NumberFormat.getCurrencyInstance();
 
-        idProducto = getIntent().getLongExtra("idProducto", 0L);
+        idCategoriaGastoMes = getIntent().getLongExtra("idProducto", 0L);
         String nombreProducto = getIntent().getStringExtra("nombreProducto");
         estimado = getIntent().getIntExtra("estimadoProducto", 0);
 
@@ -71,14 +71,14 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
             }
         });
 
-        itemPresenter.obtenerItems(idProducto);
+        itemPresenter.obtenerItems(idCategoriaGastoMes);
 
         Button agregarItem = (Button) findViewById(R.id.carrito_ok);
         agregarItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ListaItemsProductosActivity.this, AgregarItemGastoActivity.class);
-                i.putExtra("idProducto", idProducto);
+                i.putExtra("idProducto", idCategoriaGastoMes);
                 i.putExtra("totalGasto", calcularPrecioTotal());
                 startActivityForResult(i, REQUEST_ADD);
             }
@@ -126,7 +126,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ADD) {
             if (resultCode == Activity.RESULT_OK) {
-                itemPresenter.obtenerItems(idProducto);
+                itemPresenter.obtenerItems(idCategoriaGastoMes);
             }
         }
     }

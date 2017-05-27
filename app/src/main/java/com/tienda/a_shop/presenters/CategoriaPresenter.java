@@ -22,7 +22,6 @@ import java.util.List;
 public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPresenter, ICategoriaCallback<Categoria> {
 
     private ICategoriaManager categoriaManager;
-    private IGastoMesManager gastoMesManager;
     private CategoriaViewOptions viewOptions;
 
     public CategoriaPresenter(IApp app, CategoriaViewOptions viewOptions) {
@@ -33,7 +32,6 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
     @Override
     void initManager(IApp app) {
         categoriaManager = new CategoriaManager(app, this);
-        gastoMesManager = new GastoMesManager(app, this);
     }
 
     public void actualizarCategoría(String nombre, String nombreN, int estimado){
