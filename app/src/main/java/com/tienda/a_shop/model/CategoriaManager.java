@@ -153,6 +153,19 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         }
     }
 
+    @Override
+    public void obtenerGastoMesActual() {
+        try {
+            GastoMes gastoMesActual =gastoMesDao.obtenerGastoMesActual();
+            presenter.obtenerGastoMesActual(gastoMesActual);
+        }
+        catch(Exception e)
+        {
+            presenter.onError(e.getMessage());
+        }
+
+    }
+
     private class AgregarCategoriaCallable implements Callable<String> {
 
         private Categoria categoria;

@@ -1,8 +1,12 @@
 package com.tienda.a_shop.presenters;
 
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
+import com.tienda.a_shop.entities.GastoMes;
+import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.model.CategoriaManager;
+import com.tienda.a_shop.model.GastoMesManager;
 import com.tienda.a_shop.model.interfaces.ICategoriaManager;
+import com.tienda.a_shop.model.interfaces.IGastoMesManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
@@ -19,6 +23,7 @@ import java.util.List;
 public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPresenter, IDefaultCallback<Categoria> {
 
     private ICategoriaManager categoriaManager;
+    private IGastoMesManager gastoMesManager;
     private CategoriaViewOptions viewOptions;
 
     public CategoriaPresenter(IApp app, CategoriaViewOptions viewOptions) {
@@ -29,6 +34,7 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
     @Override
     void initManager(IApp app) {
         categoriaManager = new CategoriaManager(app, this);
+        gastoMesManager = new GastoMesManager(app, this);
     }
 
     public void actualizarCategoría(String nombre, String nombreN, int estimado){
@@ -66,6 +72,11 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
     }
 
     @Override
+    public void obtenerGastoActual()  {
+        categoriaManager.obtenerGastoMesActual();
+    }
+
+    @Override
     public void onSuccess(List<Categoria> elements) {
 
     }
@@ -81,7 +92,12 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
     }
 
     @Override
-    public void obtenerCategoriasMesActual(List<CategoriaXGastoMes> elements) {
+    public void obtenerCategoriasMesActual(List<CategoriaXGastoMes> elements) throws Exception {
         viewOptions.actualizarLista(elements);
+    }
+
+    @Override
+    public void obtenerGastoMesActual(GastoMes gastoMesActual) {
+        viewOptions.obtenerGastoMesActual(gastoMesActual);
     }
 }

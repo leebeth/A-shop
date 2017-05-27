@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.BDProductos;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
+import com.tienda.a_shop.entities.GastoMes;
 import com.tienda.a_shop.presenters.CategoriaPresenter;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
@@ -51,6 +52,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
     private com.tienda.a_shop.entities.GastoMes gastoActual;
     private ICategoriaPresenter categoriaPresenter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         ingreso = (TextView) findViewById(R.id.txtTotalIngreso);
         total = (TextView) findViewById(R.id.txtTotal);
 
-        gastoActual = bdProductos.getGastoActual();
+        categoriaPresenter.obtenerGastoActual();
 
         categoriaPresenter.listarCategoriasMesActual();
 
@@ -162,6 +164,12 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes>(this, android.R.layout.simple_spinner_dropdown_item, productos);
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();
+    }
+
+    @Override
+    public void obtenerGastoMesActual(GastoMes gastoMesActual)
+    {
+        this.gastoActual = gastoMesActual;
     }
 
     private void actualizarListaResumen() {

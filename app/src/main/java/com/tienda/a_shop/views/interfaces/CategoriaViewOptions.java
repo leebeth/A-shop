@@ -1,6 +1,7 @@
 package com.tienda.a_shop.views.interfaces;
 
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
+import com.tienda.a_shop.entities.GastoMes;
 
 import java.util.List;
 
@@ -12,5 +13,13 @@ import java.util.List;
 public abstract class CategoriaViewOptions extends DefaultViewOptions{
     public void actualizarLista(List<CategoriaXGastoMes> categorias) {
         showToastLong("Not Implemented Yet :(");
+    }
+
+    public void obtenerGastoMesActual(GastoMes gastoMesActual) {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+            showToastLong("Not Implemented Yet :(");
+        }
     }
 }

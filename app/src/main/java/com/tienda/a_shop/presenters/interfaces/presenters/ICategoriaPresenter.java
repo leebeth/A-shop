@@ -1,8 +1,6 @@
 package com.tienda.a_shop.presenters.interfaces.presenters;
 
-import com.tienda.a_shop.entities.CategoriaXGastoMes;
-
-import java.util.List;
+import com.tienda.a_shop.exceptions.InternalException;
 
 /**
  * Created by Lore on 09/04/2017.
@@ -18,4 +16,6 @@ public interface ICategoriaPresenter {
     void listarCategoriasMesActual();
 
     void actualizarLista();
+
+    void obtenerGastoActual();
 }

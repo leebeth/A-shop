@@ -17,4 +17,6 @@ public interface ICategoriaManager {
     void eliminarCategoria(String nomCategoria);
 
     void obtenerCategoriasMesActual();
+
+    void obtenerGastoMesActual();
 }
