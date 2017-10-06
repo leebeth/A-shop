@@ -1,56 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <RelativeLayout
+    <android.support.v4.widget.SlidingPaneLayout
+        android:id="@+id/SlidingPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.1">
-        <ListView
-            android:id="@+id/listaProductos"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:baselineAligned="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/ingresos"
+                android:id="@+id/txtTotalIngreso" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/gastos"
+                android:id="@+id/txtTotalGastos" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/total"
+                android:id="@+id/txtTotal" />
+        </LinearLayout>
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ListView>
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_weight="0.1">
+            <ListView
+                android:id="@+id/listaProductos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+        </RelativeLayout>
+
+    </android.support.v4.widget.SlidingPaneLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/agregarProducto"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.9">
+        android:layout_margin="16dp"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_plus"
+        app:borderWidth="0dp" />
 
-        <ImageView
-            android:id="@+id/agregarProducto"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/agregar_producto"
-            android:layout_marginLeft="20dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ingresos"
-            android:id="@+id/txtTotalIngreso"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/agregarProducto" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gastos"
-            android:id="@+id/txtTotalGastos"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/txtTotalIngreso" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/total"
-            android:id="@+id/txtTotal"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

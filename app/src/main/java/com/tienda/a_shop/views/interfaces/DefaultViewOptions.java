@@ -1,6 +1,6 @@
 package com.tienda.a_shop.views.interfaces;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 /**
@@ -8,7 +8,7 @@ import android.widget.Toast;
  * DefaultViewOptions
  */
 
-public abstract class DefaultViewOptions extends Activity implements IDefaultViewOptions {
+public abstract class DefaultViewOptions extends AppCompatActivity implements IDefaultViewOptions {
 
     public void showToastLong (String message){
         showToast(message, Toast.LENGTH_LONG);

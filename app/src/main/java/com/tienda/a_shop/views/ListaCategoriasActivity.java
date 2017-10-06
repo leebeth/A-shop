@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import android.support.v4.widget.SlidingPaneLayout;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
@@ -49,6 +52,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
     private boolean writeExternalStorage;
     private GastoMes gastoActual;
     private ICategoriaPresenter categoriaPresenter;
+    private SlidingPaneLayout panelSummary;
 
 
     @Override
@@ -81,7 +85,7 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         });
 
         //agregar producto
-        ImageView agregarCategoria = (ImageView) findViewById(R.id.agregarProducto);
+        FloatingActionButton agregarCategoria = (FloatingActionButton) findViewById(R.id.agregarProducto);
         agregarCategoria.setOnClickListener(new View.OnClickListener() {
 
             @Override
