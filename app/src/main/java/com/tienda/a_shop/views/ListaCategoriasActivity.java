@@ -48,11 +48,12 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
     private TextView gasto;
     private TextView ingreso;
     private TextView total;
+    private TextView gastoEstimado;
+    private TextView totalDisponible;
     private ReportGeneratorTask task;
     private boolean writeExternalStorage;
     private GastoMes gastoActual;
     private ICategoriaPresenter categoriaPresenter;
-    private SlidingPaneLayout panelSummary;
 
 
     @Override
@@ -66,6 +67,8 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
         gasto = (TextView) findViewById(R.id.txtTotalGastos);
         ingreso = (TextView) findViewById(R.id.txtTotalIngreso);
         total = (TextView) findViewById(R.id.txtTotal);
+        gastoEstimado = (TextView) findViewById(R.id.txtGastoEstimado);
+        totalDisponible = (TextView) findViewById(R.id.txtTotalDisponible);
 
         categoriaPresenter.obtenerGastoActual();
 
@@ -174,13 +177,17 @@ public class ListaCategoriasActivity extends CategoriaViewOptions {
 
     private void actualizarListaResumen() {
         int totalAux = 0;
+        int totalEstimado = 0;
         for (int i = 1; i < categoriasMesActual.size(); i++) {
             totalAux += categoriasMesActual.get(i).getTotal();
+            totalEstimado += categoriasMesActual.get(i).getEstimado();
         }
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         gasto.setText(getString(R.string.gastos) + formatter.format(totalAux));
         ingreso.setText(getString(R.string.ingresos) + formatter.format(categoriasMesActual.get(0).getTotal()));
         total.setText(getString(R.string.total) + formatter.format(categoriasMesActual.get(0).getTotal() - totalAux));
+        gastoEstimado.setText(getString(R.string.gastos) + formatter.format(totalEstimado));
+        totalDisponible.setText(getString(R.string.total_disponible) + formatter.format(categoriasMesActual.get(0).getTotal() - totalEstimado));
     }
 
     @Override

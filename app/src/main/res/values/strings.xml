@@ -44,4 +44,7 @@
     <!--Excepciones-->
     <string name="storage_is_not_writable">No se ha permitido la escritura en memoria</string>
     <string name="report_error_message">Error escribiendo el reporte en la memoria</string>
+    <string name="labReales">Datos Reales:</string>
+    <string name="labEstimados">Datos Estimados:</string>
+    <string name="total_disponible">Disponible:</string>
 </resources>

@@ -10,29 +10,63 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="240dp"
+            android:layout_width="190dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp">
+
+            <TextView
+                android:id="@+id/txtTotalIngreso"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/ingresos" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="@string/ingresos"
-                android:id="@+id/txtTotalIngreso" />
+                android:text="@string/labReales" />
+
+            <TextView
+                android:id="@+id/txtTotalGastos"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/gastos" />
+
+            <TextView
+                android:id="@+id/txtTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/total" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="@string/gastos"
-                android:id="@+id/txtTotalGastos" />
+                android:text="@string/labEstimados" />
 
             <TextView
+                android:id="@+id/txtGastoEstimado"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="@string/total"
-                android:id="@+id/txtTotal" />
+                android:text="@string/gastos" />
+
+            <TextView
+                android:id="@+id/txtTotalDisponible"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/total_disponible" />
         </LinearLayout>
 
 
@@ -40,11 +74,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.1">
+
             <ListView
                 android:id="@+id/listaProductos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </ListView>
+                android:layout_height="wrap_content"></ListView>
 
         </RelativeLayout>
 
