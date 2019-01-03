@@ -99,16 +99,15 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
     }
 
     @Override
-    public void asociarCategoriaConGastoMes(Categoria categoria, GastoMes gastoMes) throws InternalException {
-        try {
-            CategoriaXGastoMes categoriaGastoMes = new CategoriaXGastoMes(null, categoria.getEstimado(), 0, categoria.getId(), gastoMes.getId());
-            categoriaGastoMes.setCategoria(categoria);
-            categoriaGastoMes.setGastoMes(gastoMes);
-            categoriaGastoMesDao.agregarCategoriaGastoMes(categoriaGastoMes);
+    public void asociarCategoriaConGastoMes(Categoria categoria, GastoMes gastoMes) throws CategoriaExistenteException {
+        CategoriaXGastoMes categoriaGastoMes = obtenerCategoriaMesActual(gastoMes, categoria);
+        if(categoriaGastoMes != null){
+            throw new CategoriaExistenteException("La categoría ya está asociada");
         }
-        catch (Exception e){
-            throw new InternalException(e.getMessage(), e);
-        }
+        categoriaGastoMes = new CategoriaXGastoMes(null, categoria.getEstimado(), 0, categoria.getId(), gastoMes.getId());
+        categoriaGastoMes.setCategoria(categoria);
+        categoriaGastoMes.setGastoMes(gastoMes);
+        categoriaGastoMesDao.agregarCategoriaGastoMes(categoriaGastoMes);
     }
 
     @Override
@@ -161,6 +160,20 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
 
     }
 
+    @Override
+    public void archivarMes()  {
+        try {
+            gastoMesDao.archivarMes();
+        } catch (InternalException e) {
+            Log.e(getClass().getName(), e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public CategoriaXGastoMes obtenerCategoriaMesActual(GastoMes mes, Categoria categoria) {
+        return categoriaGastoMesDao.getCategoriaGastoMes(categoria, mes);
+    }
+
     private class AgregarCategoriaCallable implements Callable<String> {
 
         private Categoria categoria;
@@ -170,11 +183,19 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         }
 
         @Override
-        public String call() throws CategoriaExistenteException, InternalException {
+        public String call() throws InternalException, CategoriaExistenteException {
             GastoMes gastoMesActual = gastoMesDao.obtenerGastoMesActual();
-            categoria = categoriaDao.guardarCategoria(categoria, gastoMesActual);
+            boolean existia = false;
+            try {
+                categoria = categoriaDao.guardarCategoria(categoria, gastoMesActual);
+            } catch (CategoriaExistenteException e) {
+                Log.w(TAG,"La categoría ya existe, se procede a asociarla con el mes actual");
+                existia = true;
+                categoria = e.getCategoriaEncontrada();
+            }
             asociarCategoriaConGastoMes(categoria, gastoMesActual);
-            return String.format("Categoría %s agregada satisfactoriamente", categoria.getNombre());
+            String message = existia ? "ya existía, se asoció con el mes actual correctamente": "fue agregada satisfactoriamente";
+            return String.format("La categoría %s %s", categoria.getNombre(), message);
         }
     }
 }

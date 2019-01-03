@@ -17,6 +17,7 @@
     <string name="title_activity_agregar_producto">Agregar Gasto</string>
     <string name="title_activity_historial_ventas">Historial de Ventas</string>
     <string name="crear_reporte">Exportar Reporte</string>
+    <string name="archive_month">Archivar mes</string>
     <string name="error_tittle">Error</string>
     <string name="success_tittle">Información</string>
     <string name="success_report">Reporte generado satisfactoriamente en la ruta: %s</string>

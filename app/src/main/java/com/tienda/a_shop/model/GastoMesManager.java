@@ -6,6 +6,7 @@ import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.model.interfaces.IGastoMesManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.callbacks.IDefaultCallback;
+import com.tienda.a_shop.utils.DateUtil;
 
 /**
  * Created by Lore on 06/05/2017.
@@ -32,7 +33,7 @@ public class GastoMesManager extends DefaultManager implements IGastoMesManager 
         GastoMes gastoMesActual = gastoMesDao.obtenerGastoMesActual();
 
         if (gastoMesActual == null) {
-            gastoMesActual = new GastoMes(null, false);
+            gastoMesActual = new GastoMes(null, false, DateUtil.getNameCurrentMonth());
             app.getDaoSession().insert(gastoMesActual);
         }
 

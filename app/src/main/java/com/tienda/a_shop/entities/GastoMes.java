@@ -21,6 +21,7 @@ public class GastoMes {
     @Id
     private Long id;
     private boolean archivado;
+    private String name;
     @ToMany(referencedJoinProperty = "gastoMesId")
     private List<CategoriaXGastoMes> categoriaXGastoMes;
     /** Used to resolve relations */
@@ -29,10 +30,11 @@ public class GastoMes {
     /** Used for active entity operations. */
     @Generated(hash = 1614622476)
     private transient GastoMesDao myDao;
-    @Generated(hash = 1447179027)
-    public GastoMes(Long id, boolean archivado) {
+    @Generated(hash = 211076532)
+    public GastoMes(Long id, boolean archivado, String name) {
         this.id = id;
         this.archivado = archivado;
+        this.name = name;
     }
     @Generated(hash = 518018026)
     public GastoMes() {
@@ -114,5 +116,11 @@ public class GastoMes {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getGastoMesDao() : null;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

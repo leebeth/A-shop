@@ -34,7 +34,7 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View view)
             {
-                Intent i = new Intent( MyActivity.this, ListaCategoriasActivity.class );
+                Intent i = new Intent( MyActivity.this, MesActivity.class );
                 startActivity(i);
             }
         });

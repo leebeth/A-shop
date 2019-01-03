@@ -20,8 +20,9 @@ public class CategoriaDaoImpl {
     }
 
     public Categoria guardarCategoria(Categoria categoria, GastoMes gastoMesActual) throws CategoriaExistenteException, InternalException {
+        Categoria categoriaEncontrada;
         try {
-            Categoria categoriaEncontrada = getCategoriaPorNombre(categoria.getNombre());
+            categoriaEncontrada = getCategoriaPorNombre(categoria.getNombre());
             if (categoriaEncontrada == null) {
                 long idCategoria = categoriaDao.insert(categoria);
                 categoria.setId(idCategoria);
@@ -31,7 +32,8 @@ public class CategoriaDaoImpl {
         catch (Exception e){
             throw new InternalException(e.getMessage(), e);
         }
-        throw new CategoriaExistenteException(String.format("La Categoría %s no fue agregada porque ya existía en BD", categoria.getNombre()));
+        String message = String.format("La Categoría %s no fue agregada porque ya existía en BD", categoria.getNombre());
+        throw new CategoriaExistenteException(message, categoriaEncontrada);
     }
 
     public Categoria getCategoriaPorNombre(String nombre) {

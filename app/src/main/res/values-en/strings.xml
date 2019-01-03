@@ -17,6 +17,7 @@
     <string name="title_activity_agregar_producto">Add Expense</string>
     <string name="title_activity_historial_ventas">Sales History</string>
     <string name="crear_reporte">Export Report</string>
+    <string name="archive_month">Archive month</string>
     <string name="error_tittle">Error</string>
     <string name="success_tittle">Information</string>
     <string name="success_report">Report generated successfully in path: %s</string>

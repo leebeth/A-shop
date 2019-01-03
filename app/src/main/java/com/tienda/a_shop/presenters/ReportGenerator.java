@@ -5,7 +5,9 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.tienda.a_shop.dao.BDProductos;
+import com.tienda.a_shop.dao.interfaces.GastoMesDao;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
+import com.tienda.a_shop.entities.GastoMes;
 import com.tienda.a_shop.entities.Item;
 import com.tienda.a_shop.exceptions.InternalException;
 
@@ -25,16 +27,14 @@ public class ReportGenerator {
 
     private static final String TAG = "ReportGenerator";
 
-    public static final SimpleDateFormat FULL_FORMAT = new SimpleDateFormat("dd-MM-yyyy-hhmmss");
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-    private BDProductos bdProductos;
+    public static final SimpleDateFormat FULL_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
-    public String createReportFile(Activity activity, List<CategoriaXGastoMes> productos) throws IOException, InternalException {
+    public String createReportFile(List<GastoMes> meses) throws IOException, InternalException {
 
         Calendar calendar = Calendar.getInstance();
 
-        String fileContent;
-        String filename = String.format("ReporteGenerado-%s.txt", FULL_FORMAT.format(calendar.getTime()));
+        String fileContent="";
+        String filename = String.format("Reporte On My Hand %s.txt", FULL_FORMAT.format(calendar.getTime()));
 
         File path = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOCUMENTS);
@@ -43,22 +43,28 @@ public class ReportGenerator {
 
         try {
 
-            String mes = DATE_FORMAT.format(calendar.getTime());
+            for (int i = 0; i < meses.size(); i++){
+                List<CategoriaXGastoMes> productos = meses.get(i).getCategoriaXGastoMes();
+                String mes = meses.get(i).getName();
 
-            fileContent = String.format("%s, Productos: %s\n", mes, productos.size());
+                fileContent = fileContent.concat(String.format("%s, %s\n\n", mes, productos.size()));
 
-            for (int j = 0; j < productos.size(); j++) {
-                CategoriaXGastoMes producto = productos.get(j);
-                List<Item> gastos = producto.getItems();
+                for (int j = 0; j < productos.size(); j++) {
+                    CategoriaXGastoMes producto = productos.get(j);
+                    List<Item> gastos = producto.getItems();
 
-                fileContent.concat(String.format("%s, Estimado: %s, Items: %s\n", producto.getCategoria().getNombre(),
-                        producto.getEstimado(), gastos.size()));
+                    fileContent = fileContent.concat(String.format("%s, %s\nEstimado %s, Real %s\n",
+                            producto.getCategoria().getNombre(), gastos.size(), producto.getEstimado(), producto.getTotal()));
 
-                for (int k = 0; k <gastos.size(); k++) {
-                    Item gasto = gastos.get(k);
-                    fileContent.concat(String.format("%s, %s\n", gasto.getNombre(), gasto.getValor()));
+                    for (int k = 0; k <gastos.size(); k++) {
+                        Item gasto = gastos.get(k);
+                        fileContent = fileContent.concat(String.format("%s, %s\n", gasto.getNombre(), gasto.getValor()));
+                    }
+                    fileContent = fileContent.concat("\n");
                 }
+                fileContent = fileContent.concat("======================================\n");
             }
+
             FileUtils.writeStringToFile(file, fileContent);
 
             return file.getPath();

@@ -2,4 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_crear_reporte"
         android:title="@string/crear_reporte"/>
+    <item android:id="@+id/action_archivar_mes"
+        android:title="@string/archive_month"/>
 </menu>

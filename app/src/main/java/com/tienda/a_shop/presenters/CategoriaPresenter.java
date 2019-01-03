@@ -70,6 +70,10 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
         categoriaManager.obtenerGastoMesActual();
     }
 
+    @Override
+    public void archivarMes()  {
+        categoriaManager.archivarMes();
+    }
 
     @Override
     public void onSuccess(List<Categoria> elements) {
