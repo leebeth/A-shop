@@ -17,6 +17,7 @@ public class EditarProductoActivity extends Activity
 {
     private EditText txtNombre;
     private EditText txtEstimado;
+    private EditText txtOrden;
 
     private String nombre;
     @Override
@@ -27,6 +28,7 @@ public class EditarProductoActivity extends Activity
 
         txtNombre = (EditText)findViewById(R.id.txtNombre);
         txtEstimado = (EditText)findViewById(R.id.txtEstimado);
+        txtOrden = (EditText)findViewById(R.id.txtOrden);
 
         Button butAceptar = (Button)findViewById(R.id.butAceptar);
         Button butCancelar=(Button)findViewById(R.id.butCancelar);
@@ -34,6 +36,7 @@ public class EditarProductoActivity extends Activity
         nombre = getIntent().getExtras().getString("nombre");
         txtNombre.setText(getIntent().getExtras().getString("nombre"));
         txtEstimado.setText(getIntent().getExtras().getString("estimado"));
+        txtOrden.setText(getIntent().getExtras().getString("orden"));
 
            butAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +46,7 @@ public class EditarProductoActivity extends Activity
                 i.putExtra("nombre", nombre );
                 i.putExtra("nombreN", txtNombre.getText().toString() );
                 i.putExtra("estimado", txtEstimado.getText().toString() );
+                i.putExtra("orden", txtOrden.getText().toString() );
                 setResult( Activity.RESULT_OK, i );
                 EditarProductoActivity.this.finish();
             }

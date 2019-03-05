@@ -48,4 +48,5 @@
     <string name="labReales">Real Data:</string>
     <string name="labEstimados">Estimated Data:</string>
     <string name="total_disponible">Available:</string>
+    <string name="orden">Priority:</string>
 </resources>

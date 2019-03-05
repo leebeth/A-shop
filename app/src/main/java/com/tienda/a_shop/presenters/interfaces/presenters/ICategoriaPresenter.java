@@ -7,8 +7,8 @@ package com.tienda.a_shop.presenters.interfaces.presenters;
 
 public interface ICategoriaPresenter {
 
-    void actualizarCategoría(String nombreN, String nombre, int estimado);
-    void agregarCategoria(String nombre, int estimado);
+    void actualizarCategoría(String nombreN, String nombre, int estimado, int orden);
+    void agregarCategoria(String nombre, int estimado, int orden);
     void eliminarCategoria(String nomCategoria);
     void listarCategoriasMesActual();
     void actualizarLista();

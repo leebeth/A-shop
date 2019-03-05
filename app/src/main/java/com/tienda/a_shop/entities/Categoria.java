@@ -23,6 +23,7 @@ public class Categoria {
     private Long id;
     private String nombre;
     private int estimado;
+    private int orden;
     @ToMany(referencedJoinProperty = "categoriaId")
     private List<CategoriaXGastoMes> categoriaXGastoMes;
     /** Used to resolve relations */
@@ -32,11 +33,12 @@ public class Categoria {
     @Generated(hash = 1170305099)
     private transient CategoriaDao myDao;
 
-    @Generated(hash = 1733461858)
-    public Categoria(Long id, String nombre, int estimado) {
+    @Generated(hash = 1918204968)
+    public Categoria(Long id, String nombre, int estimado, int orden) {
         this.id = id;
         this.nombre = nombre;
         this.estimado = estimado;
+        this.orden = orden;
     }
 
     @Generated(hash = 577285458)
@@ -137,5 +139,13 @@ public class Categoria {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCategoriaDao() : null;
+    }
+
+    public int getOrden() {
+        return this.orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
     }
 }

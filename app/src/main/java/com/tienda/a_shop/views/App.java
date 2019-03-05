@@ -4,6 +4,7 @@ import android.app.Application;
 import com.tienda.a_shop.dao.interfaces.DaoMaster.DevOpenHelper;
 import com.tienda.a_shop.dao.interfaces.DaoMaster;
 import com.tienda.a_shop.dao.interfaces.DaoSession;
+import com.tienda.a_shop.migrations.DatabaseUpgradeHelper;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 
 import org.greenrobot.greendao.database.Database;
@@ -24,8 +25,9 @@ public class App extends Application implements IApp {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        DevOpenHelper helper = new DevOpenHelper(this, ENCRYPTED ? "cashflow-db-encrypted" : "cashflow-db");
+        //Solo para desarrollo, esto borra todas las tablas cuando la version del esquema aumenta
+        //DevOpenHelper helper = new DevOpenHelper(this, ENCRYPTED ? "cashflow-db-encrypted" : "cashflow-db");
+        DatabaseUpgradeHelper helper = new DatabaseUpgradeHelper(this, ENCRYPTED ? "cashflow-db-encrypted" : "cashflow-db");
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
     }

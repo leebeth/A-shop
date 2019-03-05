@@ -34,18 +34,20 @@ public class CategoriaPresenter extends DefaultPresenter implements ICategoriaPr
         categoriaManager = new CategoriaManager(app, this);
     }
 
-    public void actualizarCategoría(String nombre, String nombreN, int estimado){
+    public void actualizarCategoría(String nombre, String nombreN, int estimado, int orden){
         Categoria categoria = new Categoria();
         categoria.setNombre(nombreN);
         categoria.setEstimado(estimado);
+        categoria.setOrden(orden);
         categoriaManager.editarCategoria(categoria, nombre);
     }
 
     @Override
-    public void agregarCategoria(String nombre, int estimado) {
+    public void agregarCategoria(String nombre, int estimado, int orden) {
         Categoria categoria = new Categoria();
         categoria.setNombre(nombre);
         categoria.setEstimado(estimado);
+        categoria.setOrden(orden);
         categoriaManager.agregarCategoria(categoria);
     }
 

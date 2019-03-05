@@ -57,6 +57,19 @@
         android:text=""
         android:inputType="number" />
 
+    <TextView
+        android:id="@+id/orden"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/orden"/>
+
+    <EditText
+        android:id="@+id/txtOrden"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:inputType="number" />
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="51dp"

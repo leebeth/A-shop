@@ -23,10 +23,12 @@ import com.tienda.a_shop.presenters.CategoriaPresenter;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
+import com.tienda.a_shop.utils.Comparators;
 import com.tienda.a_shop.utils.PermissionsUtil;
 import com.tienda.a_shop.views.interfaces.CategoriaViewOptions;
 
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -121,6 +123,7 @@ public class MesActivity extends CategoriaViewOptions {
                 com.tienda.a_shop.entities.CategoriaXGastoMes p = categoriasMesActual.get(info.position);
                 i.putExtra("nombre", p.getCategoria().getNombre());
                 i.putExtra("estimado", p.getEstimado() + "");
+                i.putExtra("orden", p.getCategoria().getOrden() + "");
                 startActivityForResult(i, REQUEST_TEXT);
                 return true;
             case R.id.action_eliminar_producto:
@@ -138,8 +141,9 @@ public class MesActivity extends CategoriaViewOptions {
                 String nombre = data.getExtras().getString("nombre");
                 String nombreN = data.getExtras().getString("nombreN");
                 int estimado = Integer.parseInt(data.getExtras().getString("estimado"));
+                int orden = Integer.parseInt(data.getExtras().getString("orden"));
 
-                editarProducto(nombreN, nombre, estimado);
+                editarProducto(nombreN, nombre, estimado, orden);
             }
         }
         if (requestCode == REQUEST_ADD) {
@@ -152,8 +156,8 @@ public class MesActivity extends CategoriaViewOptions {
         }
     }
 
-    private void editarProducto(String nombreN, String nombre, int estimado) {
-        categoriaPresenter.actualizarCategoría(nombreN, nombre, estimado);
+    private void editarProducto(String nombreN, String nombre, int estimado, int orden) {
+        categoriaPresenter.actualizarCategoría(nombreN, nombre, estimado, orden);
         categoriaPresenter.actualizarLista();
     }
 
@@ -167,9 +171,12 @@ public class MesActivity extends CategoriaViewOptions {
     public void actualizarLista(List<CategoriaXGastoMes> categorias) {
         categoriasMesActual = categorias;
         if (categoriasMesActual.isEmpty()) {
-            categoriaPresenter.agregarCategoria("Ingresos", 0);
+            categoriaPresenter.agregarCategoria("Ingresos", 0, 0);
             categoriaPresenter.actualizarLista();
         }
+
+        Collections.sort(categoriasMesActual, Comparators.getCategoryMonthComparator());
+
         ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoriasMesActual);
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();

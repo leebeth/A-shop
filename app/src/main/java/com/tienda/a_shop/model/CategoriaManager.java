@@ -85,6 +85,11 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
                     GastoMes gastoActual = gastoMesDao.obtenerGastoMesActual();
                     editada = categoriaGastoMesDao.editarEstimadoCategoria(categoriaEncontrada, gastoActual);
                 }
+                if(categoriaEncontrada.getOrden() != categoria.getOrden()){
+                    categoriaEncontrada.setOrden(categoria.getOrden());
+                    editada = categoriaDao.editarCategoria(categoriaEncontrada);
+                }
+
             }
             if (editada) {
                 mensaje = String.format("La Categoria %s ha sido editada satisfactoriamente", nombre);

@@ -21,6 +21,7 @@ public class AgregarCategoriaActivity extends CategoriaViewOptions
 {
     private EditText txtNombre;
     private EditText txtEstimado;
+    private EditText txtOrden;
 
     private ICategoriaPresenter categoriaPresenter;
 
@@ -34,6 +35,7 @@ public class AgregarCategoriaActivity extends CategoriaViewOptions
 
         txtNombre = (EditText)findViewById(R.id.txtNombre);
         txtEstimado = (EditText)findViewById(R.id.txtEstimado);
+        txtOrden = (EditText)findViewById(R.id.txtOrden);
         Button butAceptar = (Button)findViewById(R.id.butAceptar);
         Button butCancelar=(Button)findViewById(R.id.butCancelar);
 
@@ -42,7 +44,8 @@ public class AgregarCategoriaActivity extends CategoriaViewOptions
             public void onClick(View view) {
                 Intent i = new Intent(AgregarCategoriaActivity.this, AgregarCategoriaActivity.class);
                 int estimado = txtEstimado.getText().toString().equals("")? 0 : Integer.parseInt(txtEstimado.getText().toString());
-                categoriaPresenter.agregarCategoria(txtNombre.getText().toString(), estimado);
+                int orden = txtOrden.getText().toString().equals("")? 0 : Integer.parseInt(txtOrden.getText().toString());
+                categoriaPresenter.agregarCategoria(txtNombre.getText().toString(), estimado, orden);
                 setResult(Activity.RESULT_OK, i);
             }
         });
