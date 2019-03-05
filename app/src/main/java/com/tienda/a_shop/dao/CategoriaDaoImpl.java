@@ -7,6 +7,8 @@ import com.tienda.a_shop.exceptions.CategoriaExistenteException;
 import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 
+import java.util.List;
+
 /**
  * Created by Lorena on 29/04/2017.
  * CategoriaDaoImpl
@@ -45,5 +47,5 @@ public class CategoriaDaoImpl {
         return true;
     }
 
-
+    public List<Categoria> getCategorias(){ return categoriaDao.loadAll(); }
 }

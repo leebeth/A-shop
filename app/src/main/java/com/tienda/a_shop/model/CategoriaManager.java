@@ -5,6 +5,7 @@ import android.util.Log;
 import com.tienda.a_shop.dao.CategoriaDaoImpl;
 import com.tienda.a_shop.dao.CategoriaGastoMesDaoImpl;
 import com.tienda.a_shop.dao.GastoMesDaoImpl;
+import com.tienda.a_shop.dao.interfaces.CategoriaDao;
 import com.tienda.a_shop.entities.Categoria;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.GastoMes;
@@ -13,6 +14,7 @@ import com.tienda.a_shop.exceptions.InternalException;
 import com.tienda.a_shop.model.interfaces.ICategoriaManager;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.callbacks.ICategoriaCallback;
+import com.tienda.a_shop.utils.DateUtil;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -151,13 +153,22 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
     public void obtenerGastoMesActual() {
         try {
             GastoMes gastoMesActual =gastoMesDao.obtenerGastoMesActual();
+            if(gastoMesActual == null){
+                gastoMesActual = new GastoMes(null, false, DateUtil.getNameCurrentMonth());
+                long id = gastoMesDao.insert(gastoMesActual);
+                gastoMesActual.setId(id);
+
+                List<Categoria> categorias = categoriaDao.getCategorias();
+                for (Categoria categoria: categorias) {
+                    agregarCategoria(categoria);
+                }
+            }
             presenter.obtenerGastoMesActual(gastoMesActual);
         }
         catch(Exception e)
         {
             presenter.onError(e.getMessage());
         }
-
     }
 
     @Override
