@@ -16,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tienda.a_shop.R;
+import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.Item;
+import com.tienda.a_shop.presenters.CategoriaPresenter;
 import com.tienda.a_shop.presenters.ItemPresenter;
 import com.tienda.a_shop.presenters.interfaces.IApp;
+import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.presenters.interfaces.presenters.IItemPresenter;
 import com.tienda.a_shop.views.interfaces.ItemViewOptions;
 
@@ -28,6 +31,8 @@ import java.util.List;
 
 public class ListaItemsProductosActivity extends ItemViewOptions {
 
+
+    private static final int REQUEST_TEXT = 0;
     private static final int REQUEST_ADD = 1;
     private static final int REQUEST_DETAIL = 2;
 
@@ -55,13 +60,6 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
         ((TextView) findViewById(R.id.txtEstimado)).setText(String.format(getString(R.string.estimado), formatter.format(estimado)));
         ((TextView) findViewById(R.id.label_carrito)).setText(nombreProducto);
         listaProductos = (ListView) findViewById(R.id.carrito_lista);
-        listaProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Ha pulsado el item " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         Button cancelar = (Button) findViewById(R.id.carrito_cancelar);
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +81,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
                 startActivityForResult(i, REQUEST_ADD);
             }
         });
+        registerForContextMenu(listaProductos);
     }
 
     private int calcularPrecioTotal() {
@@ -109,18 +108,30 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
     }
 
     public String eliminarItemCarrito(int pos) {
-        String nombre = items.get(pos).getNombre();
-        items.remove(pos);
-        ArrayAdapter<Item> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        listaProductos.setAdapter(adapter);
-        return nombre;
+        return "";
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.carrito_de_venta, menu);
+        inflater.inflate(R.menu.lista_producto_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.action_editar_producto:
+                Item itemToUpdate = items.get(info.position);
+
+                return true;
+            case R.id.action_eliminar_producto:
+                eliminarItemCarrito(info.position);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
 
@@ -130,23 +141,6 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
             if (resultCode == Activity.RESULT_OK) {
                 itemPresenter.obtenerItems(idCategoriaGastoMes);
             }
-        }
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
-            case R.id.action_editar:
-
-                Toast.makeText(getApplicationContext(), "editando el item " + info.id, Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.action_eliminar:
-                String nombre = eliminarItemCarrito(info.position);
-                Toast.makeText(getApplicationContext(), "Eliminado el item " + nombre + ".", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
         }
     }
 

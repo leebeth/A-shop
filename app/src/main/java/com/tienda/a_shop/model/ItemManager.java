@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.tienda.a_shop.dao.CategoriaGastoMesDaoImpl;
 import com.tienda.a_shop.dao.ItemDaoImpl;
-import com.tienda.a_shop.dao.interfaces.ItemDao;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.Item;
 import com.tienda.a_shop.model.interfaces.IItemManager;
@@ -41,6 +40,19 @@ public class ItemManager extends DefaultManager implements IItemManager {
         }
         catch (Exception e){
             message = e.getMessage();
+            Log.e(TAG, message, e);
+            presenter.onError(message);
+        }
+    }
+
+    @Override
+    public void actualizarItem(Item item) {
+        try {
+            itemDao.actualizarItem(item);
+            presenter.onSuccess("Item Actualizado");
+        }
+        catch (Exception e){
+            String message = e.getMessage();
             Log.e(TAG, message, e);
             presenter.onError(message);
         }

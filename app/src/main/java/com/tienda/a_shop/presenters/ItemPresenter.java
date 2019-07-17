@@ -36,6 +36,11 @@ public class ItemPresenter extends DefaultPresenter implements IItemPresenter, I
     }
 
     @Override
+    public void editarItem(Item item) {
+        itemManager.actualizarItem(item);
+    }
+
+    @Override
     public void obtenerItems(long idCategoriaGastoMes) {
         itemManager.obtenerItems(idCategoriaGastoMes);
     }

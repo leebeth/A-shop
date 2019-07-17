@@ -30,4 +30,8 @@ public class ItemDaoImpl {
     public void agregarItem(Item item) {
         itemDao.insert(item);
     }
+
+    public void actualizarItem(Item item){
+        itemDao.update(item);
+    }
 }
