@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.tienda.a_shop.BuildConfig;
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.dao.interfaces.GastoMesDao;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
@@ -82,7 +85,15 @@ public class ReportGeneratorTask extends AsyncTask<CategoriaXGastoMes, String, S
 
         Intent myIntent = new Intent(Intent.ACTION_VIEW);
         File item = new File(split[2]);
-        myIntent.setDataAndType(Uri.fromFile(item), "text/plain");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri fileURI = FileProvider.getUriForFile(activity.getApplicationContext(), BuildConfig.APPLICATION_ID + ".fileprovider", item);
+            myIntent.setDataAndType(fileURI, "text/plain");
+            myIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        else
+        {
+            myIntent.setDataAndType(Uri.fromFile(item), "text/plain");
+        }
         Intent j = Intent.createChooser(myIntent, "Choose an application to open with:");
         activity.startActivity(j);
     }

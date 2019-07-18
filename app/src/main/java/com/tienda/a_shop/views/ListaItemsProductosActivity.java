@@ -34,7 +34,6 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
 
     private static final int REQUEST_TEXT = 0;
     private static final int REQUEST_ADD = 1;
-    private static final int REQUEST_DETAIL = 2;
 
     private List<Item> items;
     private ListView listaProductos;
@@ -124,7 +123,12 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
         switch (item.getItemId()) {
             case R.id.action_editar_producto:
                 Item itemToUpdate = items.get(info.position);
-
+                Intent i = new Intent(this, EditarItemActivity.class);
+                i.putExtra("Id", itemToUpdate.getId());
+                i.putExtra("Nombre", itemToUpdate.getNombre());
+                i.putExtra("Valor", itemToUpdate.getValor());
+                i.putExtra("CategoriaXGastoMesId", itemToUpdate.getCategoriaXGastoMesId());
+                startActivityForResult(i, REQUEST_TEXT);
                 return true;
             case R.id.action_eliminar_producto:
                 eliminarItemCarrito(info.position);

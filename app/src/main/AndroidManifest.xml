@@ -11,6 +11,15 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
         <activity
             android:name=".views.MyActivity"
             android:label="@string/app_name">
@@ -39,6 +48,9 @@
             android:label="@string/title_activity_historial_ventas" />
         <activity
             android:name=".views.AgregarItemGastoActivity"
+            android:label="@string/title_activity_agregar_item_gasto" />
+        <activity
+            android:name=".views.EditarItemActivity"
             android:label="@string/title_activity_agregar_item_gasto" />
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
