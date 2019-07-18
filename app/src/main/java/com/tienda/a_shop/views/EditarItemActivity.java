@@ -1,5 +1,6 @@
 package com.tienda.a_shop.views;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,10 +24,11 @@ public class EditarItemActivity extends ItemViewOptions {
     private int totalGasto;
     private IItemPresenter itemPresenter;
     private String nombre = "";
-    private String valor = "";
+    private int valor = 0;
     private Long id;
     private Long categoriaXGastoMesId;
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +39,12 @@ public class EditarItemActivity extends ItemViewOptions {
 
         if(getIntent().getExtras() != null){
             nombre = getIntent().getExtras().getString("Nombre");
-            valor = getIntent().getExtras().getString("Valor");
+            valor = getIntent().getExtras().getInt("Valor");
             id = getIntent().getExtras().getLong("Id");
             categoriaXGastoMesId = getIntent().getExtras().getLong("CategoriaXGastoMesId");
         }
         txtNombre.setText(nombre);
-        txtValor.setText(valor);
+        txtValor.setText(String.format("%d", valor));
 
         Button butAceptar = (Button)findViewById(R.id.butAceptar);
         Button butCancelar=(Button)findViewById(R.id.butCancelar);
@@ -53,18 +55,19 @@ public class EditarItemActivity extends ItemViewOptions {
         butAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(EditarItemActivity.this, AgregarCategoriaActivity.class);
+                Intent i = new Intent();
                 int valor = txtValor.getText().toString().equals("")?0: Integer.parseInt(txtValor.getText().toString());
                 if(valor !=0)
                 {
-                    if(!txtValor.getText().toString().equals(EditarItemActivity.this.valor) || !txtNombre.getText().toString().equals(nombre)){
+                    if( valor != (EditarItemActivity.this.valor) || !txtNombre.getText().toString().equals(nombre)){
                         Item item = new Item();
                         item.setId(id);
                         item.setCategoriaXGastoMesId(categoriaXGastoMesId);
-                        item.setNombre(nombre);
+                        item.setNombre(txtNombre.getText().toString());
                         item.setValor(valor);
                         itemPresenter.editarItem(item);
                         setResult(Activity.RESULT_OK, i);
+                        finish();
                     }
                     else
                     {

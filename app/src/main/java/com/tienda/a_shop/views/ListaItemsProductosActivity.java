@@ -107,6 +107,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
     }
 
     public String eliminarItemCarrito(int pos) {
+        Toast.makeText(getApplicationContext(), "No implementado", Toast.LENGTH_SHORT).show();
         return "";
     }
 
@@ -141,7 +142,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_ADD) {
+        if (requestCode == REQUEST_ADD || requestCode == REQUEST_TEXT) {
             if (resultCode == Activity.RESULT_OK) {
                 itemPresenter.obtenerItems(idCategoriaGastoMes);
             }
