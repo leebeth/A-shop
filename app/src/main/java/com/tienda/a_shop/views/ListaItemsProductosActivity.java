@@ -53,7 +53,9 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
         formatter = NumberFormat.getCurrencyInstance();
 
         idCategoriaGastoMes = getIntent().getLongExtra("idProducto", 0L);
-        String nombreProducto = getIntent().getStringExtra("nombreProducto");
+        final String nombreProducto = getIntent().getStringExtra("nombreProducto");
+        final long idIngresos = getIntent().getLongExtra("idIngresos", 0L);
+        final int totalIngresos = getIntent().getIntExtra("totalIngresos",0);
         estimado = getIntent().getIntExtra("estimadoProducto", 0);
 
         ((TextView) findViewById(R.id.txtEstimado)).setText(String.format(getString(R.string.estimado), formatter.format(estimado)));
@@ -76,7 +78,10 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
             public void onClick(View view) {
                 Intent i = new Intent(ListaItemsProductosActivity.this, AgregarItemGastoActivity.class);
                 i.putExtra("idProducto", idCategoriaGastoMes);
+                i.putExtra("idIngresos", idIngresos);
+                i.putExtra("totalIngresos", totalIngresos);
                 i.putExtra("totalGasto", calcularPrecioTotal());
+                i.putExtra("nombreProducto", nombreProducto);
                 startActivityForResult(i, REQUEST_ADD);
             }
         });

@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tienda.a_shop.R;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
@@ -78,6 +79,8 @@ public class MesActivity extends CategoriaViewOptions {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 Intent i = new Intent(MesActivity.this, ListaItemsProductosActivity.class);
+                i.putExtra("idIngresos", categoriasMesActual.get(0).getId());
+                i.putExtra("totalIngresos", categoriasMesActual.get(0).getTotal());
                 i.putExtra("idProducto", categoriasMesActual.get(position).getId());
                 i.putExtra("nombreProducto", categoriasMesActual.get(position).getCategoria().getNombre());
                 i.putExtra("estimadoProducto", categoriasMesActual.get(position).getEstimado());

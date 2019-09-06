@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tienda.a_shop.R;
@@ -33,6 +35,12 @@ public class AgregarItemGastoActivity extends ItemViewOptions {
         Button butCancelar=(Button)findViewById(R.id.butCancelar);
         idProducto = getIntent().getLongExtra("idProducto", 0L);
         totalGasto = getIntent().getIntExtra("totalGasto",0);
+        String nombreProducto = getIntent().getStringExtra("nombreProducto");
+        final long idIngresos = getIntent().getLongExtra("idIngresos", 0L);
+        ((TextView) findViewById(R.id.label_agregar_producto)).setText(nombreProducto);
+
+        final Switch simpleSwitch = (Switch) findViewById(R.id.switch1);
+        simpleSwitch.setVisibility( idProducto == idIngresos ? View.INVISIBLE : View.VISIBLE );
 
         itemPresenter = new ItemPresenter((IApp)getApplication(),this);
         butAceptar.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +53,12 @@ public class AgregarItemGastoActivity extends ItemViewOptions {
                     int valorGastoActual = Integer.parseInt(txtValor.getText().toString());
                     itemPresenter.agregarItem(idProducto, txtNombre.getText().toString(),valorGastoActual, totalGasto);
                     totalGasto += valorGastoActual;
+
+                    boolean switchState = simpleSwitch.isChecked();
+                    if(switchState){
+                        int totalIngresos = getIntent().getIntExtra("totalIngresos",0);
+                        itemPresenter.agregarItem(idIngresos, txtNombre.getText().toString(),valorGastoActual, totalIngresos);
+                    }
                     setResult(Activity.RESULT_OK, i);
                 }
                 else
