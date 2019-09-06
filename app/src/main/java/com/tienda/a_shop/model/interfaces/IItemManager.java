@@ -12,4 +12,6 @@ public interface IItemManager {
     void agregarItem(Item item, int totalCategoriaGastoMes);
     void actualizarItem(Item item);
     void obtenerItems(long idCategoriaGastoMes);
+
+    void eliminarItem(Item item);
 }

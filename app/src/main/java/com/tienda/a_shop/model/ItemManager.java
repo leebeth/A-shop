@@ -72,6 +72,20 @@ public class ItemManager extends DefaultManager implements IItemManager {
     }
 
     @Override
+    public void eliminarItem(Item item) {
+        String message;
+        try {
+            message = app.getDaoSession().callInTx(new EliminarItemCallable(item));
+            presenter.onSuccess(message);
+        }
+        catch (Exception e){
+            message = e.getMessage();
+            Log.e(TAG, message, e);
+            presenter.onError(message);
+        }
+    }
+
+    @Override
     void initDao() {
         itemDao = new ItemDaoImpl(app);
         categoriaGastoMesDao = new CategoriaGastoMesDaoImpl(app);
@@ -96,6 +110,27 @@ public class ItemManager extends DefaultManager implements IItemManager {
             categoriaXGastoMes.setTotal(total);
             categoriaGastoMesDao.actualizarCategoriaXGastoMes(categoriaXGastoMes);
             return String.format("Item %s agregado satisfactoriamente", item.getNombre());
+        }
+    }
+
+
+    private class EliminarItemCallable implements Callable<String> {
+
+        private Item item;
+
+        private EliminarItemCallable(Item item){
+            this.item = item;
+        }
+
+        @Override
+        public String call() {
+            CategoriaXGastoMes categoriaXGastoMes = categoriaGastoMesDao.obtenerCategoriaGastoMes(item.getCategoriaXGastoMesId());
+            int total = categoriaXGastoMes.getTotal() - item.getValor();
+            categoriaXGastoMes.setTotal(total);
+            categoriaGastoMesDao.actualizarCategoriaXGastoMes(categoriaXGastoMes);
+
+            itemDao.eliminarItem(item);
+            return String.format("Item %s eliminado satisfactoriamente", item.getNombre());
         }
     }
 }

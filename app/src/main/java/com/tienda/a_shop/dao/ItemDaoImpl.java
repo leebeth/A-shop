@@ -34,4 +34,8 @@ public class ItemDaoImpl {
     public void actualizarItem(Item item){
         itemDao.update(item);
     }
+
+    public void eliminarItem(Item item) {
+        itemDao.delete(item);
+    }
 }

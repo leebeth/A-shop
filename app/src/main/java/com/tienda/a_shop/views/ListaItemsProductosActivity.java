@@ -111,9 +111,9 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
                 String.format(getString(R.string.disponible), formatter.format(estimado - tot)));
     }
 
-    public String eliminarItemCarrito(int pos) {
-        Toast.makeText(getApplicationContext(), "No implementado", Toast.LENGTH_SHORT).show();
-        return "";
+    public void eliminarItemCarrito(int pos) {
+        itemPresenter.eliminarItem(items.get(pos));
+        itemPresenter.obtenerItems(idCategoriaGastoMes);
     }
 
     @Override

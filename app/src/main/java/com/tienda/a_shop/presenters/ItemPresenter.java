@@ -46,6 +46,11 @@ public class ItemPresenter extends DefaultPresenter implements IItemPresenter, I
     }
 
     @Override
+    public void eliminarItem(Item item) {
+        itemManager.eliminarItem(item);
+    }
+
+    @Override
     public void onSuccess(List<Item> elements) {
         viewOptions.actualizarLista(elements);
     }

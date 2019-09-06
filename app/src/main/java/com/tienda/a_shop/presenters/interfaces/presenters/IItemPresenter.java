@@ -11,4 +11,6 @@ public interface IItemPresenter {
     void agregarItem(long idCategoriaGastoMes, String nombre, int valorItem, int totalCategoriaGastoMes);
     void editarItem(Item item);
     void obtenerItems(long idCategoriaGastoMes);
+
+    void eliminarItem(Item item);
 }
