@@ -21,7 +21,6 @@ public class AgregarItemGastoActivity extends ItemViewOptions {
     private EditText txtNombre;
     private EditText txtValor;
     private long idProducto;
-    private int totalGasto;
     private IItemPresenter itemPresenter;
 
     @Override
@@ -34,7 +33,6 @@ public class AgregarItemGastoActivity extends ItemViewOptions {
         Button butAceptar = (Button)findViewById(R.id.butAceptar);
         Button butCancelar=(Button)findViewById(R.id.butCancelar);
         idProducto = getIntent().getLongExtra("idProducto", 0L);
-        totalGasto = getIntent().getIntExtra("totalGasto",0);
         final String nombreProducto = getIntent().getStringExtra("nombreProducto");
         final long idIngresos = getIntent().getLongExtra("idIngresos", 0L);
         ((TextView) findViewById(R.id.label_agregar_producto)).setText(nombreProducto);
@@ -52,11 +50,9 @@ public class AgregarItemGastoActivity extends ItemViewOptions {
                 {
                     double valorGastoActual = Double.parseDouble(txtValor.getText().toString());
                     itemPresenter.agregarItem(idProducto, txtNombre.getText().toString(),valorGastoActual);
-                    totalGasto += valorGastoActual;
 
                     boolean switchState = simpleSwitch.isChecked();
                     if(switchState){
-                        double totalIngresos = getIntent().getDoubleExtra("totalIngresos",0);
                         itemPresenter.agregarItem(idIngresos, nombreProducto + " " + txtNombre.getText().toString(),valorGastoActual);
                     }
                     setResult(Activity.RESULT_OK, i);

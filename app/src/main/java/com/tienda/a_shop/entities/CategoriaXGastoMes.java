@@ -6,6 +6,7 @@ import org.greenrobot.greendao.annotation.OrderBy;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
+import java.text.NumberFormat;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
@@ -234,6 +235,7 @@ public class CategoriaXGastoMes {
 
     @Override
     public String toString() {
-        return getCategoria().getNombre() +"     " + CategoriaGastoMesUtils.getTotal(this);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return getCategoria().getNombre() +"     " + formatter.format(CategoriaGastoMesUtils.getTotal(this));
     }
 }

@@ -10,6 +10,8 @@ import com.tienda.a_shop.dao.interfaces.DaoSession;
 import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
 import com.tienda.a_shop.dao.interfaces.ItemDao;
 
+import java.text.NumberFormat;
+
 /**
  * Created by Lorena on 08/04/2017.
  * Item
@@ -136,6 +138,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return getNombre() + "     " + getValor();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return getNombre() + "     " + formatter.format(getValor());
     }
 }
