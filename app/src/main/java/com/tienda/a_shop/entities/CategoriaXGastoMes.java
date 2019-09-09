@@ -26,9 +26,9 @@ public class CategoriaXGastoMes {
     @Id
     private Long id;
 
-    private int estimado;
+    private double estimado;
 
-    private int total;
+    private double total;
 
     private Long categoriaId;
 
@@ -52,9 +52,9 @@ public class CategoriaXGastoMes {
     @Generated(hash = 926528791)
     private transient CategoriaXGastoMesDao myDao;
 
-    @Generated(hash = 331212049)
-    public CategoriaXGastoMes(Long id, int estimado, int total, Long categoriaId,
-            Long gastoMesId) {
+    @Generated(hash = 1345222305)
+    public CategoriaXGastoMes(Long id, double estimado, double total,
+            Long categoriaId, Long gastoMesId) {
         this.id = id;
         this.estimado = estimado;
         this.total = total;
@@ -66,6 +66,12 @@ public class CategoriaXGastoMes {
     public CategoriaXGastoMes() {
     }
 
+    @Generated(hash = 1426606615)
+    private transient Long categoria__resolvedKey;
+
+    @Generated(hash = 1841959907)
+    private transient Long gastoMes__resolvedKey;
+
     public Long getId() {
         return this.id;
     }
@@ -74,19 +80,19 @@ public class CategoriaXGastoMes {
         this.id = id;
     }
 
-    public int getEstimado() {
+    public double getEstimado() {
         return this.estimado;
     }
 
-    public void setEstimado(int estimado) {
+    public void setEstimado(double estimado) {
         this.estimado = estimado;
     }
 
-    public int getTotal() {
+    public double getTotal() {
         return this.total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(double total) {
         this.total = total;
     }
 
@@ -105,9 +111,6 @@ public class CategoriaXGastoMes {
     public void setGastoMesId(Long gastoMesId) {
         this.gastoMesId = gastoMesId;
     }
-
-    @Generated(hash = 1426606615)
-    private transient Long categoria__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 1691938245)
@@ -138,9 +141,6 @@ public class CategoriaXGastoMes {
             categoria__resolvedKey = categoriaId;
         }
     }
-
-    @Generated(hash = 1841959907)
-    private transient Long gastoMes__resolvedKey;
 
     /** To-one relationship, resolved on first access. */
     @Generated(hash = 187147144)
@@ -235,15 +235,15 @@ public class CategoriaXGastoMes {
         myDao.update(this);
     }
 
-    @Override
-    public String toString() {
-        return getCategoria().getNombre() +"     " + total;
-    }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 226230319)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCategoriaXGastoMesDao() : null;
+    }
+
+    @Override
+    public String toString() {
+        return getCategoria().getNombre() +"     " + total;
     }
 }

@@ -38,7 +38,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
     private List<Item> items;
     private ListView listaProductos;
     private long idCategoriaGastoMes;
-    private int estimado;
+    private double estimado;
     private NumberFormat formatter;
 
     private IItemPresenter itemPresenter;
@@ -55,8 +55,8 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
         idCategoriaGastoMes = getIntent().getLongExtra("idProducto", 0L);
         final String nombreProducto = getIntent().getStringExtra("nombreProducto");
         final long idIngresos = getIntent().getLongExtra("idIngresos", 0L);
-        final int totalIngresos = getIntent().getIntExtra("totalIngresos",0);
-        estimado = getIntent().getIntExtra("estimadoProducto", 0);
+        final double totalIngresos = getIntent().getDoubleExtra("totalIngresos",0);
+        estimado = getIntent().getDoubleExtra("estimadoProducto", 0);
 
         ((TextView) findViewById(R.id.txtEstimado)).setText(String.format(getString(R.string.estimado), formatter.format(estimado)));
         ((TextView) findViewById(R.id.label_carrito)).setText(nombreProducto);
@@ -99,7 +99,7 @@ public class ListaItemsProductosActivity extends ItemViewOptions {
     }
 
     private void actualizarPrecioTotal() {
-        int tot = 0;
+        double tot = 0;
         if (items != null) {
             for (Item i : items) {
                 tot += i.getValor();

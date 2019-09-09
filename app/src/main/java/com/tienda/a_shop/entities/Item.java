@@ -22,17 +22,15 @@ public class Item {
     @ToOne(joinProperty = "categoriaXGastoMesId")
     private CategoriaXGastoMes categoriaXGastoMes;
     private String nombre;
-    private int valor;
+    private double valor;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     /** Used for active entity operations. */
     @Generated(hash = 182764869)
     private transient ItemDao myDao;
-    @Generated(hash = 2053355534)
-    private transient Long categoriaXGastoMes__resolvedKey;
-    @Generated(hash = 1615840858)
-    public Item(Long id, Long categoriaXGastoMesId, String nombre, int valor) {
+    @Generated(hash = 1147528999)
+    public Item(Long id, Long categoriaXGastoMesId, String nombre, double valor) {
         this.id = id;
         this.categoriaXGastoMesId = categoriaXGastoMesId;
         this.nombre = nombre;
@@ -41,6 +39,8 @@ public class Item {
     @Generated(hash = 1470900980)
     public Item() {
     }
+    @Generated(hash = 2053355534)
+    private transient Long categoriaXGastoMes__resolvedKey;
     public Long getId() {
         return this.id;
     }
@@ -59,10 +59,10 @@ public class Item {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public int getValor() {
+    public double getValor() {
         return this.valor;
     }
-    public void setValor(int valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
     /** To-one relationship, resolved on first access. */
@@ -127,14 +127,15 @@ public class Item {
         }
         myDao.update(this);
     }
-    @Override
-    public String toString() {
-        return getNombre() + "     " + getValor();
-    }
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 881068859)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getItemDao() : null;
+    }
+
+    @Override
+    public String toString() {
+        return getNombre() + "     " + getValor();
     }
 }

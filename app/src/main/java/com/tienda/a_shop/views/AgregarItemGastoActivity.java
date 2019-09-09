@@ -35,7 +35,7 @@ public class AgregarItemGastoActivity extends ItemViewOptions {
         Button butCancelar=(Button)findViewById(R.id.butCancelar);
         idProducto = getIntent().getLongExtra("idProducto", 0L);
         totalGasto = getIntent().getIntExtra("totalGasto",0);
-        String nombreProducto = getIntent().getStringExtra("nombreProducto");
+        final String nombreProducto = getIntent().getStringExtra("nombreProducto");
         final long idIngresos = getIntent().getLongExtra("idIngresos", 0L);
         ((TextView) findViewById(R.id.label_agregar_producto)).setText(nombreProducto);
 
@@ -47,17 +47,17 @@ public class AgregarItemGastoActivity extends ItemViewOptions {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(AgregarItemGastoActivity.this, AgregarCategoriaActivity.class);
-                int valor = txtValor.getText().toString().equals("")?0: Integer.parseInt(txtValor.getText().toString());
+                double valor = txtValor.getText().toString().equals("")?0: Double.parseDouble(txtValor.getText().toString());
                 if(valor !=0)
                 {
-                    int valorGastoActual = Integer.parseInt(txtValor.getText().toString());
+                    double valorGastoActual = Double.parseDouble(txtValor.getText().toString());
                     itemPresenter.agregarItem(idProducto, txtNombre.getText().toString(),valorGastoActual, totalGasto);
                     totalGasto += valorGastoActual;
 
                     boolean switchState = simpleSwitch.isChecked();
                     if(switchState){
-                        int totalIngresos = getIntent().getIntExtra("totalIngresos",0);
-                        itemPresenter.agregarItem(idIngresos, txtNombre.getText().toString(),valorGastoActual, totalIngresos);
+                        double totalIngresos = getIntent().getDoubleExtra("totalIngresos",0);
+                        itemPresenter.agregarItem(idIngresos, nombreProducto + " " + txtNombre.getText().toString(),valorGastoActual, totalIngresos);
                     }
                     setResult(Activity.RESULT_OK, i);
                 }

@@ -32,7 +32,7 @@ public class ItemManager extends DefaultManager implements IItemManager {
     }
 
     @Override
-    public void agregarItem(Item item, int totalCategoriaGastoMes) {
+    public void agregarItem(Item item, double totalCategoriaGastoMes) {
         String message;
         try {
             message = app.getDaoSession().callInTx(new AgregarItemCallable(item, totalCategoriaGastoMes));
@@ -94,16 +94,16 @@ public class ItemManager extends DefaultManager implements IItemManager {
     private class AgregarItemCallable implements Callable<String> {
 
         private Item item;
-        private int totalCategoriaGastoMes;
+        private double totalCategoriaGastoMes;
 
-        private AgregarItemCallable(Item item, int totalCategoriaGastoMes){
+        private AgregarItemCallable(Item item, double totalCategoriaGastoMes){
             this.item = item;
             this.totalCategoriaGastoMes = totalCategoriaGastoMes;
         }
 
         @Override
         public String call() {
-            int total = totalCategoriaGastoMes + item.getValor();
+            double total = totalCategoriaGastoMes + item.getValor();
             itemDao.agregarItem(item);
 
             CategoriaXGastoMes categoriaXGastoMes = categoriaGastoMesDao.obtenerCategoriaGastoMes(item.getCategoriaXGastoMesId());
@@ -125,7 +125,7 @@ public class ItemManager extends DefaultManager implements IItemManager {
         @Override
         public String call() {
             CategoriaXGastoMes categoriaXGastoMes = categoriaGastoMesDao.obtenerCategoriaGastoMes(item.getCategoriaXGastoMesId());
-            int total = categoriaXGastoMes.getTotal() - item.getValor();
+            double total = categoriaXGastoMes.getTotal() - item.getValor();
             categoriaXGastoMes.setTotal(total);
             categoriaGastoMesDao.actualizarCategoriaXGastoMes(categoriaXGastoMes);
 

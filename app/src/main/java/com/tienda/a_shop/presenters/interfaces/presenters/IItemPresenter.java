@@ -8,7 +8,7 @@ import com.tienda.a_shop.entities.Item;
  */
 
 public interface IItemPresenter {
-    void agregarItem(long idCategoriaGastoMes, String nombre, int valorItem, int totalCategoriaGastoMes);
+    void agregarItem(long idCategoriaGastoMes, String nombre, double valorItem, double totalCategoriaGastoMes);
     void editarItem(Item item);
     void obtenerItems(long idCategoriaGastoMes);
 
