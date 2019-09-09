@@ -30,9 +30,9 @@ public class ItemPresenter extends DefaultPresenter implements IItemPresenter, I
     }
 
     @Override
-    public void agregarItem(long idCategoriaGastoMes, String nombre, double valorItem, double totalCategoriaGastoMes) {
+    public void agregarItem(long idCategoriaGastoMes, String nombre, double valorItem) {
         Item item = new Item(null, idCategoriaGastoMes, nombre, valorItem);
-        itemManager.agregarItem(item, totalCategoriaGastoMes);
+        itemManager.agregarItem(item);
     }
 
     @Override

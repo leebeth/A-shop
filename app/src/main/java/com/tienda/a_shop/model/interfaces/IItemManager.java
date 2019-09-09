@@ -9,7 +9,7 @@ import com.tienda.a_shop.entities.Item;
  */
 
 public interface IItemManager {
-    void agregarItem(Item item, double totalCategoriaGastoMes);
+    void agregarItem(Item item);
     void actualizarItem(Item item);
     void obtenerItems(long idCategoriaGastoMes);
 

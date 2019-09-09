@@ -32,10 +32,10 @@ public class ItemManager extends DefaultManager implements IItemManager {
     }
 
     @Override
-    public void agregarItem(Item item, double totalCategoriaGastoMes) {
+    public void agregarItem(Item item) {
         String message;
         try {
-            message = app.getDaoSession().callInTx(new AgregarItemCallable(item, totalCategoriaGastoMes));
+            message = app.getDaoSession().callInTx(new AgregarItemCallable(item));
             presenter.onSuccess(message);
         }
         catch (Exception e){
@@ -94,20 +94,16 @@ public class ItemManager extends DefaultManager implements IItemManager {
     private class AgregarItemCallable implements Callable<String> {
 
         private Item item;
-        private double totalCategoriaGastoMes;
 
-        private AgregarItemCallable(Item item, double totalCategoriaGastoMes){
+        private AgregarItemCallable(Item item){
             this.item = item;
-            this.totalCategoriaGastoMes = totalCategoriaGastoMes;
         }
 
         @Override
         public String call() {
-            double total = totalCategoriaGastoMes + item.getValor();
             itemDao.agregarItem(item);
-
             CategoriaXGastoMes categoriaXGastoMes = categoriaGastoMesDao.obtenerCategoriaGastoMes(item.getCategoriaXGastoMesId());
-            categoriaXGastoMes.setTotal(total);
+            categoriaXGastoMes.getItems().add(item);
             categoriaGastoMesDao.actualizarCategoriaXGastoMes(categoriaXGastoMes);
             return String.format("Item %s agregado satisfactoriamente", item.getNombre());
         }
@@ -125,8 +121,7 @@ public class ItemManager extends DefaultManager implements IItemManager {
         @Override
         public String call() {
             CategoriaXGastoMes categoriaXGastoMes = categoriaGastoMesDao.obtenerCategoriaGastoMes(item.getCategoriaXGastoMesId());
-            double total = categoriaXGastoMes.getTotal() - item.getValor();
-            categoriaXGastoMes.setTotal(total);
+            categoriaXGastoMes.getItems().remove(item);
             categoriaGastoMesDao.actualizarCategoriaXGastoMes(categoriaXGastoMes);
 
             itemDao.eliminarItem(item);

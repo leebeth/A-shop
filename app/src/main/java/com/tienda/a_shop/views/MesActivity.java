@@ -24,11 +24,13 @@ import com.tienda.a_shop.presenters.CategoriaPresenter;
 import com.tienda.a_shop.presenters.interfaces.IApp;
 import com.tienda.a_shop.presenters.interfaces.presenters.ICategoriaPresenter;
 import com.tienda.a_shop.tasks.ReportGeneratorTask;
+import com.tienda.a_shop.utils.CategoriaGastoMesUtils;
 import com.tienda.a_shop.utils.Comparators;
 import com.tienda.a_shop.utils.PermissionsUtil;
 import com.tienda.a_shop.views.interfaces.CategoriaViewOptions;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,12 +56,14 @@ public class MesActivity extends CategoriaViewOptions {
     private boolean writeExternalStorage;
     private GastoMes gastoActual;
     private ICategoriaPresenter categoriaPresenter;
-
+    private ArrayAdapter<CategoriaXGastoMes> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, new ArrayList<CategoriaXGastoMes>());
 
         categoriaPresenter = new CategoriaPresenter((IApp)getApplication(), this);
 
@@ -80,7 +84,7 @@ public class MesActivity extends CategoriaViewOptions {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
                 Intent i = new Intent(MesActivity.this, ListaItemsProductosActivity.class);
                 i.putExtra("idIngresos", categoriasMesActual.get(0).getId());
-                i.putExtra("totalIngresos", categoriasMesActual.get(0).getTotal());
+                i.putExtra("totalIngresos", CategoriaGastoMesUtils.getTotal(categoriasMesActual.get(0)));
                 i.putExtra("idProducto", categoriasMesActual.get(position).getId());
                 i.putExtra("nombreProducto", categoriasMesActual.get(position).getCategoria().getNombre());
                 i.putExtra("estimadoProducto", categoriasMesActual.get(position).getEstimado());
@@ -180,7 +184,10 @@ public class MesActivity extends CategoriaViewOptions {
 
         Collections.sort(categoriasMesActual, Comparators.getCategoryMonthComparator());
 
-        ArrayAdapter<com.tienda.a_shop.entities.CategoriaXGastoMes> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoriasMesActual);
+        adapter.clear();
+        adapter.addAll(categoriasMesActual);
+        adapter.notifyDataSetChanged();
+
         listaProductos.setAdapter(adapter);
         actualizarListaResumen();
     }
@@ -195,15 +202,16 @@ public class MesActivity extends CategoriaViewOptions {
         int totalAux = 0;
         int totalEstimado = 0;
         for (int i = 1; i < categoriasMesActual.size(); i++) {
-            totalAux += categoriasMesActual.get(i).getTotal();
+            totalAux += CategoriaGastoMesUtils.getTotal(categoriasMesActual.get(i));
             totalEstimado += categoriasMesActual.get(i).getEstimado();
         }
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         gasto.setText(getString(R.string.gastos) + formatter.format(totalAux));
-        ingreso.setText(getString(R.string.ingresos) + formatter.format(categoriasMesActual.get(0).getTotal()));
-        total.setText(getString(R.string.total) + formatter.format(categoriasMesActual.get(0).getTotal() - totalAux));
+        double totalIngresos = CategoriaGastoMesUtils.getTotal(categoriasMesActual.get(0));
+        ingreso.setText(getString(R.string.ingresos) + formatter.format(totalIngresos));
+        total.setText(getString(R.string.total) + formatter.format(totalIngresos - totalAux));
         gastoEstimado.setText(getString(R.string.gastos) + formatter.format(totalEstimado));
-        totalDisponible.setText(getString(R.string.total_disponible) + formatter.format(categoriasMesActual.get(0).getTotal() - totalEstimado));
+        totalDisponible.setText(getString(R.string.total_disponible) + formatter.format(totalIngresos - totalEstimado));
     }
 
     @Override

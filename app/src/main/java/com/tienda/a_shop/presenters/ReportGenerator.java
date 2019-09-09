@@ -1,15 +1,13 @@
 package com.tienda.a_shop.presenters;
 
-import android.app.Activity;
 import android.os.Environment;
 import android.util.Log;
 
-import com.tienda.a_shop.dao.BDProductos;
-import com.tienda.a_shop.dao.interfaces.GastoMesDao;
 import com.tienda.a_shop.entities.CategoriaXGastoMes;
 import com.tienda.a_shop.entities.GastoMes;
 import com.tienda.a_shop.entities.Item;
 import com.tienda.a_shop.exceptions.InternalException;
+import com.tienda.a_shop.utils.CategoriaGastoMesUtils;
 
 import org.apache.commons.io.FileUtils;
 
@@ -54,7 +52,7 @@ public class ReportGenerator {
                     List<Item> gastos = producto.getItems();
 
                     fileContent = fileContent.concat(String.format("%s, %s\nEstimado %s, Real %s\n",
-                            producto.getCategoria().getNombre(), gastos.size(), producto.getEstimado(), producto.getTotal()));
+                            producto.getCategoria().getNombre(), gastos.size(), producto.getEstimado(), CategoriaGastoMesUtils.getTotal(producto)));
 
                     for (int k = 0; k <gastos.size(); k++) {
                         Item gasto = gastos.get(k);

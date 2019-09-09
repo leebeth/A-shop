@@ -111,7 +111,7 @@ public class CategoriaManager extends DefaultManager implements ICategoriaManage
         if(categoriaGastoMes != null){
             throw new CategoriaExistenteException("La categoría ya está asociada");
         }
-        categoriaGastoMes = new CategoriaXGastoMes(null, categoria.getEstimado(), 0, categoria.getId(), gastoMes.getId());
+        categoriaGastoMes = new CategoriaXGastoMes(null, categoria.getEstimado(), categoria.getId(), gastoMes.getId());
         categoriaGastoMes.setCategoria(categoria);
         categoriaGastoMes.setGastoMes(gastoMes);
         categoriaGastoMesDao.agregarCategoriaGastoMes(categoriaGastoMes);

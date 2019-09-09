@@ -15,6 +15,7 @@ import com.tienda.a_shop.dao.interfaces.ItemDao;
 import com.tienda.a_shop.dao.interfaces.GastoMesDao;
 import com.tienda.a_shop.dao.interfaces.CategoriaDao;
 import com.tienda.a_shop.dao.interfaces.CategoriaXGastoMesDao;
+import com.tienda.a_shop.utils.CategoriaGastoMesUtils;
 
 /**
  * Created by Lorena on 08/04/2017.
@@ -27,8 +28,6 @@ public class CategoriaXGastoMes {
     private Long id;
 
     private double estimado;
-
-    private double total;
 
     private Long categoriaId;
 
@@ -52,12 +51,11 @@ public class CategoriaXGastoMes {
     @Generated(hash = 926528791)
     private transient CategoriaXGastoMesDao myDao;
 
-    @Generated(hash = 1345222305)
-    public CategoriaXGastoMes(Long id, double estimado, double total,
-            Long categoriaId, Long gastoMesId) {
+    @Generated(hash = 13815020)
+    public CategoriaXGastoMes(Long id, double estimado, Long categoriaId,
+            Long gastoMesId) {
         this.id = id;
         this.estimado = estimado;
-        this.total = total;
         this.categoriaId = categoriaId;
         this.gastoMesId = gastoMesId;
     }
@@ -86,14 +84,6 @@ public class CategoriaXGastoMes {
 
     public void setEstimado(double estimado) {
         this.estimado = estimado;
-    }
-
-    public double getTotal() {
-        return this.total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
     }
 
     public Long getCategoriaId() {
@@ -244,6 +234,6 @@ public class CategoriaXGastoMes {
 
     @Override
     public String toString() {
-        return getCategoria().getNombre() +"     " + total;
+        return getCategoria().getNombre() +"     " + CategoriaGastoMesUtils.getTotal(this);
     }
 }

@@ -51,13 +51,13 @@ public class AgregarItemGastoActivity extends ItemViewOptions {
                 if(valor !=0)
                 {
                     double valorGastoActual = Double.parseDouble(txtValor.getText().toString());
-                    itemPresenter.agregarItem(idProducto, txtNombre.getText().toString(),valorGastoActual, totalGasto);
+                    itemPresenter.agregarItem(idProducto, txtNombre.getText().toString(),valorGastoActual);
                     totalGasto += valorGastoActual;
 
                     boolean switchState = simpleSwitch.isChecked();
                     if(switchState){
                         double totalIngresos = getIntent().getDoubleExtra("totalIngresos",0);
-                        itemPresenter.agregarItem(idIngresos, nombreProducto + " " + txtNombre.getText().toString(),valorGastoActual, totalIngresos);
+                        itemPresenter.agregarItem(idIngresos, nombreProducto + " " + txtNombre.getText().toString(),valorGastoActual);
                     }
                     setResult(Activity.RESULT_OK, i);
                 }

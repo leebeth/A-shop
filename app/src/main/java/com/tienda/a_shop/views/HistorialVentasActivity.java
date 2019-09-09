@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.tienda.a_shop.R;
-import com.tienda.a_shop.dao.BDProductos;
 
 
 public class HistorialVentasActivity extends Activity {
