@@ -19,10 +19,22 @@
             android:layout_marginStart="10dp">
 
             <TextView
+                android:id="@+id/txtSalario"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/salaryT" />
+
+            <TextView
                 android:id="@+id/txtTotalIngreso"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:text="@string/ingresos" />
+
+            <TextView
+                android:id="@+id/txtCuenta"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/cuenta" />
 
             <View
                 android:layout_width="match_parent"

@@ -49,4 +49,8 @@
     <string name="labEstimados">Estimated Data:</string>
     <string name="total_disponible">Available:</string>
     <string name="orden">Priority:</string>
+    <string name="is_virtual">is a virtual pay?</string>
+    <string name="salaryT">Salary: %s</string>
+    <string name="salary">Put your Salary</string>
+    <string name="cuenta">Banco: %s</string>
 </resources>

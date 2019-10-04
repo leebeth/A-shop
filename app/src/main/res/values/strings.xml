@@ -35,7 +35,7 @@
     <string name="title_activity_agregar_item_gasto">Agregar gasto</string>
     <string name="titulo_agregar_item_gasto">Agregar Item</string>
     <string name="valor">Valor:</string>
-    <string name="ingresos">Ingresos: </string>
+    <string name="ingresos">Retiros: </string>
     <string name="gastos">Gastos: </string>
     <string name="total">Total: </string>
     <string name="estimado">Estimado: %s</string>
@@ -50,4 +50,7 @@
     <string name="total_disponible">Disponible:</string>
     <string name="orden">Orden:</string>
     <string name="is_virtual">Es un pago virtual?</string>
+    <string name="salaryT">Salario: %s</string>
+    <string name="salary">Ingresar Salario</string>
+    <string name="cuenta">Banco: %s</string>
 </resources>

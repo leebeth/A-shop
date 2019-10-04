@@ -4,4 +4,6 @@
         android:title="@string/crear_reporte"/>
     <item android:id="@+id/action_archivar_mes"
         android:title="@string/archive_month"/>
+    <item android:id="@+id/action_ingresar_salario"
+        android:title="@string/salary"/>
 </menu>

@@ -22,7 +22,7 @@ public class Categoria {
     @Id
     private Long id;
     private String nombre;
-    private int estimado;
+    private double estimado;
     private int orden;
     @ToMany(referencedJoinProperty = "categoriaId")
     private List<CategoriaXGastoMes> categoriaXGastoMes;
@@ -32,43 +32,40 @@ public class Categoria {
     /** Used for active entity operations. */
     @Generated(hash = 1170305099)
     private transient CategoriaDao myDao;
-
-    @Generated(hash = 1918204968)
-    public Categoria(Long id, String nombre, int estimado, int orden) {
+    @Generated(hash = 1554577517)
+    public Categoria(Long id, String nombre, double estimado, int orden) {
         this.id = id;
         this.nombre = nombre;
         this.estimado = estimado;
         this.orden = orden;
     }
-
     @Generated(hash = 577285458)
     public Categoria() {
     }
-
     public Long getId() {
-        return id;
+        return this.id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public int getEstimado() {
-        return estimado;
+    public double getEstimado() {
+        return this.estimado;
     }
-
-    public void setEstimado(int estimado) {
+    public void setEstimado(double estimado) {
         this.estimado = estimado;
     }
-
+    public int getOrden() {
+        return this.orden;
+    }
+    public void setOrden(int orden) {
+        this.orden = orden;
+    }
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
@@ -91,13 +88,11 @@ public class Categoria {
         }
         return categoriaXGastoMes;
     }
-
     /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 1504184150)
     public synchronized void resetCategoriaXGastoMes() {
         categoriaXGastoMes = null;
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
@@ -109,7 +104,6 @@ public class Categoria {
         }
         myDao.delete(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
      * Entity must attached to an entity context.
@@ -121,7 +115,6 @@ public class Categoria {
         }
         myDao.refresh(this);
     }
-
     /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
      * Entity must attached to an entity context.
@@ -133,7 +126,6 @@ public class Categoria {
         }
         myDao.update(this);
     }
-
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 829587735)
     public void __setDaoSession(DaoSession daoSession) {
@@ -141,11 +133,5 @@ public class Categoria {
         myDao = daoSession != null ? daoSession.getCategoriaDao() : null;
     }
 
-    public int getOrden() {
-        return this.orden;
-    }
-
-    public void setOrden(int orden) {
-        this.orden = orden;
-    }
+    
 }

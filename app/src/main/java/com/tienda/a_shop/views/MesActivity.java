@@ -1,11 +1,16 @@
 package com.tienda.a_shop.views;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,9 +51,13 @@ public class MesActivity extends CategoriaViewOptions {
     public static final int REQUEST_TEXT = 0;
     public static final int REQUEST_ADD = 1;
     public static final int REQUEST_DETAIL = 2;
+    private static final String PREFS = "PREFS";
+    private static final String SALARY_KEY = "salary_key";
     private ListView listaProductos;
     private List<CategoriaXGastoMes> categoriasMesActual;
     private TextView gasto;
+    private TextView salario;
+    private TextView banco;
     private TextView ingreso;
     private TextView total;
     private TextView gastoEstimado;
@@ -107,6 +117,8 @@ public class MesActivity extends CategoriaViewOptions {
 
     private void setupViewComponents() {
         listaProductos = (ListView) findViewById(R.id.listaProductos);
+        salario = (TextView) findViewById(R.id.txtSalario);
+        banco = (TextView) findViewById(R.id.txtCuenta);
         gasto = (TextView) findViewById(R.id.txtTotalGastos);
         ingreso = (TextView) findViewById(R.id.txtTotalIngreso);
         total = (TextView) findViewById(R.id.txtTotal);
@@ -145,12 +157,13 @@ public class MesActivity extends CategoriaViewOptions {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TEXT) {
             if (resultCode == Activity.RESULT_OK) {
-                String nombre = data.getExtras().getString("nombre");
-                String nombreN = data.getExtras().getString("nombreN");
-                int estimado = Integer.parseInt(data.getExtras().getString("estimado"));
-                int orden = Integer.parseInt(data.getExtras().getString("orden"));
-
-                editarProducto(nombreN, nombre, estimado, orden);
+                if(data.getExtras() != null){
+                    String nombre = data.getExtras().getString("nombre");
+                    String nombreN = data.getExtras().getString("nombreN");
+                    double estimado = Double.parseDouble(data.getExtras().getString("estimado"));
+                    int orden = Integer.parseInt(data.getExtras().getString("orden"));
+                    editarProducto(nombreN, nombre, estimado, orden);
+                }
             }
         }
         if (requestCode == REQUEST_ADD) {
@@ -163,7 +176,7 @@ public class MesActivity extends CategoriaViewOptions {
         }
     }
 
-    private void editarProducto(String nombreN, String nombre, int estimado, int orden) {
+    private void editarProducto(String nombreN, String nombre, double estimado, int orden) {
         categoriaPresenter.actualizarCategoría(nombreN, nombre, estimado, orden);
         categoriaPresenter.actualizarLista();
     }
@@ -211,7 +224,11 @@ public class MesActivity extends CategoriaViewOptions {
         ingreso.setText(getString(R.string.ingresos) + formatter.format(totalIngresos));
         total.setText(getString(R.string.total) + formatter.format(totalIngresos - totalAux));
         gastoEstimado.setText(getString(R.string.gastos) + formatter.format(totalEstimado));
-        totalDisponible.setText(getString(R.string.total_disponible) + formatter.format(totalIngresos - totalEstimado));
+        SharedPreferences shared = getSharedPreferences(PREFS, MODE_PRIVATE);
+        float salarioV = (shared.getFloat(SALARY_KEY, 0));
+        salario.setText(String.format(getString(R.string.salaryT), formatter.format(salarioV)) );
+        totalDisponible.setText(getString(R.string.total_disponible) + formatter.format(salarioV - totalEstimado));
+        banco.setText(String.format(getString(R.string.cuenta), formatter.format(salarioV - totalIngresos)) );
     }
 
     @Override
@@ -234,9 +251,44 @@ public class MesActivity extends CategoriaViewOptions {
                 categoriaPresenter.archivarMes();
                 categoriaPresenter.obtenerGastoActual();
                 return true;
+            case R.id.action_ingresar_salario:
+                showDialog();
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.salary));
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String salaryT = input.getText().toString();
+                SharedPreferences sp = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putFloat(SALARY_KEY, Float.parseFloat(salaryT));
+                editor.apply();
+                actualizarListaResumen();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override
